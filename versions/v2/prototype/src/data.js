@@ -1,53 +1,64 @@
 export const agents = [
   {
     id: 'buffett', code: 'VAL-01', name: '巴菲特', latin: 'WARREN BUFFETT', role: '价值',
+    department: '价值发掘部', position: '实习生', grade: 'P2',
     thesis: '以现金流质量与安全边际约束买入价格。', return: 18.4, risk: 28, winRate: 67,
     color: 'acid', factors: ['现金流质量', '护城河', '安全边际'],
     fit: ['估值修复', '震荡慢牛', '高质量资产'], avoid: ['纯情绪行情', '无盈利成长'],
   },
   {
     id: 'wood', code: 'NAR-02', name: '木头姐', latin: 'CATHIE WOOD', role: '叙事',
+    department: '未来叙事部', position: '首席布道员', grade: 'P7',
     thesis: '识别技术扩散、资本开支与预期重估的共振。', return: 31.2, risk: 74, winRate: 52,
     color: 'cyan', factors: ['技术扩散', '叙事强度', '资金斜率'],
     fit: ['创新周期', '流动性扩张', '主题突破'], avoid: ['流动性收缩', '高利率'],
   },
   {
     id: 'livermore', code: 'MOM-03', name: '利弗莫尔', latin: 'JESSE LIVERMORE', role: '动量',
+    department: '动量捕捉部', position: '组长', grade: 'P7',
     thesis: '顺势跟随价格结构，只在确认后的加速段出手。', return: 25.7, risk: 61, winRate: 58,
     color: 'ember', factors: ['趋势强度', '突破确认', '止损纪律'],
     fit: ['趋势行情', '波动扩张', '危机反弹'], avoid: ['低波横盘', '假突破'],
   },
   {
     id: 'dalio', code: 'MAC-04', name: '达利欧', latin: 'RAY DALIO', role: '宏观',
+    department: '宏观推演部', position: '部长', grade: 'P8',
     thesis: '从增长、通胀、流动性与政策组合判断大类资产。', return: 14.8, risk: 35, winRate: 63,
     color: 'cyan', factors: ['增长周期', '通胀路径', '流动性'],
     fit: ['政策拐点', '全球轮动', '危机对冲'], avoid: ['单一题材', '微盘行情'],
   },
   {
     id: 'lynch', code: 'GRW-05', name: '彼得·林奇', latin: 'PETER LYNCH', role: '成长',
+    department: '成长侦察部', position: '资深研究员', grade: 'P6',
     thesis: '在可理解的业务里寻找盈利增速与估值错配。', return: 21.9, risk: 46, winRate: 61,
     color: 'acid', factors: ['盈利加速', '估值错配', '业务质量'],
     fit: ['盈利上修', '消费复苏', '中盘成长'], avoid: ['盈利下修', '叙事泡沫'],
   },
   {
     id: 'taleb', code: 'RSK-06', name: '塔勒布', latin: 'NASSIM TALEB', role: '风险',
+    department: '风险否决部', position: '值班主任', grade: 'P8',
     thesis: '用凸性与尾部风险预算保护战队的生存能力。', return: 9.6, risk: 18, winRate: 71,
     color: 'rose', factors: ['尾部风险', '凸性保护', '脆弱性'],
     fit: ['极端波动', '相关性突变', '危机'], avoid: ['持续低波', '单边慢牛'],
   },
   {
     id: 'soros', code: 'REF-07', name: '索罗斯', latin: 'GEORGE SOROS', role: '反身性',
+    department: '反身性实验部', position: '策略合伙人', grade: 'P9',
     thesis: '跟踪价格、叙事与参与者行为之间的反馈回路。', return: 27.4, risk: 68, winRate: 55,
     color: 'ember', factors: ['拥挤度', '反馈回路', '催化剂'],
     fit: ['宏观错位', '政策转向', '拥挤交易'], avoid: ['无催化价值', '封闭市场'],
   },
   {
     id: 'simons', code: 'QNT-08', name: '西蒙斯', latin: 'JIM SIMONS', role: '量化',
+    department: '量化部', position: '部长', grade: 'P8',
     thesis: '从可重复的统计关系中提取短周期、低叙事信号。', return: 19.6, risk: 42, winRate: 64,
     color: 'steel', factors: ['统计套利', '均值回归', '信号衰减'],
     fit: ['高流动性', '多资产', '结构性偏差'], avoid: ['数据断层', '制度切换'],
   },
 ]
+
+export const agentOrganizationLine = (agent, separator = ' · ') =>
+  [agent.department, agent.position, agent.grade].filter(Boolean).join(separator)
 
 export const events = [
   { id: 'black-monday', year: '1987', name: '黑色星期一', market: '美国股市', move: '−22.6%', duration: '1日', difficulty: 92, volatility: 96, tone: 'rose', activeAgents: 184, description: '程序化卖盘与流动性枯竭形成的极速崩跌。', objective: '在极短决策窗内控制损失并识别反弹条件。' },

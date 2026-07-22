@@ -4,6 +4,7 @@ import { ArrowRight, Check, Minus, Plus } from 'lucide-react'
 import { motion } from 'motion/react'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { useDemo } from '../state.jsx'
+import { agentOrganizationLine } from '../data.js'
 
 export function Reveal({ children, className = '', delay = 0 }) {
   return (
@@ -113,7 +114,7 @@ export function AgentPlate({ agent, selected = false, interactive = false, size 
         if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); onSelect?.() }
       } : undefined}
     >
-      <div className="plate-register"><span>{agent.code}</span><span>{agent.role}</span></div>
+      <div className="plate-register"><span>{agentOrganizationLine(agent)}</span><span>{agent.role}策略</span></div>
       <div className="plate-name"><h3>{agent.name}</h3><p>{agent.latin}</p></div>
       <div className="plate-thesis">{agent.thesis}</div>
       <div className="plate-metrics">

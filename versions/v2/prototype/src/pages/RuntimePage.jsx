@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Activity, CirclePause, CirclePlay, FastForward, GitBranch, RadioTower } from 'lucide-react'
-import { agents, events } from '../data.js'
+import { agentOrganizationLine, agents, events } from '../data.js'
 import { useDemo } from '../state.jsx'
 import { Action, EditorialTitle, Eyebrow, Reveal, SignalBar, Tag } from '../components/UI.jsx'
 import { MarketChart } from '../components/Charts.jsx'
@@ -21,7 +21,7 @@ const speeds = [1, 2, 4]
 function resolveParticipant(value, team) {
   if (value === 'CORE') return 'TEAM CORE'
   if (value === 'ALL') return 'ALL AGENTS'
-  return team[value % team.length]?.code ?? 'AGENT'
+  return team[value % team.length]?.name ?? 'AGENT'
 }
 
 function metricTone(value) {
@@ -102,7 +102,7 @@ export function RuntimePage() {
                     <span>{paused ? 'Thinking paused' : 'Thinking...'}</span>
                   </div>
                 </div>
-                <em>{team[activeDecision % team.length]?.code ?? 'TEAM CORE'}</em>
+                <em>{team[activeDecision % team.length]?.name ?? 'TEAM CORE'}</em>
               </div>
               <div className="tv-title-wrap" key={stage.id}>
                 <h2 className="tv-title" data-text={stage.action}>{stage.action}</h2>
@@ -114,7 +114,7 @@ export function RuntimePage() {
             <div className="decision-list">
               {runtimeStages.map((item, itemIndex) => (
                 <button key={item.id} className={itemIndex === activeDecision ? 'is-active' : ''} onClick={() => selectDecision(itemIndex)} aria-pressed={itemIndex === activeDecision}>
-                  <span>{formatSimulationTime(itemIndex * RUNTIME_STAGE_TICKS)}</span><b>{team[itemIndex % team.length]?.code}</b><em>{item.action}</em>
+                  <span>{formatSimulationTime(itemIndex * RUNTIME_STAGE_TICKS)}</span><b>{team[itemIndex % team.length]?.name}</b><em>{item.action}</em>
                 </button>
               ))}
             </div>
@@ -127,9 +127,15 @@ export function RuntimePage() {
                 const agentState = stage.agents[agentIndex]
                 return (
                   <div className="agent-state-row" key={`${stage.id}-${agent.id}`}>
-                    <div className="agent-state-id"><span>{agent.code}</span><i className={`tone-${agentState.tone}`} /></div>
-                    <div className="agent-state-copy"><b>{agent.name}</b><em>{agentState.mood}</em><small>{agentState.task}</small></div>
-                    <span className={`agent-skill tone-${agentState.tone}`}>{agentState.skill}</span>
+                    <div className="agent-state-profile">
+                      <div className="agent-state-name"><b>{agent.name}</b><i className={`tone-${agentState.tone}`} /></div>
+                      <span className="agent-state-org">{agentOrganizationLine(agent)}</span>
+                      <span className={`agent-skill tone-${agentState.tone}`}>{agentState.skill}</span>
+                    </div>
+                    <div className={`agent-state-status tone-${agentState.tone}`}>
+                      <em>{agentState.mood}</em>
+                      <small>当前任务 · {agentState.task}</small>
+                    </div>
                   </div>
                 )
               })}

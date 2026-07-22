@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { Search, SlidersHorizontal, X } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-import { agents } from '../data.js'
+import { agentOrganizationLine, agents } from '../data.js'
 import { useDemo } from '../state.jsx'
 import { Action, AgentPlate, EditorialTitle, EmptyAgentSlot, Eyebrow, Reveal, Tag } from '../components/UI.jsx'
 
@@ -16,7 +16,7 @@ export function AgentsPage() {
   const selectedAgent = agents.find((agent) => agent.id === active) ?? agents[0]
   const visible = useMemo(() => agents.filter((agent) => {
     const roleMatch = role === '全部' || agent.role === role
-    const text = `${agent.name} ${agent.latin} ${agent.code} ${agent.role} ${agent.factors.join(' ')}`.toLowerCase()
+    const text = `${agent.name} ${agent.latin} ${agent.code} ${agent.role} ${agentOrganizationLine(agent)} ${agent.factors.join(' ')}`.toLowerCase()
     return roleMatch && text.includes(query.toLowerCase())
   }), [role, query])
 
@@ -35,7 +35,7 @@ export function AgentsPage() {
           <div className="team-dock-slots">
             {team.map((agent, index) => (
               <button key={agent.id} className="dock-agent" onClick={() => demo.removeAgent(agent.id)}>
-                <span>0{index + 1}</span><div><b>{agent.name}</b><small>{agent.code} · {agent.role}</small></div><X size={14} />
+                <span>0{index + 1}</span><div><b>{agent.name}</b><small>{agentOrganizationLine(agent)}</small></div><X size={14} />
               </button>
             ))}
             {Array.from({ length: 3 - team.length }, (_, index) => <EmptyAgentSlot key={index} index={team.length + index + 1} />)}
@@ -60,7 +60,7 @@ export function AgentsPage() {
       </section>
 
       <section className="agent-inspection chapter">
-        <Reveal className="inspection-code"><span>{selectedAgent.code}</span><small>SELECTED AGENT</small></Reveal>
+        <Reveal className="inspection-code"><span>{selectedAgent.grade}</span><small>{selectedAgent.department} · {selectedAgent.position}</small></Reveal>
         <Reveal className="inspection-copy" delay={0.06}>
           <Eyebrow index="02">INSPECTION</Eyebrow>
           <h2>{selectedAgent.name}<small>{selectedAgent.role}策略智能体</small></h2>

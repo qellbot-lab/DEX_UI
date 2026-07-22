@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ArrowLeft, Database, ShieldAlert } from 'lucide-react'
-import { agents } from '../data.js'
+import { agentOrganizationLine, agents } from '../data.js'
 import { useDemo } from '../state.jsx'
 import { Action, AgentPlate, DataRule, Eyebrow, Reveal, SectionHead, SignalBar } from '../components/UI.jsx'
 
@@ -22,7 +22,7 @@ export function AgentDetailPage() {
     <div className="page detail-page">
       <section className="detail-hero chapter">
         <button className="back-link" onClick={() => navigate('/agents')}><ArrowLeft size={15} /> 返回智能体广场</button>
-        <Reveal className="detail-code"><span>{agent.code}</span><p>REGISTERED STRATEGY PROFILE</p></Reveal>
+        <Reveal className="detail-code"><span>{agent.grade}</span><p>{agent.department} · {agent.position}</p></Reveal>
         <Reveal className="detail-identity" delay={0.06}>
           <Eyebrow index="01">AGENT IDENTITY</Eyebrow>
           <h1>{agent.name}</h1><div className="detail-latin">{agent.latin}</div>
@@ -41,7 +41,7 @@ export function AgentDetailPage() {
         <Reveal><SectionHead index="02" eyebrow="STRATEGY SYSTEM" title="策略 DNA 与适用边界" text="用关键因子和适配场景理解这套策略，不用人格故事替代证据。" /></Reveal>
         <div className="strategy-layout">
           <Reveal className="strategy-core">
-            <div className="core-heading"><span>{agent.code}</span><h3>{agent.role}决策核心</h3></div>
+            <div className="core-heading"><span>{agent.grade}</span><h3>{agentOrganizationLine(agent)} · {agent.role}决策核心</h3></div>
             {agent.factors.map((factor, index) => <SignalBar key={factor} label={factor} value={[88, 76, 69][index]} tone={agent.color} />)}
             <div className="source-register"><Database size={18} /><div><span>信号来源</span><p>公开财务数据 · 宏观数据 · 历史价格 · 新闻事件</p></div></div>
           </Reveal>

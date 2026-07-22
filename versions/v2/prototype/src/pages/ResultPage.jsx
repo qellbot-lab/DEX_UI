@@ -38,7 +38,7 @@ export function ResultPage() {
           <Tabs.Content value="result" className="postmortem-grid">
             <div className="contribution-field">
               <span>AGENT CONTRIBUTION</span>
-              {team.map((agent, index) => <div className="contribution-row" key={agent.id}><b>{agent.code}</b><div><span>{agent.name}</span><small>{agent.role}</small></div><i style={{ width: `${[78, 62, 88][index] ?? 68}%` }} /><em>+{[7.4, 4.1, 5.8][index] ?? 3.2}%</em></div>)}
+              {team.map((agent, index) => <div className="contribution-row" key={agent.id}><b>{agent.grade}</b><div><span>{agent.name}</span><small>{agent.department} · {agent.position}</small></div><i style={{ width: `${[78, 62, 88][index] ?? 68}%` }} /><em>+{[7.4, 4.1, 5.8][index] ?? 3.2}%</em></div>)}
             </div>
             <div className="decision-review"><div className="review-positive"><CircleCheck size={20} /><span>最佳决策</span><h3>波动率断层前建立尾部保护</h3><p>减少约 8.2% 的潜在回撤。</p></div><div className="review-negative"><TriangleAlert size={20} /><span>最大失误</span><h3>再入场比价格结构慢 14 分钟</h3><p>损失约 2.1% 的反弹收益。</p></div></div>
           </Tabs.Content>
