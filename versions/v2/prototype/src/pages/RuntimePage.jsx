@@ -142,13 +142,21 @@ export function RuntimePage() {
             </div>
             <div className="collab-stream">
               <div className="collab-stream-head"><span>AGENT BUS</span><em>{paused ? 'BUFFERED' : `${streamCount}/4 LIVE`}</em></div>
-              <div className="collab-stream-list" aria-live="polite">
-                {visibleStream.map((entry, streamIndex) => (
-                  <div className="collab-message" key={`${stage.id}-${streamIndex}`}>
-                    <span>{formatSimulationTime(simulationTick - visibleStream.length + streamIndex + 1)}</span>
-                    <div><b className={`tone-${entry.tone}`}>{resolveParticipant(entry.from, team)} → {resolveParticipant(entry.to, team)}</b><em>{entry.label}</em><small>{entry.detail}</small></div>
-                  </div>
-                ))}
+              <div className="collab-stream-list" aria-live="polite" aria-relevant="additions text">
+                {stage.stream.map((_, streamIndex) => {
+                  const entry = visibleStream[streamIndex]
+                  return entry ? (
+                    <div className="collab-message" key={`${stage.id}-slot-${streamIndex}`}>
+                      <span>{formatSimulationTime(simulationTick - visibleStream.length + streamIndex + 1)}</span>
+                      <div><b className={`tone-${entry.tone}`}>{resolveParticipant(entry.from, team)} → {resolveParticipant(entry.to, team)}</b><em>{entry.label}</em><small>{entry.detail}</small></div>
+                    </div>
+                  ) : (
+                    <div className="collab-message is-pending" key={`${stage.id}-slot-${streamIndex}`} aria-hidden="true">
+                      <span>--:--</span>
+                      <div><b>SLOT 0{streamIndex + 1}</b><small>等待下一条协作消息</small></div>
+                    </div>
+                  )
+                })}
               </div>
             </div>
           </Reveal>
