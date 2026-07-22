@@ -1,0 +1,198 @@
+{
+  "main": {
+    "id": "6a5cec2486d89de7",
+    "type": "split",
+    "children": [
+      {
+        "id": "50eef8ce74702e78",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "71071d35dbafe6c3",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "06-qa-checklist.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "06-qa-checklist"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "706834b215876cde",
+    "type": "split",
+    "children": [
+      {
+        "id": "ce1c25728e257ce3",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "6f662472bf7a1772",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "文件列表"
+            }
+          },
+          {
+            "id": "c6393f69c38d08eb",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "74e6a29aafb930eb",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "c7ebffa0b8c3402a",
+    "type": "split",
+    "children": [
+      {
+        "id": "b023b6480deb7b16",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "72db440cf8544449",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "03-ui-components.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "03-ui-components 的反向链接列表"
+            }
+          },
+          {
+            "id": "1ac04099e42c7318",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "03-ui-components.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "03-ui-components 的出链列表"
+            }
+          },
+          {
+            "id": "5176d7ca4ac09eb3",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "d2dca6e8d704d7b8",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "添加笔记属性"
+            }
+          },
+          {
+            "id": "bede4bb25d80b069",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "03-ui-components.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "03-ui-components 的大纲"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "bases:新建数据库": false
+    }
+  },
+  "active": "71071d35dbafe6c3",
+  "lastOpenFiles": [
+    "混沌家访 07-15 AI时代下的业务增长系统构建.md",
+    "06-qa-checklist.md",
+    "混沌 家访 07-15 AI时代下的业务增长系统构建.md",
+    "欢迎.md",
+    "Qell_项目梳理_0714_A.md",
+    "Qell_项目梳理_0714_B.md",
+    "Qell_项目梳理_最终版 1.md",
+    "Qell项目梳理正式版.md",
+    "03-ui-components.md"
+  ]
+}

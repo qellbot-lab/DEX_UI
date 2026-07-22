@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="QELL 中文版首页设计试点：组建交易战队，进入历史市场模拟。"
+    />
+    <title>QELL — 组建你的交易战队</title>
+    <link
+      rel="icon"
+      href="../../../QELL_Frontend_Art_Pack/QELL_Frontend_Art_Pack/assets/logos/qell-logo.svg"
+    />
+    <link rel="stylesheet" href="./pilot-shared.css" />
+    <link rel="stylesheet" href="./home.css" />
+  </head>
+  <body>
+    <header class="pilot-nav">
+      <div class="pilot-nav__inner pilot-shell">
+        <a class="pilot-nav__brand" href="#main" aria-label="QELL 首页">
+          <img
+            src="../../../QELL_Frontend_Art_Pack/QELL_Frontend_Art_Pack/assets/logos/qell-logo.svg"
+            alt="QELL"
+          />
+        </a>
+        <nav class="pilot-nav__links" aria-label="主导航">
+          <a class="pilot-nav__link" href="#agents" aria-current="page">智能体</a>
+          <a class="pilot-nav__link" href="#team">战队</a>
+          <a class="pilot-nav__link" href="#simulations">模拟</a>
+          <a class="pilot-nav__link" href="#ranking">排行榜</a>
+          <a class="pilot-nav__link" href="#rewards">奖励</a>
+        </nav>
+        <div class="pilot-nav__action">
+          <button class="pilot-button pilot-button--secondary" type="button">连接钱包</button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="home-hero pilot-shell" aria-labelledby="home-title">
+        <div class="home-hero__copy">
+          <p class="pilot-kicker">QELL PREPDEX / AGENT TRADING</p>
+          <h1 id="home-title">组建你的<br />交易战队</h1>
+          <p class="home-hero__summary">人格蒸馏 · 历史市场 · 战术模拟</p>
+          <p class="home-hero__body">
+            选择三位策略智能体，让不同判断在同一段真实市场历史里接受检验。
+          </p>
+          <div class="home-hero__actions">
+            <a class="pilot-button pilot-button--primary" href="#agents">进入智能体广场</a>
+            <a class="pilot-button pilot-button--secondary" href="#simulations">查看历史模拟</a>
+          </div>
+        </div>
+
+        <aside class="home-agents" id="agents" aria-labelledby="agents-title">
+          <header class="home-agents__header">
+            <div>
+              <p class="pilot-label">SELECTED AGENTS</p>
+              <h2 class="pilot-section-heading" id="agents-title">精选智能体</h2>
+            </div>
+            <span class="pilot-status pilot-status--live">3 ONLINE</span>
+          </header>
+
+          <ol class="home-agent-list">
+            <li class="home-agent-row">
+              <span class="home-agent-row__index pilot-number">01</span>
+              <span class="home-agent-row__mark" aria-hidden="true">价</span>
+              <span class="home-agent-row__identity">
+                <strong>价值投资大师</strong>
+                <small>基本面 · 长期价值</small>
+              </span>
+              <span class="home-agent-row__signal">低估筛选</span>
+            </li>
+            <li class="home-agent-row">
+              <span class="home-agent-row__index pilot-number">02</span>
+              <span class="home-agent-row__mark" aria-hidden="true">叙</span>
+              <span class="home-agent-row__identity">
+                <strong>叙事架构师</strong>
+                <small>市场叙事 · 趋势捕捉</small>
+              </span>
+              <span class="home-agent-row__signal">催化识别</span>
+            </li>
+            <li class="home-agent-row">
+              <span class="home-agent-row__index pilot-number">03</span>
+              <span class="home-agent-row__mark" aria-hidden="true">动</span>
+              <span class="home-agent-row__identity">
+                <strong>动量指挥官</strong>
+                <small>动量驱动 · 事件交易</small>
+              </span>
+              <span class="home-agent-row__signal">趋势确认</span>
+            </li>
+          </ol>
+
+          <a class="home-agents__footer" href="#all-agents">
+            <span>查看全部智能体</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+        </aside>
+      </section>
+
+      <section class="home-proof" aria-label="产品说明">
+        <div class="home-proof__inner pilot-shell">
+          <article class="home-proof__item">
+            <span class="home-proof__index pilot-number">01</span>
+            <div>
+              <h2>公开信号蒸馏</h2>
+              <p>智能体基于公开信息与行为信号构建。</p>
+            </div>
+          </article>
+          <article class="home-proof__item">
+            <span class="home-proof__index pilot-number">02</span>
+            <div>
+              <h2>历史市场模拟</h2>
+              <p>在真实历史事件中验证团队决策。</p>
+            </div>
+          </article>
+          <article class="home-proof__item">
+            <span class="home-proof__index pilot-number">03</span>
+            <div>
+              <h2>模拟而非建议</h2>
+              <p>所有结果仅供策略研究，不构成投资建议。</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="home-next pilot-shell" id="simulations" aria-label="下一屏内容预告">
+        <p class="pilot-label">HOW IT WORKS</p>
+        <p>选择智能体 → 设定队长 → 分析战队 → 进入历史事件 → 模拟 → 复盘</p>
+      </section>
+    </main>
+  </body>
+</html>

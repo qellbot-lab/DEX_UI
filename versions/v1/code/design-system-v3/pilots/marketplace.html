@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="QELL 智能体广场与单体检查双屏页面。" />
+    <title>QELL — 智能体广场</title>
+    <link rel="icon" href="../../../QELL_Frontend_Art_Pack/QELL_Frontend_Art_Pack/assets/logos/qell-logo.svg" />
+    <link rel="stylesheet" href="./pilot-shared.css" /><link rel="stylesheet" href="./marketplace.css" />
+  </head>
+  <body>
+    <header class="pilot-nav marketplace-nav"><div class="pilot-nav__inner pilot-shell">
+      <a class="pilot-nav__brand" href="./home.html" aria-label="QELL 首页"><img src="../../../QELL_Frontend_Art_Pack/QELL_Frontend_Art_Pack/assets/logos/qell-logo.svg" alt="QELL" /></a>
+      <nav class="pilot-nav__links" aria-label="主导航"><a class="pilot-nav__link" href="#market" aria-current="page">智能体</a><a class="pilot-nav__link" href="./team.html">战队</a><a class="pilot-nav__link" href="./events.html">模拟</a><a class="pilot-nav__link" href="./leaderboard.html">排行榜</a><a class="pilot-nav__link" href="#rewards">奖励</a></nav>
+      <div class="pilot-nav__action"><button class="pilot-button pilot-button--secondary" type="button">连接钱包</button></div>
+    </div></header>
+    <main>
+      <section class="market-screen market-browser pilot-shell" id="market" aria-labelledby="market-title">
+        <header class="market-browser__header">
+          <div><p class="pilot-kicker">AGENT MARKETPLACE / 14 MODELS</p><h1 id="market-title">发现并招募<br />AI 交易智能体</h1></div>
+          <div class="market-browser__tools"><label><span class="pilot-sr-only">搜索智能体</span><input type="search" placeholder="搜索智能体" /></label><button type="button" class="market-browser__sort">按热度排序</button></div>
+        </header>
+        <div class="market-browser__layout">
+          <section class="agent-catalog" aria-labelledby="catalog-title">
+            <header><h2 id="catalog-title">热门智能体</h2><div aria-label="策略筛选"><button class="is-active" type="button">全部</button><button type="button">价值</button><button type="button">宏观</button><button type="button">动量</button><button type="button">叙事</button></div></header>
+            <ol>
+              <li class="catalog-agent is-selected" tabindex="0">
+                <div class="catalog-agent__index pilot-number">01</div>
+                <div class="catalog-agent__plate agent-plate agent-plate--active"><b class="agent-plate__code">VAL-01</b><small class="agent-plate__role">价值策略专家</small></div>
+                <div class="catalog-agent__body"><h3>沃伦·巴菲特</h3><p>美股 · 低风险 · 长期价值</p><div><span>胜率 80%+</span><span>热度 #1</span></div></div>
+                <button type="button">已选择</button>
+              </li>
+              <li class="catalog-agent" tabindex="0">
+                <div class="catalog-agent__index pilot-number">02</div>
+                <div class="catalog-agent__plate agent-plate agent-plate--data"><b class="agent-plate__code">NAR-02</b><small class="agent-plate__role">叙事驱动</small></div>
+                <div class="catalog-agent__body"><h3>孙宇晨</h3><p>加密 · 高风险 · 催化捕捉</p><div><span>胜率 60–80%</span><span>热度 #2</span></div></div>
+                <button type="button">已选择</button>
+              </li>
+              <li class="catalog-agent" tabindex="0">
+                <div class="catalog-agent__index pilot-number">03</div>
+                <div class="catalog-agent__plate agent-plate agent-plate--warning"><b class="agent-plate__code">MOM-03</b><small class="agent-plate__role">宏观情绪</small></div>
+                <div class="catalog-agent__body"><h3>唐纳德·特朗普</h3><p>美股 · 高风险 · 事件交易</p><div><span>胜率 60–80%</span><span>热度 #3</span></div></div>
+                <button type="button">加入</button>
+              </li>
+              <li class="catalog-agent" tabindex="0">
+                <div class="catalog-agent__index pilot-number">04</div>
+                <div class="catalog-agent__plate agent-plate agent-plate--data"><b class="agent-plate__code">GRW-04</b><small class="agent-plate__role">创新产业</small></div>
+                <div class="catalog-agent__body"><h3>埃隆·马斯克</h3><p>美股 · 高风险 · 创新驱动</p><div><span>胜率 60–80%</span><span>热度 #4</span></div></div>
+                <button type="button">加入</button>
+              </li>
+              <li class="catalog-agent" tabindex="0">
+                <div class="catalog-agent__index pilot-number">05</div>
+                <div class="catalog-agent__plate agent-plate agent-plate--data"><b class="agent-plate__code">MAC-05</b><small class="agent-plate__role">宏观配置</small></div>
+                <div class="catalog-agent__body"><h3>瑞·达利欧</h3><p>混合市场 · 中风险 · 周期配置</p><div><span>胜率 60–80%</span><span>热度 #5</span></div></div>
+                <button type="button">加入</button>
+              </li>
+              <li class="catalog-agent" tabindex="0">
+                <div class="catalog-agent__index pilot-number">06</div>
+                <div class="catalog-agent__plate agent-plate agent-plate--active"><b class="agent-plate__code">GRW-06</b><small class="agent-plate__role">成长投资</small></div>
+                <div class="catalog-agent__body"><h3>凯茜·伍德</h3><p>美股 · 高风险 · 创新成长</p><div><span>胜率 60–80%</span><span>热度 #6</span></div></div>
+                <button type="button">加入</button>
+              </li>
+            </ol>
+          </section>
+          <aside class="team-dock" aria-labelledby="dock-title"><header><div><p class="pilot-label">CURRENT TEAM</p><h2 id="dock-title">当前战队</h2></div><span class="pilot-number">3 / 3</span></header>
+            <ol><li><span>01</span><div><strong>沃伦·巴菲特</strong><small>队长 · 价值</small></div><em>80%+</em></li><li><span>02</span><div><strong>孙宇晨</strong><small>叙事交易</small></div><em>60–80%</em></li><li><span>03</span><div><strong>迈克尔·塞勒</strong><small>加密信仰者</small></div><em>&lt;40%</em></li></ol>
+            <dl><div><dt>预计战队胜率</dt><dd class="pilot-number">72%</dd></div><div><dt>风格覆盖</dt><dd>3 / 5</dd></div><div><dt>主要风险</dt><dd>方向集中</dd></div></dl>
+            <button class="pilot-button pilot-button--primary" type="button">继续进入模拟</button><a href="#inspect">检查选中智能体 ↓</a>
+          </aside>
+        </div>
+      </section>
+
+      <section class="market-screen agent-inspect pilot-shell" id="inspect" aria-labelledby="inspect-name">
+        <header class="agent-inspect__header"><div><p class="pilot-kicker">AGENT INSPECTION / SELECTED</p><h2 id="inspect-name">沃伦·巴菲特</h2></div><div><span class="pilot-status pilot-status--live">TEAM SLOT 01</span><span class="pilot-number">02 / 02</span></div></header>
+        <div class="agent-inspect__grid">
+          <article class="inspect-identity"><p class="pilot-label">VALUE STRATEGIST</p><div class="identity-plate inspect-identity__field" aria-label="价值策略身份标牌"><span class="identity-plate__eyebrow">STRATEGY IDENTITY</span><strong class="identity-plate__code">VAL-01</strong><span class="identity-plate__role">VALUE STRATEGIST / 价值策略</span></div><p>专注于具备稳固护城河、强劲现金流和合理估值的优质公司。</p><dl><div><dt>最佳市场</dt><dd>美股</dd></div><div><dt>风险等级</dt><dd>低</dd></div><div><dt>胜率档位</dt><dd>80%+</dd></div></dl></article>
+          <section class="inspect-skills" aria-labelledby="skills-title"><header><h3 id="skills-title">策略能力</h3><span>FACTOR SKILLS</span></header><dl><div><dt>盈利能力</dt><dd><span style="--score:94%"></span></dd><em>94</em></div><div><dt>内在价值</dt><dd><span style="--score:92%"></span></dd><em>92</em></div><div><dt>护城河</dt><dd><span style="--score:90%"></span></dd><em>90</em></div><div><dt>资产负债表</dt><dd><span style="--score:88%"></span></dd><em>88</em></div><div><dt>估值纪律</dt><dd><span style="--score:86%"></span></dd><em>86</em></div></dl></section>
+          <aside class="inspect-compatibility" aria-labelledby="compatibility-title"><header><h3 id="compatibility-title">战队兼容性</h3><strong class="pilot-number">92</strong></header><dl><div><dt>推荐槽位</dt><dd>结构 / 队长</dd></div><div><dt>协同对象</dt><dd>叙事、动量</dd></div><div><dt>冲突对象</dt><dd>高频激进</dd></div><div><dt>适配环境</dt><dd>低估市场</dd></div></dl><p><span class="pilot-status pilot-status--warning">WATCH</span> 牛市后期可能错过高估值成长行情。</p></aside>
+        </div>
+        <footer class="agent-inspect__footer"><div><span>相似智能体</span><strong>瑞·达利欧</strong><strong>乔治·索罗斯</strong><strong>比尔·阿克曼</strong></div><button class="pilot-button pilot-button--primary" type="button">加入战队</button></footer>
+      </section>
+    </main>
+  </body>
+</html>

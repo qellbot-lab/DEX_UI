@@ -1,0 +1,83 @@
+{
+  "name": "QELL Chinese Product Design System",
+  "version": "3.0.0-draft",
+  "direction": "Quiet Trading Infrastructure",
+  "colors": {
+    "primitive": {
+      "canvas": "oklch(11.5% 0.008 145)",
+      "surface1": "oklch(13.5% 0.008 145)",
+      "surface2": "oklch(16.5% 0.009 145)",
+      "surface3": "oklch(19.5% 0.010 145)",
+      "borderSubtle": "oklch(23% 0.011 145)",
+      "borderStrong": "oklch(31% 0.012 145)",
+      "paper": "#f2f5ec",
+      "steel300": "#c4ccc5",
+      "steel500": "#9da89f",
+      "acid": "#b7ee5b",
+      "cyan": "#6de3d3",
+      "ember": "#eab56c",
+      "rose": "#e6789e"
+    },
+    "semantic": {
+      "actionPrimary": "{colors.primitive.acid}",
+      "dataInfo": "{colors.primitive.cyan}",
+      "statusWarning": "{colors.primitive.ember}",
+      "statusNegative": "{colors.primitive.rose}",
+      "intelligenceNeutral": "#b8c2ba"
+    },
+    "prohibitedFamilies": [
+      "purple",
+      "violet",
+      "magenta",
+      "indigo",
+      "lavender",
+      "lilac",
+      "mauve"
+    ]
+  },
+  "typography": {
+    "brand": "Merkur",
+    "tech": "Chakra Petch Local",
+    "cjkPrototype": "Microsoft YaHei UI, PingFang SC, Noto Sans CJK SC, Segoe UI, system-ui",
+    "scaleRem": {
+      "labelXs": 0.75,
+      "bodySm": 0.875,
+      "bodyMd": 1,
+      "titleSm": 1.25,
+      "titleMd": 1.75,
+      "titleLg": 3,
+      "metricMd": 2,
+      "metricLg": 3
+    },
+    "numericFeature": "tabular-nums"
+  },
+  "spacingRem": {
+    "3xs": 0.25,
+    "2xs": 0.5,
+    "xs": 0.75,
+    "sm": 1,
+    "md": 1.5,
+    "lg": 2,
+    "xl": 3,
+    "2xl": 4,
+    "3xl": 6
+  },
+  "layout": {
+    "desktopBase": 1440,
+    "contentMaxRem": 82.5,
+    "columns": 12,
+    "gutterRem": 1.5,
+    "navHeightRem": 4.5
+  },
+  "shape": {
+    "defaultRadius": 0,
+    "microRadiusRem": 0.125,
+    "borderCssPx": 1
+  },
+  "motion": {
+    "instantMs": 120,
+    "stateMs": 240,
+    "layoutMs": 360,
+    "easeOutExpo": "cubic-bezier(0.16, 1, 0.3, 1)"
+  }
+}

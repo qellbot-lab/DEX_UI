@@ -1,0 +1,73 @@
+{
+  "name": "QELL.AI Frontend Visual Tokens",
+  "version": "2026-07-02",
+  "colors": {
+    "background": "#050706",
+    "ink": "#080909",
+    "surface": "rgba(9, 12, 12, 0.78)",
+    "surfaceStrong": "rgba(8, 10, 10, 0.96)",
+    "line": "rgba(224, 232, 218, 0.14)",
+    "text": "#f2f5ec",
+    "muted": "rgba(242, 245, 236, 0.68)",
+    "faint": "rgba(242, 245, 236, 0.38)",
+    "acid": "#b7ee5b",
+    "cyan": "#6de3d3",
+    "violet": "#8c6fb0",
+    "violetStrong": "#a488d0",
+    "violetSoft": "#c8b6e4",
+    "ember": "#eab56c",
+    "rose": "#e6789e"
+  },
+  "roles": {
+    "macro": { "rgb": "183 238 91", "meaning": "Macro event / regime / risk appetite" },
+    "structure": { "rgb": "109 227 211", "meaning": "Market structure / trend map" },
+    "catalyst": { "rgb": "230 120 158", "meaning": "Narrative / headline / sentiment pressure" },
+    "quant": { "rgb": "140 111 176", "meaning": "Model scoring / signal quality" },
+    "execution": { "rgb": "234 181 108", "meaning": "Sizing / stop routing / order policy" }
+  },
+  "rarity": {
+    "core": "205 213 210",
+    "rare": "88 244 221",
+    "epic": "164 136 208",
+    "legendary": "255 180 79",
+    "experimental": "255 111 159"
+  },
+  "typography": {
+    "primaryUi": "Chakra Petch Local",
+    "brandMark": "Merkur",
+    "microLabel": {
+      "size": "10px-11px",
+      "weight": "780-840",
+      "letterSpacing": "0.16em-0.24em",
+      "textTransform": "uppercase"
+    },
+    "body": {
+      "size": "14px-17px",
+      "weight": "400-500",
+      "lineHeight": "1.45-1.7"
+    },
+    "metric": {
+      "size": "22px-44px",
+      "weight": "800-860",
+      "lineHeight": "0.9-1.05"
+    },
+    "hero": {
+      "size": "clamp(46px, 5vw, 96px)",
+      "weight": "820-880",
+      "lineHeight": "0.88"
+    }
+  },
+  "layout": {
+    "runtimeShell": "min(1600px, calc(100vw - 32px))",
+    "marketingMax": "1180px",
+    "panelGap": "12px-18px",
+    "panelPadding": "14px-24px",
+    "borderRadius": "0px-4px"
+  },
+  "motion": {
+    "easeHeavy": "cubic-bezier(0.16, 1, 0.3, 1)",
+    "hover": "140ms-180ms ease",
+    "reveal": "240ms-360ms",
+    "linePulse": "2.8s-5.6s linear infinite"
+  }
+}

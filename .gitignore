@@ -1,0 +1,30 @@
+# Dependencies
+**/node_modules/
+
+# Build output
+**/dist/
+
+# Local caches and tool state
+**/.npm-cache/
+**/.tmp/
+**/.vite/
+.playwright-mcp/
+.agents/
+.codex/
+.vercel/
+
+# Local environment files and credentials
+.env
+.env.*
+!.env.example
+
+# Runtime logs
+*.log
+*.log.*
+
+# Editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini

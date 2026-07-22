@@ -1,0 +1,227 @@
+- generic [active] [ref=f10e1]:
+  - banner [ref=f10e2]:
+    - generic [ref=f10e3]:
+      - link "QELL 首页" [ref=f10e4] [cursor=pointer]:
+        - /url: ./home.html
+        - img "QELL" [ref=f10e5]
+      - navigation "主导航" [ref=f10e6]:
+        - link "智能体" [ref=f10e7] [cursor=pointer]:
+          - /url: ./agent-detail.html
+        - link "战队" [ref=f10e8] [cursor=pointer]:
+          - /url: "#composition"
+        - link "模拟" [ref=f10e9] [cursor=pointer]:
+          - /url: ./runtime.html
+        - link "排行榜" [ref=f10e10] [cursor=pointer]:
+          - /url: "#ranking"
+        - link "奖励" [ref=f10e11] [cursor=pointer]:
+          - /url: "#rewards"
+      - button "连接钱包" [ref=f10e13] [cursor=pointer]
+  - main [ref=f10e14]:
+    - region [ref=f10e15]:
+      - generic [ref=f10e16]:
+        - generic [ref=f10e17]:
+          - paragraph [ref=f10e18]: TEAM BUILDER / 3 AGENTS
+          - heading "量子阿尔法小队" [level=1] [ref=f10e19]
+          - paragraph [ref=f10e20]: 多策略混合型 · 队长已设定 · 准备进入历史市场
+        - generic "战队等级 S 精英级" [ref=f10e21]:
+          - generic [ref=f10e22]: 等级
+          - strong [ref=f10e23]: S
+          - generic [ref=f10e24]: 精英级
+        - generic [ref=f10e25]:
+          - generic [ref=f10e26]: READY TO SIMULATE
+          - button "开始模拟" [ref=f10e27] [cursor=pointer]
+          - generic [ref=f10e28]: 预计时长 3–6 分钟 · 使用 5 年历史数据
+      - generic [ref=f10e29]:
+        - region [ref=f10e30]:
+          - generic [ref=f10e31]:
+            - generic [ref=f10e32]:
+              - paragraph [ref=f10e33]: TEAM ROSTER
+              - heading "已选智能体" [level=2] [ref=f10e34]
+            - generic [ref=f10e35]: 3 / 3
+          - list [ref=f10e36]:
+            - listitem [ref=f10e37]:
+              - generic [ref=f10e38]: 巴
+              - generic [ref=f10e39]:
+                - generic [ref=f10e40]: 队长 · 价值投资大师
+                - strong [ref=f10e41]: 巴菲特
+                - paragraph [ref=f10e42]: 价值倾向 / 长期持有
+              - generic [ref=f10e43]: ACTIVE
+            - listitem [ref=f10e44]:
+              - generic [ref=f10e45]: 孙
+              - generic [ref=f10e46]:
+                - generic [ref=f10e47]: 叙事交易猎手
+                - strong [ref=f10e48]: 孙宇晨
+                - paragraph [ref=f10e49]: 叙事驱动 / 催化剂捕捉
+              - generic [ref=f10e50]: ACTIVE
+            - listitem [ref=f10e51]:
+              - generic [ref=f10e52]: 特
+              - generic [ref=f10e53]:
+                - generic [ref=f10e54]: 动量指挥官
+                - strong [ref=f10e55]: 特朗普
+                - paragraph [ref=f10e56]: 动量交易 / 突破交易
+              - generic [ref=f10e57]: ACTIVE
+          - button "管理战队 →" [ref=f10e58] [cursor=pointer]
+        - region [ref=f10e59]:
+          - generic [ref=f10e60]:
+            - generic [ref=f10e61]:
+              - paragraph [ref=f10e62]: OPERATING PROFILE
+              - heading "战队策略画像" [level=2] [ref=f10e63]
+            - generic [ref=f10e64]: 6 SIGNALS
+          - generic [ref=f10e65]:
+            - generic [ref=f10e66]:
+              - generic [ref=f10e67]: 核心倾向
+              - strong [ref=f10e68]: 叙事驱动
+            - paragraph [ref=f10e69]: 价值纪律负责进入门槛，叙事与动量负责捕捉催化和确认趋势。
+          - generic [ref=f10e70]:
+            - generic [ref=f10e71]:
+              - term [ref=f10e72]: 叙事交易
+              - definition [ref=f10e73]
+              - emphasis [ref=f10e75]: "89"
+            - generic [ref=f10e76]:
+              - term [ref=f10e77]: 趋势跟随
+              - definition [ref=f10e78]
+              - emphasis [ref=f10e80]: "85"
+            - generic [ref=f10e81]:
+              - term [ref=f10e82]: 价值倾向
+              - definition [ref=f10e83]
+              - emphasis [ref=f10e85]: "82"
+            - generic [ref=f10e86]:
+              - term [ref=f10e87]: 激进程度
+              - definition [ref=f10e88]
+              - emphasis [ref=f10e90]: "78"
+            - generic [ref=f10e91]:
+              - term [ref=f10e92]: 执行速度
+              - definition [ref=f10e93]
+              - emphasis [ref=f10e95]: "74"
+            - generic [ref=f10e96]:
+              - term [ref=f10e97]: 风险控制
+              - definition [ref=f10e98]
+              - emphasis [ref=f10e100]: "71"
+        - complementary [ref=f10e101]:
+          - generic [ref=f10e102]:
+            - paragraph [ref=f10e103]: READINESS
+            - heading "模拟前判断" [level=2] [ref=f10e104]
+          - generic [ref=f10e105]:
+            - generic [ref=f10e106]: VALID TEAM
+            - heading "三种风格形成互补" [level=3] [ref=f10e107]
+            - paragraph [ref=f10e108]: 价值型控制进入价格，叙事型识别催化，动量型负责执行确认。
+          - generic [ref=f10e109]:
+            - generic [ref=f10e110]:
+              - term [ref=f10e111]: 推荐模式
+              - definition [ref=f10e112]: 动态模式
+            - generic [ref=f10e113]:
+              - term [ref=f10e114]: 风险姿态
+              - definition [ref=f10e115]: 中高
+            - generic [ref=f10e116]:
+              - term [ref=f10e117]: 主要弱点
+              - definition [ref=f10e118]: 低波动震荡
+            - generic [ref=f10e119]:
+              - term [ref=f10e120]: 最佳环境
+              - definition [ref=f10e121]: 牛市 / 高波动
+          - generic "推荐运行模式" [ref=f10e122]:
+            - generic [ref=f10e123]: 动态模式
+            - generic [ref=f10e124]: 机会优先
+            - generic [ref=f10e125]: 高信念模式
+          - button "重新配置战队" [ref=f10e126] [cursor=pointer]
+      - link "查看模拟前校验" [ref=f10e127] [cursor=pointer]:
+        - /url: "#preflight"
+        - generic [ref=f10e129]: ↓
+    - region [ref=f10e130]:
+      - generic [ref=f10e131]:
+        - generic [ref=f10e132]:
+          - paragraph [ref=f10e133]: READINESS CHECK / HISTORICAL DATA
+          - heading "模拟前校验" [level=2] [ref=f10e134]
+        - generic [ref=f10e135]:
+          - generic [ref=f10e136]: ALL CHECKS PASSED
+          - generic [ref=f10e137]: 02 / 02
+      - generic [ref=f10e138]:
+        - region [ref=f10e139]:
+          - generic [ref=f10e140]:
+            - generic [ref=f10e141]:
+              - paragraph [ref=f10e142]: 180 DAY SNAPSHOT
+              - heading "历史模拟快照" [level=3] [ref=f10e143]
+            - generic [ref=f10e144]: 对比市场基准
+          - generic [ref=f10e145]:
+            - generic [ref=f10e146]:
+              - term [ref=f10e147]: 总收益
+              - definition [ref=f10e148]: +68.7%
+            - generic [ref=f10e149]:
+              - term [ref=f10e150]: 夏普比率
+              - definition [ref=f10e151]: "1.92"
+            - generic [ref=f10e152]:
+              - term [ref=f10e153]: 最大回撤
+              - definition [ref=f10e154]: −12.4%
+            - generic [ref=f10e155]:
+              - term [ref=f10e156]: 胜率
+              - definition [ref=f10e157]: 63.1%
+          - figure [ref=f10e158]:
+            - img "量子阿尔法小队与市场基准历史模拟曲线 量子阿尔法小队整体收益高于市场基准，同时存在数次回撤。" [ref=f10e159]
+            - generic [ref=f10e163]:
+              - generic [ref=f10e164]: 量子阿尔法小队
+              - generic [ref=f10e166]: 市场基准
+        - complementary [ref=f10e168]:
+          - generic [ref=f10e169]:
+            - paragraph [ref=f10e170]: RETURN ATTRIBUTION
+            - heading "收益贡献" [level=3] [ref=f10e171]
+          - list [ref=f10e172]:
+            - listitem [ref=f10e173]:
+              - generic [ref=f10e174]: "01"
+              - generic [ref=f10e175]:
+                - strong [ref=f10e176]: 巴菲特
+                - generic [ref=f10e177]: 价值投资大师
+              - emphasis [ref=f10e178]
+              - generic [ref=f10e180]: +32.4%
+            - listitem [ref=f10e181]:
+              - generic [ref=f10e182]: "02"
+              - generic [ref=f10e183]:
+                - strong [ref=f10e184]: 孙宇晨
+                - generic [ref=f10e185]: 叙事交易猎手
+              - emphasis [ref=f10e186]
+              - generic [ref=f10e188]: +22.7%
+            - listitem [ref=f10e189]:
+              - generic [ref=f10e190]: "03"
+              - generic [ref=f10e191]:
+                - strong [ref=f10e192]: 特朗普
+                - generic [ref=f10e193]: 动量指挥官
+              - emphasis [ref=f10e194]
+              - generic [ref=f10e196]: +13.6%
+            - listitem [ref=f10e197]:
+              - generic [ref=f10e198]: "04"
+              - generic [ref=f10e199]:
+                - strong [ref=f10e200]: 协同加成
+                - generic [ref=f10e201]: Team Core
+              - emphasis [ref=f10e202]
+              - generic [ref=f10e204]: +5.8%
+      - generic [ref=f10e205]:
+        - region [ref=f10e206]:
+          - generic [ref=f10e207]:
+            - heading "市场适配" [level=3] [ref=f10e208]
+            - generic [ref=f10e209]: 5 MARKETS
+          - generic [ref=f10e210]:
+            - generic [ref=f10e211]:
+              - strong [ref=f10e212]: BTC
+              - generic [ref=f10e213]: 高适配
+            - generic [ref=f10e214]:
+              - strong [ref=f10e215]: ETH
+              - generic [ref=f10e216]: 高适配
+            - generic [ref=f10e217]:
+              - strong [ref=f10e218]: 大市值代币
+              - generic [ref=f10e219]: 高适配
+            - generic [ref=f10e220]:
+              - strong [ref=f10e221]: Meme 市场
+              - generic [ref=f10e222]: 中等适配
+            - generic [ref=f10e223]:
+              - strong [ref=f10e224]: 高波动事件
+              - generic [ref=f10e225]: 高适配
+        - region [ref=f10e226]:
+          - generic [ref=f10e227]:
+            - heading "冲突校验" [level=3] [ref=f10e228]
+            - generic [ref=f10e229]: 1 WATCH ITEM
+          - paragraph [ref=f10e230]: 低波动、弱趋势或流动性枯竭市场会降低叙事与动量策略的有效性。
+          - generic [ref=f10e231]:
+            - generic [ref=f10e232]: 债券
+            - generic [ref=f10e233]: 低波动资产
+            - generic [ref=f10e234]: 防御型板块
+        - generic [ref=f10e235]:
+          - paragraph [ref=f10e236]: AI 蒸馏策略模型 · 基于公开信号 · 仅供模拟
+          - button "开始历史模拟" [ref=f10e237] [cursor=pointer]

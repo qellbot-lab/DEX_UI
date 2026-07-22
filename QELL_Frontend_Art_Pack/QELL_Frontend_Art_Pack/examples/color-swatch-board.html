@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>QELL Color Swatch Board</title>
+    <link rel="stylesheet" href="../tokens/qell-theme.css" />
+    <style>
+      body {
+        margin: 0;
+      }
+
+      .board {
+        width: min(1080px, calc(100vw - 48px));
+        margin: 0 auto;
+        padding: 64px 0;
+      }
+
+      h1 {
+        margin: 0 0 12px;
+        color: var(--text);
+        font-size: clamp(42px, 6vw, 84px);
+        line-height: 0.9;
+        text-transform: uppercase;
+      }
+
+      p {
+        max-width: 680px;
+        margin: 0 0 32px;
+        color: var(--muted);
+        font-size: 17px;
+        line-height: 1.55;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+        gap: 12px;
+      }
+
+      .swatch {
+        min-height: 150px;
+        border: 1px solid rgba(244, 245, 238, 0.12);
+        background:
+          linear-gradient(180deg, rgba(244, 245, 238, 0.04), rgba(244, 245, 238, 0.01)),
+          rgba(4, 7, 6, 0.72);
+        padding: 16px;
+      }
+
+      .chip {
+        height: 58px;
+        border: 1px solid rgba(244, 245, 238, 0.18);
+        margin-bottom: 18px;
+      }
+
+      .swatch span,
+      .swatch code {
+        display: block;
+      }
+
+      .swatch span {
+        color: var(--text);
+        font-size: 18px;
+        font-weight: 840;
+        text-transform: uppercase;
+      }
+
+      .swatch code {
+        margin-top: 8px;
+        color: var(--faint);
+        font-family: "Chakra Petch Local", monospace;
+        font-size: 13px;
+      }
+
+      .bg { background: var(--bg); }
+      .ink { background: var(--ink); }
+      .text { background: var(--text); }
+      .acid { background: var(--acid); }
+      .cyan { background: var(--cyan); }
+      .violet { background: var(--violet); }
+      .violet-strong { background: var(--violet-strong); }
+      .ember { background: var(--ember); }
+      .rose { background: var(--rose); }
+    </style>
+  </head>
+  <body class="qell-app-surface">
+    <main class="board">
+      <h1>QELL Color System</h1>
+      <p>Dark infrastructure base with controlled semantic accents. Use color as signal, not decoration.</p>
+      <section class="grid">
+        <article class="swatch"><div class="chip bg"></div><span>Background</span><code>#050706</code></article>
+        <article class="swatch"><div class="chip ink"></div><span>Ink</span><code>#080909</code></article>
+        <article class="swatch"><div class="chip text"></div><span>Text</span><code>#f2f5ec</code></article>
+        <article class="swatch"><div class="chip acid"></div><span>Acid</span><code>#b7ee5b</code></article>
+        <article class="swatch"><div class="chip cyan"></div><span>Cyan</span><code>#6de3d3</code></article>
+        <article class="swatch"><div class="chip violet"></div><span>Violet</span><code>#8c6fb0</code></article>
+        <article class="swatch"><div class="chip violet-strong"></div><span>Violet Strong</span><code>#a488d0</code></article>
+        <article class="swatch"><div class="chip ember"></div><span>Ember</span><code>#eab56c</code></article>
+        <article class="swatch"><div class="chip rose"></div><span>Rose</span><code>#e6789e</code></article>
+      </section>
+    </main>
+  </body>
+</html>

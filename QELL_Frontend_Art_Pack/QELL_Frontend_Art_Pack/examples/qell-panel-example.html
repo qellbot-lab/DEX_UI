@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>QELL Panel Example</title>
+    <link rel="stylesheet" href="../tokens/qell-theme.css" />
+    <style>
+      body {
+        margin: 0;
+      }
+
+      .demo {
+        display: grid;
+        gap: 18px;
+        min-height: 100svh;
+        align-content: center;
+        justify-items: center;
+        padding: 32px;
+      }
+
+      .demo-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(220px, 1fr));
+        gap: 14px;
+        width: min(980px, 100%);
+      }
+
+      .demo-card {
+        min-height: 180px;
+        padding: 20px;
+      }
+
+      .demo-card strong {
+        display: block;
+        margin-top: 28px;
+        color: var(--text);
+        font-size: 30px;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      .demo-card p {
+        max-width: 24ch;
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body class="qell-app-surface">
+    <main class="demo">
+      <section class="demo-grid">
+        <article class="qell-panel demo-card">
+          <span class="qell-micro-label">Macro Signal Box</span>
+          <strong>62 / 100</strong>
+          <p>Broad crypto sentiment remains constructive while volatility is elevated.</p>
+        </article>
+        <article class="qell-panel demo-card">
+          <span class="qell-micro-label">Team Core</span>
+          <strong>78%</strong>
+          <p>Five agents online. Balanced cadence, consensus required, controlled sizing.</p>
+        </article>
+        <article class="qell-panel demo-card">
+          <span class="qell-micro-label">Exposure Field</span>
+          <strong>+$1,436</strong>
+          <p>Two markets synced. BTC long active, ETH short close watch.</p>
+        </article>
+      </section>
+      <div>
+        <button class="qell-button-primary">Primary Action</button>
+        <button class="qell-button-secondary">Secondary Action</button>
+      </div>
+    </main>
+  </body>
+</html>

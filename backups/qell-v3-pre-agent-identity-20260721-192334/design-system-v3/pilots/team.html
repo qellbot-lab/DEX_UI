@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="QELL 组建战队页双屏设计试点。" />
+    <title>QELL — 量子阿尔法小队</title>
+    <link
+      rel="icon"
+      href="../../../QELL_Frontend_Art_Pack/QELL_Frontend_Art_Pack/assets/logos/qell-logo.svg"
+    />
+    <link rel="stylesheet" href="./pilot-shared.css" />
+    <link rel="stylesheet" href="./team.css" />
+  </head>
+  <body class="team-page">
+    <header class="pilot-nav team-nav">
+      <div class="pilot-nav__inner pilot-shell">
+        <a class="pilot-nav__brand" href="./home.html" aria-label="QELL 首页">
+          <img
+            src="../../../QELL_Frontend_Art_Pack/QELL_Frontend_Art_Pack/assets/logos/qell-logo.svg"
+            alt="QELL"
+          />
+        </a>
+        <nav class="pilot-nav__links" aria-label="主导航">
+          <a class="pilot-nav__link" href="./agent-detail.html">智能体</a>
+          <a class="pilot-nav__link" href="#composition" aria-current="page">战队</a>
+          <a class="pilot-nav__link" href="./runtime.html">模拟</a>
+          <a class="pilot-nav__link" href="#ranking">排行榜</a>
+          <a class="pilot-nav__link" href="#rewards">奖励</a>
+        </nav>
+        <div class="pilot-nav__action">
+          <button class="pilot-button pilot-button--secondary" type="button">连接钱包</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="team-screen team-composition pilot-shell" id="composition" aria-labelledby="team-name">
+        <header class="team-hero">
+          <div>
+            <p class="pilot-kicker">TEAM BUILDER / 3 AGENTS</p>
+            <h1 id="team-name">量子阿尔法小队</h1>
+            <p>多策略混合型 · 队长已设定 · 准备进入历史市场</p>
+          </div>
+          <div class="team-hero__grade" aria-label="战队等级 S 精英级">
+            <span>等级</span><strong>S</strong><small>精英级</small>
+          </div>
+          <div class="team-hero__actions">
+            <span class="pilot-status pilot-status--live">READY TO SIMULATE</span>
+            <button class="pilot-button pilot-button--primary" type="button">开始模拟</button>
+            <small>预计时长 3–6 分钟 · 使用 5 年历史数据</small>
+          </div>
+        </header>
+
+        <div class="team-composition__grid">
+          <section class="team-roster" aria-labelledby="roster-title">
+            <header>
+              <div>
+                <p class="pilot-label">TEAM ROSTER</p>
+                <h2 class="pilot-section-heading" id="roster-title">已选智能体</h2>
+              </div>
+              <span class="pilot-number">3 / 3</span>
+            </header>
+            <ol>
+              <li class="team-roster__captain">
+                <span class="team-roster__mark" aria-hidden="true">巴</span>
+                <div><small>队长 · 价值投资大师</small><strong>巴菲特</strong><p>价值倾向 / 长期持有</p></div>
+                <span class="pilot-status pilot-status--live">ACTIVE</span>
+              </li>
+              <li>
+                <span class="team-roster__mark" aria-hidden="true">孙</span>
+                <div><small>叙事交易猎手</small><strong>孙宇晨</strong><p>叙事驱动 / 催化剂捕捉</p></div>
+                <span class="pilot-status pilot-status--live">ACTIVE</span>
+              </li>
+              <li>
+                <span class="team-roster__mark" aria-hidden="true">特</span>
+                <div><small>动量指挥官</small><strong>特朗普</strong><p>动量交易 / 突破交易</p></div>
+                <span class="pilot-status pilot-status--live">ACTIVE</span>
+              </li>
+            </ol>
+            <button class="pilot-button pilot-button--quiet" type="button">管理战队 →</button>
+          </section>
+
+          <section class="team-profile" aria-labelledby="profile-title">
+            <header>
+              <div>
+                <p class="pilot-label">OPERATING PROFILE</p>
+                <h2 class="pilot-section-heading" id="profile-title">战队策略画像</h2>
+              </div>
+              <span class="pilot-status pilot-status--data">6 SIGNALS</span>
+            </header>
+
+            <div class="team-profile__lead">
+              <div><span>核心倾向</span><strong>叙事驱动</strong></div>
+              <p>价值纪律负责进入门槛，叙事与动量负责捕捉催化和确认趋势。</p>
+            </div>
+
+            <dl>
+              <div><dt>叙事交易</dt><dd><span style="--score: 89%"></span></dd><em class="pilot-number">89</em></div>
+              <div><dt>趋势跟随</dt><dd><span style="--score: 85%"></span></dd><em class="pilot-number">85</em></div>
+              <div><dt>价值倾向</dt><dd><span style="--score: 82%"></span></dd><em class="pilot-number">82</em></div>
+              <div><dt>激进程度</dt><dd><span style="--score: 78%"></span></dd><em class="pilot-number">78</em></div>
+              <div><dt>执行速度</dt><dd><span style="--score: 74%"></span></dd><em class="pilot-number">74</em></div>
+              <div><dt>风险控制</dt><dd><span style="--score: 71%"></span></dd><em class="pilot-number">71</em></div>
+            </dl>
+          </section>
+
+          <aside class="team-readiness" aria-labelledby="readiness-title">
+            <header>
+              <p class="pilot-label">READINESS</p>
+              <h2 class="pilot-section-heading" id="readiness-title">模拟前判断</h2>
+            </header>
+
+            <div class="team-readiness__summary">
+              <span class="pilot-status pilot-status--live">VALID TEAM</span>
+              <h3>三种风格形成互补</h3>
+              <p>价值型控制进入价格，叙事型识别催化，动量型负责执行确认。</p>
+            </div>
+
+            <dl>
+              <div><dt>推荐模式</dt><dd>动态模式</dd></div>
+              <div><dt>风险姿态</dt><dd class="team-readiness__warning">中高</dd></div>
+              <div><dt>主要弱点</dt><dd>低波动震荡</dd></div>
+              <div><dt>最佳环境</dt><dd>牛市 / 高波动</dd></div>
+            </dl>
+
+            <div class="team-readiness__modes" aria-label="推荐运行模式">
+              <span>动态模式</span><span>机会优先</span><span>高信念模式</span>
+            </div>
+
+            <button class="pilot-button pilot-button--secondary" type="button">重新配置战队</button>
+          </aside>
+        </div>
+
+        <a class="team-screen__continue" href="#preflight">
+          <span>查看模拟前校验</span><span aria-hidden="true">↓</span>
+        </a>
+      </section>
+
+      <section class="team-screen team-preflight pilot-shell" id="preflight" aria-labelledby="preflight-title">
+        <header class="team-preflight__header">
+          <div>
+            <p class="pilot-kicker">READINESS CHECK / HISTORICAL DATA</p>
+            <h2 id="preflight-title">模拟前校验</h2>
+          </div>
+          <div>
+            <span class="pilot-status pilot-status--live">ALL CHECKS PASSED</span>
+            <span class="pilot-number">02 / 02</span>
+          </div>
+        </header>
+
+        <div class="team-preflight__primary">
+          <section class="team-history" aria-labelledby="history-title">
+            <header>
+              <div>
+                <p class="pilot-label">180 DAY SNAPSHOT</p>
+                <h3 id="history-title">历史模拟快照</h3>
+              </div>
+              <span>对比市场基准</span>
+            </header>
+            <dl class="team-history__metrics">
+              <div><dt>总收益</dt><dd class="pilot-number">+68.7%</dd></div>
+              <div><dt>夏普比率</dt><dd class="pilot-number">1.92</dd></div>
+              <div><dt>最大回撤</dt><dd class="pilot-number">−12.4%</dd></div>
+              <div><dt>胜率</dt><dd class="pilot-number">63.1%</dd></div>
+            </dl>
+            <figure>
+              <svg viewBox="0 0 780 260" role="img" aria-labelledby="team-chart-title team-chart-desc">
+                <title id="team-chart-title">量子阿尔法小队与市场基准历史模拟曲线</title>
+                <desc id="team-chart-desc">量子阿尔法小队整体收益高于市场基准，同时存在数次回撤。</desc>
+                <g aria-hidden="true">
+                  <line x1="0" y1="38" x2="780" y2="38" />
+                  <line x1="0" y1="104" x2="780" y2="104" />
+                  <line x1="0" y1="170" x2="780" y2="170" />
+                  <line x1="0" y1="236" x2="780" y2="236" />
+                </g>
+                <path class="team-history__benchmark" d="M0 222 L44 214 L86 220 L128 195 L170 203 L212 186 L254 190 L296 166 L338 174 L382 156 L424 161 L466 142 L508 149 L550 124 L594 132 L636 111 L678 118 L722 96 L780 101" />
+                <path class="team-history__alpha" d="M0 220 L44 210 L86 190 L128 198 L170 165 L212 172 L254 138 L296 145 L338 116 L382 125 L424 92 L466 104 L508 75 L550 88 L594 60 L636 71 L678 43 L722 55 L780 24" />
+              </svg>
+              <figcaption><span><i></i>量子阿尔法小队</span><span><i></i>市场基准</span></figcaption>
+            </figure>
+          </section>
+
+          <aside class="team-contribution" aria-labelledby="contribution-title">
+            <header>
+              <p class="pilot-label">RETURN ATTRIBUTION</p>
+              <h3 id="contribution-title">收益贡献</h3>
+            </header>
+            <ol>
+              <li><span class="pilot-number">01</span><div><strong>巴菲特</strong><small>价值投资大师</small></div><em><i style="--score: 92%"></i></em><b class="pilot-number">+32.4%</b></li>
+              <li><span class="pilot-number">02</span><div><strong>孙宇晨</strong><small>叙事交易猎手</small></div><em><i style="--score: 72%"></i></em><b class="pilot-number">+22.7%</b></li>
+              <li><span class="pilot-number">03</span><div><strong>特朗普</strong><small>动量指挥官</small></div><em><i style="--score: 48%"></i></em><b class="pilot-number">+13.6%</b></li>
+              <li><span class="pilot-number">04</span><div><strong>协同加成</strong><small>Team Core</small></div><em><i style="--score: 26%"></i></em><b class="pilot-number">+5.8%</b></li>
+            </ol>
+          </aside>
+        </div>
+
+        <div class="team-preflight__secondary">
+          <section class="team-market-fit" aria-labelledby="team-market-title">
+            <header><h3 id="team-market-title">市场适配</h3><span class="pilot-status pilot-status--data">5 MARKETS</span></header>
+            <div>
+              <span><strong>BTC</strong><small>高适配</small></span>
+              <span><strong>ETH</strong><small>高适配</small></span>
+              <span><strong>大市值代币</strong><small>高适配</small></span>
+              <span><strong>Meme 市场</strong><small>中等适配</small></span>
+              <span><strong>高波动事件</strong><small>高适配</small></span>
+            </div>
+          </section>
+
+          <section class="team-conflicts" aria-labelledby="conflicts-title">
+            <header><h3 id="conflicts-title">冲突校验</h3><span class="pilot-status pilot-status--warning">1 WATCH ITEM</span></header>
+            <p>低波动、弱趋势或流动性枯竭市场会降低叙事与动量策略的有效性。</p>
+            <div><span>债券</span><span>低波动资产</span><span>防御型板块</span></div>
+          </section>
+
+          <div class="team-preflight__cta">
+            <p>AI 蒸馏策略模型 · 基于公开信号 · 仅供模拟</p>
+            <button class="pilot-button pilot-button--primary" type="button">开始历史模拟</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

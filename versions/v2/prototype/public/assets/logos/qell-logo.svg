@@ -1,0 +1,8 @@
+<svg width="240" height="64" viewBox="0 0 240 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="QELL.AI">
+  <rect width="240" height="64" fill="#050806"/>
+  <path d="M14 14H58V50H14V14ZM22 22V42H50V22H22ZM42 42H58V50H42V42Z" fill="#B7FF5A"/>
+  <path d="M76 14H116V22H86V30H112V38H86V42H116V50H76V14Z" fill="#F4F7EF"/>
+  <path d="M128 14H138V42H166V50H128V14Z" fill="#F4F7EF"/>
+  <path d="M176 14H186V42H214V50H176V14Z" fill="#F4F7EF"/>
+  <path d="M222 42H230V50H222V42Z" fill="#B7FF5A"/>
+</svg>

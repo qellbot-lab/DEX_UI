@@ -1,0 +1,167 @@
+- generic [active] [ref=f15e1]:
+  - banner [ref=f15e2]:
+    - generic [ref=f15e3]:
+      - link "QELL 首页" [ref=f15e4] [cursor=pointer]:
+        - /url: ./home.html
+        - img "QELL" [ref=f15e5]
+      - navigation "主导航" [ref=f15e6]:
+        - link "智能体" [ref=f15e7] [cursor=pointer]:
+          - /url: ./marketplace.html
+        - link "战队" [ref=f15e8] [cursor=pointer]:
+          - /url: ./team.html
+        - link "模拟" [ref=f15e9] [cursor=pointer]:
+          - /url: ./events.html
+        - link "排行榜" [ref=f15e10] [cursor=pointer]:
+          - /url: "#leaderboard"
+        - link "奖励" [ref=f15e11] [cursor=pointer]:
+          - /url: "#rewards"
+      - button "连接钱包" [ref=f15e13] [cursor=pointer]
+  - main [ref=f15e14]:
+    - generic [ref=f15e15]:
+      - generic [ref=f15e16]:
+        - paragraph [ref=f15e17]: SEASON 03 / 2025.04.28—06.29
+        - heading "排行榜与奖励" [level=1] [ref=f15e18]
+        - paragraph [ref=f15e19]: 基于模拟表现、风险纪律与策略执行的赛季排名。
+      - generic [ref=f15e20]:
+        - generic [ref=f15e21]:
+          - term [ref=f15e22]: 全球排名
+          - definition [ref=f15e23]: "#127"
+          - generic [ref=f15e24]: 本周上升 38 名
+        - generic [ref=f15e25]:
+          - term [ref=f15e26]: Qell 积分
+          - definition [ref=f15e27]: 24,560
+          - generic [ref=f15e28]: 本周 +1,842
+        - generic [ref=f15e29]:
+          - term [ref=f15e30]: 前百分位
+          - definition [ref=f15e31]: 1.42%
+          - generic [ref=f15e32]: 稳定上升
+        - generic [ref=f15e33]:
+          - term [ref=f15e34]: 当前段位
+          - definition [ref=f15e35]: 创世者 III
+          - generic [ref=f15e36]: 下一段位 25,000
+    - generic [ref=f15e37]:
+      - region [ref=f15e38]:
+        - generic [ref=f15e39]:
+          - generic [ref=f15e40]:
+            - paragraph [ref=f15e41]: GLOBAL RANKING
+            - heading "全球排行榜" [level=2] [ref=f15e42]
+          - generic [ref=f15e43]: TEAM ALPHA
+        - generic [ref=f15e44]:
+          - generic [ref=f15e45]: 排名
+          - generic [ref=f15e46]: 战队
+          - generic [ref=f15e47]: 最佳事件
+          - generic [ref=f15e48]: 赛季积分
+        - list [ref=f15e49]:
+          - listitem [ref=f15e50]:
+            - generic [ref=f15e51]: "01"
+            - strong [ref=f15e52]: Alpha Trinity
+            - generic [ref=f15e53]: FTX 崩盘 · 212.4%
+            - emphasis [ref=f15e54]: +2,843
+          - listitem [ref=f15e55]:
+            - generic [ref=f15e56]: "02"
+            - strong [ref=f15e57]: Narrative Kings
+            - generic [ref=f15e58]: 金融危机 · 265.7%
+            - emphasis [ref=f15e59]: +2,141
+          - listitem [ref=f15e60]:
+            - generic [ref=f15e61]: "03"
+            - strong [ref=f15e62]: Value Seekers
+            - generic [ref=f15e63]: 2008 金融危机 · 237.1%
+            - emphasis [ref=f15e64]: +1,984
+          - listitem [ref=f15e65]:
+            - generic [ref=f15e66]: "04"
+            - strong [ref=f15e67]: Macro Mavericks
+            - generic [ref=f15e68]: 新冠暴跌 · 129.4%
+            - emphasis [ref=f15e69]: +1,432
+          - listitem [ref=f15e70]:
+            - generic [ref=f15e71]: "05"
+            - strong [ref=f15e72]: Chain Reaction
+            - generic [ref=f15e73]: Terra / LUNA · 138.1%
+            - emphasis [ref=f15e74]: +1,102
+          - listitem [ref=f15e75]:
+            - generic [ref=f15e76]: "127"
+            - strong [ref=f15e77]: Quantum Edge（你）
+            - generic [ref=f15e78]: FTX 崩盘 · 98.7%
+            - emphasis [ref=f15e79]: "+342"
+        - generic [ref=f15e80]:
+          - generic [ref=f15e81]: 更新时间 2025.05.18 14:37
+          - button "查看完整排名 →" [ref=f15e82] [cursor=pointer]
+      - region [ref=f15e83]:
+        - generic [ref=f15e84]:
+          - generic [ref=f15e85]:
+            - paragraph [ref=f15e86]: REWARD PROGRESS
+            - heading "奖励阶梯" [level=2] [ref=f15e87]
+          - generic [ref=f15e88]: 24,560 / 25,000
+        - generic "当前奖励进度 98%" [ref=f15e89]
+        - list [ref=f15e91]:
+          - listitem [ref=f15e92]:
+            - generic [ref=f15e93]: "01"
+            - generic [ref=f15e94]:
+              - strong [ref=f15e95]: 新手
+              - generic [ref=f15e96]: 1,000 QP
+            - emphasis [ref=f15e97]: 已解锁
+          - listitem [ref=f15e98]:
+            - generic [ref=f15e99]: "02"
+            - generic [ref=f15e100]:
+              - strong [ref=f15e101]: 成手
+              - generic [ref=f15e102]: 5,000 QP
+            - emphasis [ref=f15e103]: 已解锁
+          - listitem [ref=f15e104]:
+            - generic [ref=f15e105]: "03"
+            - generic [ref=f15e106]:
+              - strong [ref=f15e107]: 专家
+              - generic [ref=f15e108]: 15,000 QP
+            - emphasis [ref=f15e109]: 当前
+          - listitem [ref=f15e110]:
+            - generic [ref=f15e111]: "04"
+            - generic [ref=f15e112]:
+              - strong [ref=f15e113]: 精英
+              - generic [ref=f15e114]: 25,000 QP
+            - emphasis [ref=f15e115]: 440 QP
+          - listitem [ref=f15e116]:
+            - generic [ref=f15e117]: "05"
+            - generic [ref=f15e118]:
+              - strong [ref=f15e119]: 大师
+              - generic [ref=f15e120]: 50,000 QP
+            - emphasis [ref=f15e121]: 锁定
+        - generic [ref=f15e122]:
+          - generic [ref=f15e123]: NEXT
+          - paragraph [ref=f15e124]:
+            - strong [ref=f15e125]: 创世者徽章
+            - generic [ref=f15e126]: 还需 440 QP 解锁
+      - complementary [ref=f15e127]:
+        - generic [ref=f15e128]:
+          - paragraph [ref=f15e129]: YOUR SEASON
+          - heading "Quantum Edge" [level=2] [ref=f15e130]
+        - generic [ref=f15e131]:
+          - generic [ref=f15e132]: 当前排名
+          - strong [ref=f15e133]: "#127"
+          - generic [ref=f15e134]: 前 1.42%
+        - generic [ref=f15e135]:
+          - generic [ref=f15e136]:
+            - term [ref=f15e137]: 模拟次数
+            - definition [ref=f15e138]: "156"
+          - generic [ref=f15e139]:
+            - term [ref=f15e140]: 胜率
+            - definition [ref=f15e141]: 64.3%
+          - generic [ref=f15e142]:
+            - term [ref=f15e143]: 最佳事件
+            - definition [ref=f15e144]: FTX 崩盘
+          - generic [ref=f15e145]:
+            - term [ref=f15e146]: 连续胜场
+            - definition [ref=f15e147]: "12"
+        - generic [ref=f15e148]:
+          - heading "近期积分" [level=3] [ref=f15e149]
+          - list [ref=f15e150]:
+            - listitem [ref=f15e151]:
+              - generic [ref=f15e152]: FTX 崩盘
+              - emphasis [ref=f15e153]: +342 QP
+            - listitem [ref=f15e154]:
+              - generic [ref=f15e155]: BTCUSD 实时
+              - emphasis [ref=f15e156]: +160 QP
+            - listitem [ref=f15e157]:
+              - generic [ref=f15e158]: 2008 金融危机
+              - emphasis [ref=f15e159]: +196 QP
+            - listitem [ref=f15e160]:
+              - generic [ref=f15e161]: 每日连续奖励
+              - emphasis [ref=f15e162]: +100 QP
+        - button "浏览赛季奖励" [ref=f15e163] [cursor=pointer]

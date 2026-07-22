@@ -1,0 +1,166 @@
+- generic [active] [ref=f12e1]:
+  - banner [ref=f12e2]:
+    - generic [ref=f12e3]:
+      - link "QELL 首页" [ref=f12e4] [cursor=pointer]:
+        - /url: ./home.html
+        - img "QELL" [ref=f12e5]
+      - navigation "主导航" [ref=f12e6]:
+        - link "智能体" [ref=f12e7] [cursor=pointer]:
+          - /url: ./agent-detail.html
+        - link "战队" [ref=f12e8] [cursor=pointer]:
+          - /url: ./team.html
+        - link "模拟" [ref=f12e9] [cursor=pointer]:
+          - /url: "#events"
+        - link "排行榜" [ref=f12e10] [cursor=pointer]:
+          - /url: ./leaderboard.html
+        - link "奖励" [ref=f12e11] [cursor=pointer]:
+          - /url: "#rewards"
+      - button "连接钱包" [ref=f12e13] [cursor=pointer]
+  - main [ref=f12e14]:
+    - generic [ref=f12e15]:
+      - generic [ref=f12e16]:
+        - paragraph [ref=f12e17]: HISTORICAL STRESS TESTS
+        - heading "历史模拟资料库" [level=1] [ref=f12e18]
+        - paragraph [ref=f12e19]: 用最具代表性的市场事件训练你的战队。
+      - generic "场景筛选" [ref=f12e20]:
+        - button "全部场景" [ref=f12e21] [cursor=pointer]
+        - button "美股" [ref=f12e22] [cursor=pointer]
+        - button "加密" [ref=f12e23] [cursor=pointer]
+        - button "危机" [ref=f12e24] [cursor=pointer]
+        - button "牛市" [ref=f12e25] [cursor=pointer]
+    - generic [ref=f12e26]:
+      - region [ref=f12e27]:
+        - generic [ref=f12e28]:
+          - heading "选择市场事件" [level=2] [ref=f12e29]
+          - generic [ref=f12e30]: 06 SCENARIOS
+        - list [ref=f12e31]:
+          - listitem [ref=f12e32] [cursor=pointer]:
+            - generic [ref=f12e33]:
+              - generic [ref=f12e34]: "01"
+              - generic [ref=f12e35]: 极高波动
+            - heading "1987 黑色星期一" [level=3] [ref=f12e36]
+            - paragraph [ref=f12e37]: 1987.10.19 · 美股
+            - generic [ref=f12e38]:
+              - generic [ref=f12e39]:
+                - term [ref=f12e40]: 难度
+                - definition [ref=f12e41]: 专家
+              - generic [ref=f12e42]:
+                - term [ref=f12e43]: 策略
+                - definition [ref=f12e44]: 风险管理
+              - generic [ref=f12e45]:
+                - term [ref=f12e46]: 时长
+                - definition [ref=f12e47]: 1 天
+          - listitem [ref=f12e48] [cursor=pointer]:
+            - generic [ref=f12e49]:
+              - generic [ref=f12e50]: "02"
+              - generic [ref=f12e51]: 高波动
+            - heading "互联网泡沫崩盘" [level=3] [ref=f12e52]
+            - paragraph [ref=f12e53]: 2000—2002 · 美股
+            - generic [ref=f12e54]:
+              - generic [ref=f12e55]:
+                - term [ref=f12e56]: 难度
+                - definition [ref=f12e57]: 高级
+              - generic [ref=f12e58]:
+                - term [ref=f12e59]: 策略
+                - definition [ref=f12e60]: 趋势跟随
+              - generic [ref=f12e61]:
+                - term [ref=f12e62]: 时长
+                - definition [ref=f12e63]: 6 个月
+          - listitem [ref=f12e64] [cursor=pointer]:
+            - generic [ref=f12e65]:
+              - generic [ref=f12e66]: "03"
+              - generic [ref=f12e67]: 极高波动
+            - heading "2008 全球金融危机" [level=3] [ref=f12e68]
+            - paragraph [ref=f12e69]: 2008 · 美股
+            - generic [ref=f12e70]:
+              - generic [ref=f12e71]:
+                - term [ref=f12e72]: 难度
+                - definition [ref=f12e73]: 专家
+              - generic [ref=f12e74]:
+                - term [ref=f12e75]: 策略
+                - definition [ref=f12e76]: 动量对冲
+              - generic [ref=f12e77]:
+                - term [ref=f12e78]: 时长
+                - definition [ref=f12e79]: 12 个月
+          - listitem [ref=f12e80] [cursor=pointer]:
+            - generic [ref=f12e81]:
+              - generic [ref=f12e82]: "04"
+              - generic [ref=f12e83]: 高波动
+            - heading "新冠暴跌" [level=3] [ref=f12e84]
+            - paragraph [ref=f12e85]: 2020.02—03 · 美股
+            - generic [ref=f12e86]:
+              - generic [ref=f12e87]:
+                - term [ref=f12e88]: 难度
+                - definition [ref=f12e89]: 中级
+              - generic [ref=f12e90]:
+                - term [ref=f12e91]: 策略
+                - definition [ref=f12e92]: 战术轮动
+              - generic [ref=f12e93]:
+                - term [ref=f12e94]: 时长
+                - definition [ref=f12e95]: 1 个月
+          - listitem [ref=f12e96] [cursor=pointer]:
+            - generic [ref=f12e97]:
+              - generic [ref=f12e98]: "05"
+              - generic [ref=f12e99]: 极高波动
+            - heading "Terra / LUNA 崩盘" [level=3] [ref=f12e100]
+            - paragraph [ref=f12e101]: 2022.05 · 加密
+            - generic [ref=f12e102]:
+              - generic [ref=f12e103]:
+                - term [ref=f12e104]: 难度
+                - definition [ref=f12e105]: 专家
+              - generic [ref=f12e106]:
+                - term [ref=f12e107]: 策略
+                - definition [ref=f12e108]: 风险管理
+              - generic [ref=f12e109]:
+                - term [ref=f12e110]: 时长
+                - definition [ref=f12e111]: 2 周
+          - listitem [ref=f12e112] [cursor=pointer]:
+            - generic [ref=f12e113]:
+              - generic [ref=f12e114]: "06"
+              - generic [ref=f12e115]: 极高波动
+            - heading "FTX 崩盘" [level=3] [ref=f12e116]
+            - paragraph [ref=f12e117]: 2022.11 · 加密
+            - generic [ref=f12e118]:
+              - generic [ref=f12e119]:
+                - term [ref=f12e120]: 难度
+                - definition [ref=f12e121]: 专家
+              - generic [ref=f12e122]:
+                - term [ref=f12e123]: 策略
+                - definition [ref=f12e124]: 危机管理
+              - generic [ref=f12e125]:
+                - term [ref=f12e126]: 时长
+                - definition [ref=f12e127]: 2 周
+      - complementary [ref=f12e128]:
+        - generic [ref=f12e129]:
+          - generic [ref=f12e130]:
+            - paragraph [ref=f12e131]: SELECTED SCENARIO
+            - heading "1987 黑色星期一" [level=2] [ref=f12e132]
+          - generic [ref=f12e133]: EXPERT
+        - generic [ref=f12e134]:
+          - strong [ref=f12e135]: −22.6%
+          - generic [ref=f12e136]: 单日跌幅
+        - figure "09.17 10.19 10.26" [ref=f12e137]:
+          - img "1987 黑色星期一市场走势 市场缓慢下行后出现极端单日暴跌，随后小幅修复。" [ref=f12e138]
+          - generic [ref=f12e141]:
+            - generic [ref=f12e142]: "09.17"
+            - generic [ref=f12e143]: "10.19"
+            - generic [ref=f12e144]: "10.26"
+        - generic [ref=f12e145]:
+          - generic [ref=f12e146]:
+            - term [ref=f12e147]: 波动
+            - definition [ref=f12e148]: 极高
+          - generic [ref=f12e149]:
+            - term [ref=f12e150]: 推荐策略
+            - definition [ref=f12e151]: 风险管理
+          - generic [ref=f12e152]:
+            - term [ref=f12e153]: 模拟时长
+            - definition [ref=f12e154]: 1 天
+        - generic [ref=f12e155]:
+          - heading "训练目标" [level=3] [ref=f12e156]
+          - list [ref=f12e157]:
+            - listitem [ref=f12e158]: 识别流动性枯竭
+            - listitem [ref=f12e159]: 评估系统性风险敞口
+            - listitem [ref=f12e160]: 在极端波动中保持纪律
+        - generic [ref=f12e161]:
+          - paragraph [ref=f12e162]: 推荐战队：防御者 / 战术家
+          - button "进入模拟" [ref=f12e163] [cursor=pointer]

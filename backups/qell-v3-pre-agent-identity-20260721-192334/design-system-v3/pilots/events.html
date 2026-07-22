@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="QELL 历史事件副本选择页设计试点。" />
+    <title>QELL — 历史模拟资料库</title>
+    <link rel="icon" href="../../../QELL_Frontend_Art_Pack/QELL_Frontend_Art_Pack/assets/logos/qell-logo.svg" />
+    <link rel="stylesheet" href="./pilot-shared.css" />
+    <link rel="stylesheet" href="./events.css" />
+  </head>
+  <body>
+    <header class="pilot-nav">
+      <div class="pilot-nav__inner pilot-shell">
+        <a class="pilot-nav__brand" href="./home.html" aria-label="QELL 首页"><img src="../../../QELL_Frontend_Art_Pack/QELL_Frontend_Art_Pack/assets/logos/qell-logo.svg" alt="QELL" /></a>
+        <nav class="pilot-nav__links" aria-label="主导航">
+          <a class="pilot-nav__link" href="./agent-detail.html">智能体</a>
+          <a class="pilot-nav__link" href="./team.html">战队</a>
+          <a class="pilot-nav__link" href="#events" aria-current="page">模拟</a>
+          <a class="pilot-nav__link" href="./leaderboard.html">排行榜</a>
+          <a class="pilot-nav__link" href="#rewards">奖励</a>
+        </nav>
+        <div class="pilot-nav__action"><button class="pilot-button pilot-button--secondary" type="button">连接钱包</button></div>
+      </div>
+    </header>
+
+    <main class="events-page pilot-shell" id="events">
+      <header class="events-page__header">
+        <div>
+          <p class="pilot-kicker">HISTORICAL STRESS TESTS</p>
+          <h1>历史模拟资料库</h1>
+          <p>用最具代表性的市场事件训练你的战队。</p>
+        </div>
+        <div class="events-page__filters" aria-label="场景筛选">
+          <button class="events-page__filter is-active" type="button">全部场景</button>
+          <button class="events-page__filter" type="button">美股</button>
+          <button class="events-page__filter" type="button">加密</button>
+          <button class="events-page__filter" type="button">危机</button>
+          <button class="events-page__filter" type="button">牛市</button>
+        </div>
+      </header>
+
+      <div class="events-layout">
+        <section class="events-browser" aria-labelledby="event-list-title">
+          <header>
+            <h2 id="event-list-title">选择市场事件</h2>
+            <span class="pilot-number">06 SCENARIOS</span>
+          </header>
+          <ol class="events-grid">
+            <li class="event-card is-selected" tabindex="0">
+              <div class="event-card__top"><span class="pilot-number">01</span><span class="pilot-status pilot-status--negative">极高波动</span></div>
+              <h3>1987 黑色星期一</h3><p>1987.10.19 · 美股</p>
+              <dl><div><dt>难度</dt><dd>专家</dd></div><div><dt>策略</dt><dd>风险管理</dd></div><div><dt>时长</dt><dd>1 天</dd></div></dl>
+            </li>
+            <li class="event-card" tabindex="0">
+              <div class="event-card__top"><span class="pilot-number">02</span><span class="pilot-status pilot-status--warning">高波动</span></div>
+              <h3>互联网泡沫崩盘</h3><p>2000—2002 · 美股</p>
+              <dl><div><dt>难度</dt><dd>高级</dd></div><div><dt>策略</dt><dd>趋势跟随</dd></div><div><dt>时长</dt><dd>6 个月</dd></div></dl>
+            </li>
+            <li class="event-card" tabindex="0">
+              <div class="event-card__top"><span class="pilot-number">03</span><span class="pilot-status pilot-status--negative">极高波动</span></div>
+              <h3>2008 全球金融危机</h3><p>2008 · 美股</p>
+              <dl><div><dt>难度</dt><dd>专家</dd></div><div><dt>策略</dt><dd>动量对冲</dd></div><div><dt>时长</dt><dd>12 个月</dd></div></dl>
+            </li>
+            <li class="event-card" tabindex="0">
+              <div class="event-card__top"><span class="pilot-number">04</span><span class="pilot-status pilot-status--warning">高波动</span></div>
+              <h3>新冠暴跌</h3><p>2020.02—03 · 美股</p>
+              <dl><div><dt>难度</dt><dd>中级</dd></div><div><dt>策略</dt><dd>战术轮动</dd></div><div><dt>时长</dt><dd>1 个月</dd></div></dl>
+            </li>
+            <li class="event-card" tabindex="0">
+              <div class="event-card__top"><span class="pilot-number">05</span><span class="pilot-status pilot-status--negative">极高波动</span></div>
+              <h3>Terra / LUNA 崩盘</h3><p>2022.05 · 加密</p>
+              <dl><div><dt>难度</dt><dd>专家</dd></div><div><dt>策略</dt><dd>风险管理</dd></div><div><dt>时长</dt><dd>2 周</dd></div></dl>
+            </li>
+            <li class="event-card" tabindex="0">
+              <div class="event-card__top"><span class="pilot-number">06</span><span class="pilot-status pilot-status--negative">极高波动</span></div>
+              <h3>FTX 崩盘</h3><p>2022.11 · 加密</p>
+              <dl><div><dt>难度</dt><dd>专家</dd></div><div><dt>策略</dt><dd>危机管理</dd></div><div><dt>时长</dt><dd>2 周</dd></div></dl>
+            </li>
+          </ol>
+        </section>
+
+        <aside class="event-detail" aria-labelledby="event-detail-title">
+          <header><div><p class="pilot-label">SELECTED SCENARIO</p><h2 id="event-detail-title">1987 黑色星期一</h2></div><span class="pilot-status pilot-status--negative">EXPERT</span></header>
+          <div class="event-detail__quote"><strong class="pilot-number">−22.6%</strong><span>单日跌幅</span></div>
+          <figure>
+            <svg viewBox="0 0 520 220" role="img" aria-labelledby="event-chart-title event-chart-desc">
+              <title id="event-chart-title">1987 黑色星期一市场走势</title><desc id="event-chart-desc">市场缓慢下行后出现极端单日暴跌，随后小幅修复。</desc>
+              <g aria-hidden="true"><line x1="0" y1="36" x2="520" y2="36"/><line x1="0" y1="96" x2="520" y2="96"/><line x1="0" y1="156" x2="520" y2="156"/><line x1="0" y1="216" x2="520" y2="216"/></g>
+              <path d="M0 46 L32 52 L64 49 L96 61 L128 58 L160 73 L192 78 L224 88 L256 94 L288 109 L320 116 L352 132 L384 139 L412 154 L438 202 L462 187 L486 196 L520 176"/>
+            </svg>
+            <figcaption><span>09.17</span><span>10.19</span><span>10.26</span></figcaption>
+          </figure>
+          <dl class="event-detail__facts"><div><dt>波动</dt><dd>极高</dd></div><div><dt>推荐策略</dt><dd>风险管理</dd></div><div><dt>模拟时长</dt><dd>1 天</dd></div></dl>
+          <section class="event-detail__learning"><h3>训练目标</h3><ul><li>识别流动性枯竭</li><li>评估系统性风险敞口</li><li>在极端波动中保持纪律</li></ul></section>
+          <div class="event-detail__footer"><p>推荐战队：防御者 / 战术家</p><button class="pilot-button pilot-button--primary" type="button">进入模拟</button></div>
+        </aside>
+      </div>
+    </main>
+  </body>
+</html>

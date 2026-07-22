@@ -1,0 +1,176 @@
+:root {
+  color-scheme: dark;
+
+  --bg: #050706;
+  --surface: rgba(9, 12, 12, 0.78);
+  --surface-strong: rgba(8, 10, 10, 0.96);
+  --line: rgba(224, 232, 218, 0.14);
+  --text: #f2f5ec;
+  --muted: rgba(242, 245, 236, 0.68);
+  --faint: rgba(242, 245, 236, 0.38);
+  --acid: #b7ee5b;
+  --acid-rgb: 183 238 91;
+  --violet: #8c6fb0;
+  --violet-strong: #a488d0;
+  --violet-soft: #c8b6e4;
+  --violet-rgb: 140 111 176;
+  --cyan: #6de3d3;
+  --cyan-rgb: 109 227 211;
+  --ember: #eab56c;
+  --rose: #e6789e;
+  --ink: #080909;
+  --max: 1180px;
+  --ease-heavy: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --role-macro-rgb: 183 238 91;
+  --role-structure-rgb: 109 227 211;
+  --role-catalyst-rgb: 230 120 158;
+  --role-quant-rgb: 140 111 176;
+  --role-execution-rgb: 234 181 108;
+
+  --rarity-core-rgb: 205 213 210;
+  --rarity-rare-rgb: 88 244 221;
+  --rarity-epic-rgb: 164 136 208;
+  --rarity-legendary-rgb: 255 180 79;
+  --rarity-experimental-rgb: 255 111 159;
+}
+
+@font-face {
+  font-family: "Chakra Petch Local";
+  src: url("../assets/fonts/ChakraPetch-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Chakra Petch Local";
+  src: url("../assets/fonts/ChakraPetch-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Chakra Petch Local";
+  src: url("../assets/fonts/ChakraPetch-SemiBold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Chakra Petch Local";
+  src: url("../assets/fonts/ChakraPetch-Bold.ttf") format("truetype");
+  font-weight: 840;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Merkur";
+  src: url("../assets/fonts/Merkur-j147.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+.qell-app-surface {
+  min-height: 100svh;
+  background:
+    radial-gradient(circle at 18% 8%, rgb(var(--cyan-rgb) / 0.07), transparent 34%),
+    radial-gradient(circle at 80% 18%, rgb(var(--violet-rgb) / 0.06), transparent 34%),
+    linear-gradient(180deg, rgba(8, 12, 11, 0.9), rgba(4, 7, 6, 0.91) 70%, rgba(2, 3, 3, 0.97));
+  color: var(--text);
+  font-family: "Chakra Petch Local", Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+.qell-panel {
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(244, 245, 238, 0.05), rgba(244, 245, 238, 0.016)),
+    var(--surface);
+  box-shadow:
+    inset 0 1px 0 rgba(244, 245, 238, 0.08),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.32),
+    0 22px 64px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(16px);
+}
+
+.qell-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid rgba(244, 245, 238, 0.1);
+  padding: 16px 18px;
+}
+
+.qell-micro-label {
+  color: var(--acid);
+  font-size: 10px;
+  font-weight: 820;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.qell-button-primary {
+  border: 1px solid rgb(var(--acid-rgb) / 0.72);
+  background: var(--acid);
+  color: #050706;
+  cursor: pointer;
+  font-family: "Chakra Petch Local", Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 840;
+  letter-spacing: 0.14em;
+  padding: 14px 20px;
+  text-transform: uppercase;
+  transition:
+    transform 160ms var(--ease-heavy),
+    filter 160ms ease,
+    border-color 160ms ease;
+}
+
+.qell-button-primary:hover,
+.qell-button-primary:focus-visible {
+  filter: brightness(1.08);
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.qell-button-secondary {
+  border: 1px solid rgba(244, 245, 238, 0.18);
+  background: rgba(6, 8, 8, 0.72);
+  color: var(--text);
+  cursor: pointer;
+  font-family: "Chakra Petch Local", Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 760;
+  letter-spacing: 0.14em;
+  padding: 13px 18px;
+  text-transform: uppercase;
+  transition:
+    color 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+.qell-button-secondary:hover,
+.qell-button-secondary:focus-visible {
+  border-color: rgb(var(--cyan-rgb) / 0.48);
+  color: var(--cyan);
+  outline: none;
+}
+
+@keyframes qell-breathe {
+  0%, 100% {
+    opacity: 0.52;
+    filter: brightness(0.8);
+    box-shadow: 0 0 6px rgb(var(--acid-rgb) / 0.12);
+  }
+  50% {
+    opacity: 1;
+    filter: brightness(1.35);
+    box-shadow: 0 0 22px rgb(var(--acid-rgb) / 0.44);
+  }
+}

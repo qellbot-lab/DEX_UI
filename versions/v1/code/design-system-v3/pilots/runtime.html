@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="QELL 中文版模拟盘运行页设计试点：观察 Agent 团队的交易动作、因子技能与执行状态。"
+    />
+    <title>QELL — 实时交易模拟</title>
+    <link
+      rel="icon"
+      href="../../../QELL_Frontend_Art_Pack/QELL_Frontend_Art_Pack/assets/logos/qell-logo.svg"
+    />
+    <link rel="stylesheet" href="./pilot-shared.css" />
+    <link rel="stylesheet" href="./runtime.css" />
+  </head>
+  <body>
+    <header class="pilot-nav">
+      <div class="pilot-nav__inner pilot-shell">
+        <a class="pilot-nav__brand" href="#main" aria-label="QELL 首页">
+          <img
+            src="../../../QELL_Frontend_Art_Pack/QELL_Frontend_Art_Pack/assets/logos/qell-logo.svg"
+            alt="QELL"
+          />
+        </a>
+        <nav class="pilot-nav__links" aria-label="主导航">
+          <a class="pilot-nav__link" href="#agents">智能体</a>
+          <a class="pilot-nav__link" href="#team">战队</a>
+          <a class="pilot-nav__link" href="#simulations" aria-current="page">模拟</a>
+          <a class="pilot-nav__link" href="#ranking">排行榜</a>
+          <a class="pilot-nav__link" href="#rewards">奖励</a>
+        </nav>
+        <div class="pilot-nav__action">
+          <button class="pilot-button pilot-button--secondary" type="button">连接钱包</button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" class="runtime pilot-shell">
+      <header class="runtime-context">
+        <div class="runtime-context__title">
+          <span class="pilot-status pilot-status--live">LIVE SIMULATION</span>
+          <h1>实时交易模拟</h1>
+        </div>
+        <dl class="runtime-context__facts">
+          <div>
+            <dt>历史事件</dt>
+            <dd>1987 黑色星期一</dd>
+          </div>
+          <div>
+            <dt>市场阶段</dt>
+            <dd>后期下跌</dd>
+          </div>
+          <div>
+            <dt>剩余时间</dt>
+            <dd class="pilot-number">00:18:47</dd>
+          </div>
+          <div class="runtime-context__pnl">
+            <dt>总收益</dt>
+            <dd class="pilot-number">+148.7%</dd>
+          </div>
+        </dl>
+        <div class="runtime-context__actions">
+          <button class="pilot-button pilot-button--secondary" type="button">调整战队</button>
+          <button class="pilot-button pilot-button--primary" type="button">暂停模拟</button>
+        </div>
+      </header>
+
+      <div class="runtime-board">
+        <section class="runtime-market" aria-labelledby="market-title">
+          <header class="runtime-pane-header">
+            <div>
+              <p class="pilot-label">MARKET CONTEXT</p>
+              <h2 class="pilot-section-heading" id="market-title">道琼斯工业指数</h2>
+            </div>
+            <span class="pilot-status pilot-status--data">SYNCED</span>
+          </header>
+
+          <div class="runtime-market__quote">
+            <strong class="pilot-number">1,738.42</strong>
+            <span class="pilot-number">−22.6%</span>
+          </div>
+
+          <figure class="runtime-chart">
+            <svg viewBox="0 0 520 270" role="img" aria-labelledby="chart-title chart-desc">
+              <title id="chart-title">1987 黑色星期一模拟价格走势</title>
+              <desc id="chart-desc">价格先震荡，随后快速下跌，末段小幅修复。</desc>
+              <g class="runtime-chart__grid" aria-hidden="true">
+                <line x1="0" y1="36" x2="520" y2="36" />
+                <line x1="0" y1="102" x2="520" y2="102" />
+                <line x1="0" y1="168" x2="520" y2="168" />
+                <line x1="0" y1="234" x2="520" y2="234" />
+              </g>
+              <path
+                class="runtime-chart__path"
+                d="M0 54 L28 62 L52 48 L78 66 L102 58 L128 74 L150 70 L174 91 L202 82 L226 106 L248 99 L270 128 L290 118 L310 154 L328 144 L348 192 L364 178 L382 224 L398 246 L414 226 L432 238 L452 212 L474 219 L494 198 L520 204"
+              />
+              <line class="runtime-chart__cursor" x1="382" y1="20" x2="382" y2="248" />
+              <rect class="runtime-chart__signal runtime-chart__signal--risk" x="374" y="217" width="16" height="16" />
+              <rect class="runtime-chart__signal runtime-chart__signal--active" x="466" y="211" width="16" height="16" />
+            </svg>
+            <figcaption>
+              <span><i class="runtime-chart__legend runtime-chart__legend--risk"></i>风险触发</span>
+              <span><i class="runtime-chart__legend runtime-chart__legend--active"></i>重新建仓</span>
+            </figcaption>
+          </figure>
+
+          <div class="runtime-market__events">
+            <span class="pilot-number">14:06</span>
+            <p><strong>流动性急剧收缩</strong><small>卖盘深度降至基准的 38%</small></p>
+            <span class="pilot-status pilot-status--negative">CRITICAL</span>
+          </div>
+        </section>
+
+        <section class="runtime-team" id="team" aria-labelledby="team-title">
+          <header class="runtime-pane-header">
+            <div>
+              <p class="pilot-label">TEAM STATE</p>
+              <h2 class="pilot-section-heading" id="team-title">Alpha Team</h2>
+            </div>
+            <span class="pilot-status pilot-status--live">3 / 3 ACTIVE</span>
+          </header>
+
+          <div class="runtime-core" aria-label="战队同步率 92%">
+            <span>TEAM SYNC</span>
+            <strong class="pilot-number">92%</strong>
+            <p>防御模式 · 有序减仓</p>
+          </div>
+
+          <ul class="runtime-agent-list" aria-label="战队成员">
+            <li>
+              <span class="runtime-agent-list__plate agent-plate agent-plate--compact agent-plate--data"><b class="agent-plate__code">NAR-01</b><small class="agent-plate__role">情绪</small></span>
+              <span class="runtime-agent-list__identity">
+                <strong>情绪智者</strong>
+                <small>市场情绪 / 新闻强度</small>
+              </span>
+              <span class="runtime-agent-list__state">HOLD</span>
+            </li>
+            <li>
+              <span class="runtime-agent-list__plate agent-plate agent-plate--compact agent-plate--active"><b class="agent-plate__code">MOM-02</b><small class="agent-plate__role">结构</small></span>
+              <span class="runtime-agent-list__identity">
+                <strong>模式预言家</strong>
+                <small>价格结构 / 动量确认</small>
+              </span>
+              <span class="runtime-agent-list__state runtime-agent-list__state--active">BUY</span>
+            </li>
+            <li>
+              <span class="runtime-agent-list__plate agent-plate agent-plate--compact agent-plate--warning"><b class="agent-plate__code">RSK-03</b><small class="agent-plate__role">风险</small></span>
+              <span class="runtime-agent-list__identity">
+                <strong>风险守护者</strong>
+                <small>波动率 / 风险预算</small>
+              </span>
+              <span class="runtime-agent-list__state runtime-agent-list__state--warning">HEDGE</span>
+            </li>
+          </ul>
+
+          <div class="runtime-exposure">
+            <div class="runtime-exposure__label">
+              <span>净多头敞口</span>
+              <strong class="pilot-number">62%</strong>
+            </div>
+            <div class="runtime-exposure__track" aria-hidden="true">
+              <span></span>
+            </div>
+          </div>
+        </section>
+
+        <aside class="runtime-tape" aria-labelledby="tape-title">
+          <header class="runtime-pane-header">
+            <div>
+              <p class="pilot-label">SESSION TAPE</p>
+              <h2 class="pilot-section-heading" id="tape-title">Agent 操作摘要</h2>
+            </div>
+            <span class="pilot-number runtime-tape__count">04</span>
+          </header>
+
+          <ol class="runtime-tape-list">
+            <li>
+              <time class="pilot-number" datetime="14:06">14:06</time>
+              <div class="runtime-tape-list__body">
+                <header><strong>风险守护者</strong><span class="runtime-action runtime-action--warning">HEDGE</span></header>
+                <p>波动突破风控阈值，收缩方向性风险。</p>
+                <div><span>Skill · 波动率</span><span>Subagent · Risk Sentinel</span></div>
+              </div>
+            </li>
+            <li>
+              <time class="pilot-number" datetime="14:03">14:03</time>
+              <div class="runtime-tape-list__body">
+                <header><strong>情绪智者</strong><span class="runtime-action">REDUCE</span></header>
+                <p>恐慌情绪仍在扩散，保留现金等待确认。</p>
+                <div><span>Skill · 市场情绪</span><span>Subagent · Macro Scanner</span></div>
+              </div>
+            </li>
+            <li>
+              <time class="pilot-number" datetime="13:58">13:58</time>
+              <div class="runtime-tape-list__body">
+                <header><strong>模式预言家</strong><span class="runtime-action runtime-action--active">BUY</span></header>
+                <p>成交结构出现修复，建立小规模试探仓位。</p>
+                <div><span>Skill · 动量确认</span><span>Subagent · Execution Router</span></div>
+              </div>
+            </li>
+            <li>
+              <time class="pilot-number" datetime="13:51">13:51</time>
+              <div class="runtime-tape-list__body">
+                <header><strong>Team Core</strong><span class="runtime-action">HOLD</span></header>
+                <p>三方信号尚未收敛，维持现有风险预算。</p>
+                <div><span>Skill · 流动性</span><span>Subagent · Consensus Gate</span></div>
+              </div>
+            </li>
+          </ol>
+        </aside>
+      </div>
+
+      <footer class="runtime-footer">
+        <dl>
+          <div><dt>当前仓位</dt><dd class="pilot-number">62%</dd></div>
+          <div><dt>风险预算</dt><dd class="runtime-footer__warning">偏高</dd></div>
+          <div><dt>Team Sync</dt><dd class="pilot-number">92%</dd></div>
+          <div><dt>执行状态</dt><dd class="runtime-footer__data">已同步</dd></div>
+          <div><dt>下次校验</dt><dd class="pilot-number">00:42</dd></div>
+        </dl>
+        <p>仅供模拟 · 不构成投资建议</p>
+      </footer>
+    </main>
+  </body>
+</html>

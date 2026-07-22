@@ -1,0 +1,157 @@
+- generic [active] [ref=f2e1]:
+  - banner [ref=f2e2]:
+    - generic [ref=f2e3]:
+      - link "QELL 首页" [ref=f2e4] [cursor=pointer]:
+        - /url: "#main"
+        - img "QELL" [ref=f2e5]
+      - navigation "主导航" [ref=f2e6]:
+        - link "智能体" [ref=f2e7] [cursor=pointer]:
+          - /url: "#agents"
+        - link "战队" [ref=f2e8] [cursor=pointer]:
+          - /url: "#team"
+        - link "模拟" [ref=f2e9] [cursor=pointer]:
+          - /url: "#simulations"
+        - link "排行榜" [ref=f2e10] [cursor=pointer]:
+          - /url: "#ranking"
+        - link "奖励" [ref=f2e11] [cursor=pointer]:
+          - /url: "#rewards"
+      - button "连接钱包" [ref=f2e13] [cursor=pointer]
+  - main [ref=f2e14]:
+    - generic [ref=f2e15]:
+      - generic [ref=f2e16]:
+        - generic [ref=f2e17]: LIVE SIMULATION
+        - heading "实时交易模拟" [level=1] [ref=f2e18]
+      - generic [ref=f2e19]:
+        - generic [ref=f2e20]:
+          - term [ref=f2e21]: 历史事件
+          - definition [ref=f2e22]: 1987 黑色星期一
+        - generic [ref=f2e23]:
+          - term [ref=f2e24]: 市场阶段
+          - definition [ref=f2e25]: 后期下跌
+        - generic [ref=f2e26]:
+          - term [ref=f2e27]: 剩余时间
+          - definition [ref=f2e28]: 00:18:47
+        - generic [ref=f2e29]:
+          - term [ref=f2e30]: 总收益
+          - definition [ref=f2e31]: +148.7%
+      - generic [ref=f2e32]:
+        - button "调整战队" [ref=f2e33] [cursor=pointer]
+        - button "暂停模拟" [ref=f2e34] [cursor=pointer]
+    - generic [ref=f2e35]:
+      - region [ref=f2e36]:
+        - generic [ref=f2e37]:
+          - generic [ref=f2e38]:
+            - paragraph [ref=f2e39]: MARKET CONTEXT
+            - heading "道琼斯工业指数" [level=2] [ref=f2e40]
+          - generic [ref=f2e41]: SYNCED
+        - generic [ref=f2e42]:
+          - strong [ref=f2e43]: 1,738.42
+          - generic [ref=f2e44]: −22.6%
+        - figure [ref=f2e45]:
+          - img "1987 黑色星期一模拟价格走势 价格先震荡，随后快速下跌，末段小幅修复。" [ref=f2e46]
+          - generic [ref=f2e51]:
+            - generic [ref=f2e52]: 风险触发
+            - generic [ref=f2e54]: 重新建仓
+        - generic [ref=f2e56]:
+          - generic [ref=f2e57]: 14:06
+          - paragraph [ref=f2e58]:
+            - strong [ref=f2e59]: 流动性急剧收缩
+            - generic [ref=f2e60]: 卖盘深度降至基准的 38%
+          - generic [ref=f2e61]: CRITICAL
+      - region [ref=f2e62]:
+        - generic [ref=f2e63]:
+          - generic [ref=f2e64]:
+            - paragraph [ref=f2e65]: TEAM STATE
+            - heading "Alpha Team" [level=2] [ref=f2e66]
+          - generic [ref=f2e67]: 3 / 3 ACTIVE
+        - generic "战队同步率 92%" [ref=f2e68]:
+          - text: TEAM SYNC
+          - strong [ref=f2e69]: 92%
+          - paragraph [ref=f2e70]: 防御模式 · 有序减仓
+        - list "战队成员" [ref=f2e71]:
+          - listitem [ref=f2e72]:
+            - generic [ref=f2e73]: 情
+            - generic [ref=f2e74]:
+              - strong [ref=f2e75]: 情绪智者
+              - generic [ref=f2e76]: 市场情绪 / 新闻强度
+            - generic [ref=f2e77]: HOLD
+          - listitem [ref=f2e78]:
+            - generic [ref=f2e79]: 模
+            - generic [ref=f2e80]:
+              - strong [ref=f2e81]: 模式预言家
+              - generic [ref=f2e82]: 价格结构 / 动量确认
+            - generic [ref=f2e83]: BUY
+          - listitem [ref=f2e84]:
+            - generic [ref=f2e85]: 险
+            - generic [ref=f2e86]:
+              - strong [ref=f2e87]: 风险守护者
+              - generic [ref=f2e88]: 波动率 / 风险预算
+            - generic [ref=f2e89]: HEDGE
+        - generic [ref=f2e91]:
+          - generic [ref=f2e92]: 净多头敞口
+          - strong [ref=f2e93]: 62%
+      - complementary [ref=f2e96]:
+        - generic [ref=f2e97]:
+          - generic [ref=f2e98]:
+            - paragraph [ref=f2e99]: SESSION TAPE
+            - heading "Agent 操作摘要" [level=2] [ref=f2e100]
+          - generic [ref=f2e101]: "04"
+        - list [ref=f2e102]:
+          - listitem [ref=f2e103]:
+            - time [ref=f2e104]: 14:06
+            - generic [ref=f2e105]:
+              - generic [ref=f2e106]:
+                - strong [ref=f2e107]: 风险守护者
+                - generic [ref=f2e108]: HEDGE
+              - paragraph [ref=f2e109]: 波动突破风控阈值，收缩方向性风险。
+              - generic [ref=f2e110]:
+                - generic [ref=f2e111]: Skill · 波动率
+                - generic [ref=f2e112]: Subagent · Risk Sentinel
+          - listitem [ref=f2e113]:
+            - time [ref=f2e114]: 14:03
+            - generic [ref=f2e115]:
+              - generic [ref=f2e116]:
+                - strong [ref=f2e117]: 情绪智者
+                - generic [ref=f2e118]: REDUCE
+              - paragraph [ref=f2e119]: 恐慌情绪仍在扩散，保留现金等待确认。
+              - generic [ref=f2e120]:
+                - generic [ref=f2e121]: Skill · 市场情绪
+                - generic [ref=f2e122]: Subagent · Macro Scanner
+          - listitem [ref=f2e123]:
+            - time [ref=f2e124]: 13:58
+            - generic [ref=f2e125]:
+              - generic [ref=f2e126]:
+                - strong [ref=f2e127]: 模式预言家
+                - generic [ref=f2e128]: BUY
+              - paragraph [ref=f2e129]: 成交结构出现修复，建立小规模试探仓位。
+              - generic [ref=f2e130]:
+                - generic [ref=f2e131]: Skill · 动量确认
+                - generic [ref=f2e132]: Subagent · Execution Router
+          - listitem [ref=f2e133]:
+            - time [ref=f2e134]: 13:51
+            - generic [ref=f2e135]:
+              - generic [ref=f2e136]:
+                - strong [ref=f2e137]: Team Core
+                - generic [ref=f2e138]: HOLD
+              - paragraph [ref=f2e139]: 三方信号尚未收敛，维持现有风险预算。
+              - generic [ref=f2e140]:
+                - generic [ref=f2e141]: Skill · 流动性
+                - generic [ref=f2e142]: Subagent · Consensus Gate
+    - generic [ref=f2e143]:
+      - generic [ref=f2e144]:
+        - generic [ref=f2e145]:
+          - term [ref=f2e146]: 当前仓位
+          - definition [ref=f2e147]: 62%
+        - generic [ref=f2e148]:
+          - term [ref=f2e149]: 风险预算
+          - definition [ref=f2e150]: 偏高
+        - generic [ref=f2e151]:
+          - term [ref=f2e152]: Team Sync
+          - definition [ref=f2e153]: 92%
+        - generic [ref=f2e154]:
+          - term [ref=f2e155]: 执行状态
+          - definition [ref=f2e156]: 已同步
+        - generic [ref=f2e157]:
+          - term [ref=f2e158]: 下次校验
+          - definition [ref=f2e159]: 00:42
+      - paragraph [ref=f2e160]: 仅供模拟 · 不构成投资建议

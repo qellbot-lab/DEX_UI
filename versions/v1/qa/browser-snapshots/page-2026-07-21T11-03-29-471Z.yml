@@ -1,0 +1,219 @@
+- generic [active] [ref=f13e1]:
+  - banner [ref=f13e2]:
+    - generic [ref=f13e3]:
+      - link "QELL 首页" [ref=f13e4] [cursor=pointer]:
+        - /url: ./home.html
+        - img "QELL" [ref=f13e5]
+      - navigation "主导航" [ref=f13e6]:
+        - link "智能体" [ref=f13e7] [cursor=pointer]:
+          - /url: "#market"
+        - link "战队" [ref=f13e8] [cursor=pointer]:
+          - /url: ./team.html
+        - link "模拟" [ref=f13e9] [cursor=pointer]:
+          - /url: ./events.html
+        - link "排行榜" [ref=f13e10] [cursor=pointer]:
+          - /url: ./leaderboard.html
+        - link "奖励" [ref=f13e11] [cursor=pointer]:
+          - /url: "#rewards"
+      - button "连接钱包" [ref=f13e13] [cursor=pointer]
+  - main [ref=f13e14]:
+    - region [ref=f13e15]:
+      - generic [ref=f13e16]:
+        - generic [ref=f13e17]:
+          - paragraph [ref=f13e18]: AGENT MARKETPLACE / 14 MODELS
+          - heading "发现并招募 AI 交易智能体" [level=1] [ref=f13e19]: 发现并招募AI 交易智能体
+        - generic [ref=f13e20]:
+          - generic [ref=f13e21]:
+            - generic [ref=f13e22]: 搜索智能体
+            - searchbox "搜索智能体" [ref=f13e23]
+          - button "按热度排序" [ref=f13e24] [cursor=pointer]
+      - generic [ref=f13e25]:
+        - region [ref=f13e26]:
+          - generic [ref=f13e27]:
+            - heading "热门智能体" [level=2] [ref=f13e28]
+            - generic "策略筛选" [ref=f13e29]:
+              - button "全部" [ref=f13e30] [cursor=pointer]
+              - button "价值" [ref=f13e31] [cursor=pointer]
+              - button "宏观" [ref=f13e32] [cursor=pointer]
+              - button "动量" [ref=f13e33] [cursor=pointer]
+              - button "叙事" [ref=f13e34] [cursor=pointer]
+          - list [ref=f13e35]:
+            - listitem [ref=f13e36] [cursor=pointer]:
+              - generic [ref=f13e37]: "01"
+              - generic [ref=f13e38]: 巴
+              - generic [ref=f13e39]:
+                - generic [ref=f13e40]: 价值策略专家
+                - heading "沃伦·巴菲特" [level=3] [ref=f13e41]
+                - paragraph [ref=f13e42]: 美股 · 低风险 · 长期价值
+                - generic [ref=f13e43]:
+                  - generic [ref=f13e44]: 胜率 80%+
+                  - generic [ref=f13e45]: "热度 #1"
+              - button "已选择" [ref=f13e46]
+            - listitem [ref=f13e47] [cursor=pointer]:
+              - generic [ref=f13e48]: "02"
+              - generic [ref=f13e49]: 孙
+              - generic [ref=f13e50]:
+                - generic [ref=f13e51]: 叙事驱动
+                - heading "孙宇晨" [level=3] [ref=f13e52]
+                - paragraph [ref=f13e53]: 加密 · 高风险 · 催化捕捉
+                - generic [ref=f13e54]:
+                  - generic [ref=f13e55]: 胜率 60–80%
+                  - generic [ref=f13e56]: "热度 #2"
+              - button "已选择" [ref=f13e57]
+            - listitem [ref=f13e58] [cursor=pointer]:
+              - generic [ref=f13e59]: "03"
+              - generic [ref=f13e60]: 特
+              - generic [ref=f13e61]:
+                - generic [ref=f13e62]: 宏观情绪
+                - heading "唐纳德·特朗普" [level=3] [ref=f13e63]
+                - paragraph [ref=f13e64]: 美股 · 高风险 · 事件交易
+                - generic [ref=f13e65]:
+                  - generic [ref=f13e66]: 胜率 60–80%
+                  - generic [ref=f13e67]: "热度 #3"
+              - button "加入" [ref=f13e68]
+            - listitem [ref=f13e69] [cursor=pointer]:
+              - generic [ref=f13e70]: "04"
+              - generic [ref=f13e71]: 马
+              - generic [ref=f13e72]:
+                - generic [ref=f13e73]: 创新产业
+                - heading "埃隆·马斯克" [level=3] [ref=f13e74]
+                - paragraph [ref=f13e75]: 美股 · 高风险 · 创新驱动
+                - generic [ref=f13e76]:
+                  - generic [ref=f13e77]: 胜率 60–80%
+                  - generic [ref=f13e78]: "热度 #4"
+              - button "加入" [ref=f13e79]
+            - listitem [ref=f13e80] [cursor=pointer]:
+              - generic [ref=f13e81]: "05"
+              - generic [ref=f13e82]: 达
+              - generic [ref=f13e83]:
+                - generic [ref=f13e84]: 宏观配置
+                - heading "瑞·达利欧" [level=3] [ref=f13e85]
+                - paragraph [ref=f13e86]: 混合市场 · 中风险 · 周期配置
+                - generic [ref=f13e87]:
+                  - generic [ref=f13e88]: 胜率 60–80%
+                  - generic [ref=f13e89]: "热度 #5"
+              - button "加入" [ref=f13e90]
+            - listitem [ref=f13e91] [cursor=pointer]:
+              - generic [ref=f13e92]: "06"
+              - generic [ref=f13e93]: 伍
+              - generic [ref=f13e94]:
+                - generic [ref=f13e95]: 成长投资
+                - heading "凯茜·伍德" [level=3] [ref=f13e96]
+                - paragraph [ref=f13e97]: 美股 · 高风险 · 创新成长
+                - generic [ref=f13e98]:
+                  - generic [ref=f13e99]: 胜率 60–80%
+                  - generic [ref=f13e100]: "热度 #6"
+              - button "加入" [ref=f13e101]
+        - complementary [ref=f13e102]:
+          - generic [ref=f13e103]:
+            - generic [ref=f13e104]:
+              - paragraph [ref=f13e105]: CURRENT TEAM
+              - heading "当前战队" [level=2] [ref=f13e106]
+            - generic [ref=f13e107]: 3 / 3
+          - list [ref=f13e108]:
+            - listitem [ref=f13e109]:
+              - generic [ref=f13e110]: "01"
+              - generic [ref=f13e111]:
+                - strong [ref=f13e112]: 沃伦·巴菲特
+                - generic [ref=f13e113]: 队长 · 价值
+              - emphasis [ref=f13e114]: 80%+
+            - listitem [ref=f13e115]:
+              - generic [ref=f13e116]: "02"
+              - generic [ref=f13e117]:
+                - strong [ref=f13e118]: 孙宇晨
+                - generic [ref=f13e119]: 叙事交易
+              - emphasis [ref=f13e120]: 60–80%
+            - listitem [ref=f13e121]:
+              - generic [ref=f13e122]: "03"
+              - generic [ref=f13e123]:
+                - strong [ref=f13e124]: 迈克尔·塞勒
+                - generic [ref=f13e125]: 加密信仰者
+              - emphasis [ref=f13e126]: <40%
+          - generic [ref=f13e127]:
+            - generic [ref=f13e128]:
+              - term [ref=f13e129]: 预计战队胜率
+              - definition [ref=f13e130]: 72%
+            - generic [ref=f13e131]:
+              - term [ref=f13e132]: 风格覆盖
+              - definition [ref=f13e133]: 3 / 5
+            - generic [ref=f13e134]:
+              - term [ref=f13e135]: 主要风险
+              - definition [ref=f13e136]: 方向集中
+          - button "继续进入模拟" [ref=f13e137] [cursor=pointer]
+          - link "检查选中智能体 ↓" [ref=f13e138] [cursor=pointer]:
+            - /url: "#inspect"
+    - region [ref=f13e139]:
+      - generic [ref=f13e140]:
+        - generic [ref=f13e141]:
+          - paragraph [ref=f13e142]: AGENT INSPECTION / SELECTED
+          - heading "沃伦·巴菲特" [level=2] [ref=f13e143]
+        - generic [ref=f13e144]:
+          - generic [ref=f13e145]: TEAM SLOT 01
+          - generic [ref=f13e146]: 02 / 02
+      - generic [ref=f13e147]:
+        - article [ref=f13e148]:
+          - paragraph [ref=f13e149]: VALUE STRATEGIST
+          - strong [ref=f13e150]: 价值
+          - paragraph [ref=f13e151]: 专注于具备稳固护城河、强劲现金流和合理估值的优质公司。
+          - generic [ref=f13e152]:
+            - generic [ref=f13e153]:
+              - term [ref=f13e154]: 最佳市场
+              - definition [ref=f13e155]: 美股
+            - generic [ref=f13e156]:
+              - term [ref=f13e157]: 风险等级
+              - definition [ref=f13e158]: 低
+            - generic [ref=f13e159]:
+              - term [ref=f13e160]: 胜率档位
+              - definition [ref=f13e161]: 80%+
+        - region [ref=f13e162]:
+          - generic [ref=f13e163]:
+            - heading "策略能力" [level=3] [ref=f13e164]
+            - generic [ref=f13e165]: FACTOR SKILLS
+          - generic [ref=f13e166]:
+            - generic [ref=f13e167]:
+              - term [ref=f13e168]: 盈利能力
+              - definition [ref=f13e169]
+              - emphasis [ref=f13e171]: "94"
+            - generic [ref=f13e172]:
+              - term [ref=f13e173]: 内在价值
+              - definition [ref=f13e174]
+              - emphasis [ref=f13e176]: "92"
+            - generic [ref=f13e177]:
+              - term [ref=f13e178]: 护城河
+              - definition [ref=f13e179]
+              - emphasis [ref=f13e181]: "90"
+            - generic [ref=f13e182]:
+              - term [ref=f13e183]: 资产负债表
+              - definition [ref=f13e184]
+              - emphasis [ref=f13e186]: "88"
+            - generic [ref=f13e187]:
+              - term [ref=f13e188]: 估值纪律
+              - definition [ref=f13e189]
+              - emphasis [ref=f13e191]: "86"
+        - complementary [ref=f13e192]:
+          - generic [ref=f13e193]:
+            - heading "战队兼容性" [level=3] [ref=f13e194]
+            - strong [ref=f13e195]: "92"
+          - generic [ref=f13e196]:
+            - generic [ref=f13e197]:
+              - term [ref=f13e198]: 推荐槽位
+              - definition [ref=f13e199]: 结构 / 队长
+            - generic [ref=f13e200]:
+              - term [ref=f13e201]: 协同对象
+              - definition [ref=f13e202]: 叙事、动量
+            - generic [ref=f13e203]:
+              - term [ref=f13e204]: 冲突对象
+              - definition [ref=f13e205]: 高频激进
+            - generic [ref=f13e206]:
+              - term [ref=f13e207]: 适配环境
+              - definition [ref=f13e208]: 低估市场
+          - paragraph [ref=f13e209]:
+            - generic [ref=f13e210]: WATCH
+            - text: 牛市后期可能错过高估值成长行情。
+      - generic [ref=f13e211]:
+        - generic [ref=f13e212]:
+          - generic [ref=f13e213]: 相似智能体
+          - strong [ref=f13e214]: 瑞·达利欧
+          - strong [ref=f13e215]: 乔治·索罗斯
+          - strong [ref=f13e216]: 比尔·阿克曼
+        - button "加入战队" [ref=f13e217] [cursor=pointer]

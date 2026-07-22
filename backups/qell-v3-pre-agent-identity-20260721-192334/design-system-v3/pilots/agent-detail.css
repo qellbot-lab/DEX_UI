@@ -1,0 +1,556 @@
+.agent-detail-nav {
+  position: sticky;
+  top: 0;
+}
+
+.agent-screen {
+  min-height: calc(100vh - var(--layout-nav-height));
+  scroll-margin-top: var(--layout-nav-height);
+}
+
+.agent-screen__topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 4.5rem;
+  border-bottom: var(--border-thin) solid var(--color-border-strong);
+  color: var(--color-text-tertiary);
+  font-size: var(--text-body-sm);
+  line-height: var(--leading-body-sm);
+}
+
+.agent-screen__topline a {
+  transition: color var(--duration-instant) ease;
+}
+
+.agent-screen__topline a:hover {
+  color: var(--color-text-primary);
+}
+
+.agent-overview__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.35fr) minmax(18rem, 0.78fr);
+  min-height: calc(100vh - 13.5rem);
+  border-bottom: var(--border-thin) solid var(--color-border-strong);
+}
+
+.agent-identity,
+.agent-performance,
+.agent-team-fit {
+  min-width: 0;
+  padding: var(--space-xl);
+  border-right: var(--border-thin) solid var(--color-border-subtle);
+}
+
+.agent-identity {
+  position: relative;
+  padding-left: 0;
+  overflow: hidden;
+}
+
+.agent-team-fit {
+  padding-right: 0;
+  border-right: 0;
+}
+
+.agent-identity h1 {
+  margin: var(--space-md) 0 0;
+  font-size: clamp(4.75rem, 6.2vw, 6.75rem);
+  font-weight: 500;
+  letter-spacing: -0.07em;
+  line-height: 0.94;
+}
+
+.agent-identity__role {
+  margin: var(--space-md) 0 0;
+  color: var(--color-action-primary);
+  font-size: var(--text-title-sm);
+  font-weight: 600;
+  line-height: var(--leading-title-sm);
+}
+
+.agent-identity__summary {
+  max-width: 31rem;
+  margin: var(--space-sm) 0 0;
+  color: var(--color-text-secondary);
+  font-size: var(--text-body-md);
+  line-height: var(--leading-body-md);
+}
+
+.agent-identity__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  margin-top: var(--space-lg);
+}
+
+.agent-identity__tags span {
+  padding: 0.5rem 0.625rem;
+  border: var(--border-thin) solid var(--color-border-strong);
+  color: var(--color-text-secondary);
+  font-size: var(--text-label-xs);
+  line-height: var(--leading-label-xs);
+}
+
+.agent-identity__metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: var(--space-xl) 0 0;
+  border-top: var(--border-thin) solid var(--color-border-subtle);
+  border-bottom: var(--border-thin) solid var(--color-border-subtle);
+}
+
+.agent-identity__metrics div {
+  padding: var(--space-sm) var(--space-sm) var(--space-sm) 0;
+}
+
+.agent-identity__metrics dt,
+.agent-performance__metrics dt {
+  color: var(--color-text-tertiary);
+  font-size: var(--text-label-xs);
+  line-height: var(--leading-label-xs);
+}
+
+.agent-identity__metrics dd,
+.agent-performance__metrics dd {
+  margin: var(--space-2xs) 0 0;
+  color: var(--color-text-primary);
+  font-size: var(--text-body-sm);
+  font-weight: 600;
+  line-height: var(--leading-body-sm);
+}
+
+.agent-identity__signature {
+  position: absolute;
+  right: var(--space-xl);
+  bottom: var(--space-xl);
+  left: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  color: var(--color-border-strong);
+  font-family: var(--font-tech);
+}
+
+.agent-identity__signature span {
+  font-size: var(--text-label-xs);
+}
+
+.agent-identity__signature strong {
+  font-size: 3rem;
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+
+.agent-performance > header,
+.agent-team-fit > header,
+.agent-capability > header,
+.agent-market-fit > header,
+.agent-sources > header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.agent-performance > header .pilot-section-heading,
+.agent-team-fit > header .pilot-section-heading {
+  margin-top: var(--space-2xs);
+}
+
+.agent-performance__metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin: var(--space-xl) 0 0;
+}
+
+.agent-performance__metrics dd {
+  color: var(--color-action-primary);
+  font-family: var(--font-tech);
+  font-size: 2.25rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.agent-performance__chart {
+  margin: var(--space-xl) 0 0;
+}
+
+.agent-performance__chart svg {
+  display: block;
+  width: 100%;
+  height: 14rem;
+}
+
+.agent-performance__chart line {
+  stroke: var(--color-border-subtle);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.agent-performance__chart path {
+  fill: none;
+  stroke: var(--color-action-primary);
+  stroke-linecap: square;
+  stroke-linejoin: bevel;
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.agent-performance__chart circle {
+  fill: var(--color-action-primary);
+}
+
+.agent-performance__chart figcaption {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-xs);
+  color: var(--color-text-tertiary);
+  font-size: var(--text-label-xs);
+  line-height: var(--leading-label-xs);
+}
+
+.agent-performance__chart figcaption strong {
+  color: var(--color-text-secondary);
+  font-weight: 600;
+}
+
+.agent-performance__note {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding-top: var(--space-md);
+  margin-top: var(--space-xl);
+  border-top: var(--border-thin) solid var(--color-border-subtle);
+}
+
+.agent-performance__note p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--text-body-sm);
+  line-height: var(--leading-body-sm);
+}
+
+.agent-team-fit > header > strong {
+  color: var(--color-action-primary);
+  font-size: var(--text-metric-md);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.agent-team-fit__list {
+  padding: 0;
+  margin: var(--space-xl) 0 0;
+  border-top: var(--border-thin) solid var(--color-border-subtle);
+  list-style: none;
+}
+
+.agent-team-fit__list li {
+  display: grid;
+  grid-template-columns: 2rem 1fr auto;
+  gap: var(--space-xs);
+  align-items: center;
+  min-height: 5rem;
+  border-bottom: var(--border-thin) solid var(--color-border-subtle);
+}
+
+.agent-team-fit__list > li > span {
+  color: var(--color-text-tertiary);
+  font-size: var(--text-label-xs);
+}
+
+.agent-team-fit__list div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+.agent-team-fit__list strong {
+  font-size: var(--text-body-sm);
+  font-weight: 600;
+  line-height: var(--leading-body-sm);
+}
+
+.agent-team-fit__list small {
+  color: var(--color-text-tertiary);
+  font-size: var(--text-label-xs);
+  line-height: var(--leading-label-xs);
+}
+
+.agent-team-fit__list em {
+  color: var(--color-data-info);
+  font-size: var(--text-body-sm);
+  font-style: normal;
+  font-weight: 600;
+}
+
+.agent-team-fit__actions {
+  display: grid;
+  gap: var(--space-2xs);
+  margin-top: var(--space-lg);
+}
+
+.agent-team-fit__disclosure {
+  margin: var(--space-lg) 0 0;
+  color: var(--color-text-tertiary);
+  font-size: 0.6875rem;
+  line-height: var(--leading-label-xs);
+}
+
+.agent-screen__continue {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 4.5rem;
+  color: var(--color-text-secondary);
+  font-size: var(--text-body-sm);
+  font-weight: 600;
+}
+
+.agent-screen__continue:hover {
+  color: var(--color-text-primary);
+}
+
+.agent-strategy {
+  border-top: var(--border-thin) solid var(--color-border-strong);
+}
+
+.agent-strategy .agent-screen__topline {
+  min-height: 7.5rem;
+}
+
+.agent-strategy .agent-screen__topline h2 {
+  margin: var(--space-2xs) 0 0;
+  font-size: var(--text-title-md);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: var(--leading-title-md);
+}
+
+.agent-strategy__grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 0.9fr;
+  min-height: calc(100vh - 20.5rem);
+  border-bottom: var(--border-thin) solid var(--color-border-strong);
+}
+
+.agent-capability,
+.agent-market-fit,
+.agent-sources {
+  padding: var(--space-xl);
+  border-right: var(--border-thin) solid var(--color-border-subtle);
+}
+
+.agent-capability {
+  padding-left: 0;
+}
+
+.agent-sources {
+  padding-right: 0;
+  border-right: 0;
+}
+
+.agent-capability h3,
+.agent-market-fit h3,
+.agent-sources h3 {
+  margin: 0;
+  font-size: var(--text-title-sm);
+  font-weight: 600;
+  line-height: var(--leading-title-sm);
+}
+
+.agent-capability > header > span,
+.agent-sources > header > span {
+  color: var(--color-text-tertiary);
+  font-family: var(--font-tech);
+  font-size: var(--text-label-xs);
+  letter-spacing: 0.06em;
+  line-height: var(--leading-label-xs);
+}
+
+.agent-capability dl {
+  margin: var(--space-xl) 0 0;
+}
+
+.agent-capability dl div {
+  display: grid;
+  grid-template-columns: 5.25rem 1fr 2rem;
+  gap: var(--space-xs);
+  align-items: center;
+  min-height: 3.75rem;
+  border-bottom: var(--border-thin) solid var(--color-border-subtle);
+}
+
+.agent-capability dt {
+  color: var(--color-text-secondary);
+  font-size: var(--text-body-sm);
+}
+
+.agent-capability dd {
+  height: 0.375rem;
+  margin: 0;
+  background: var(--color-surface-3);
+}
+
+.agent-capability dd span {
+  display: block;
+  width: var(--score);
+  height: 100%;
+  background: var(--color-action-primary);
+}
+
+.agent-capability em {
+  color: var(--color-text-tertiary);
+  font-size: var(--text-label-xs);
+  font-style: normal;
+  text-align: right;
+}
+
+.agent-market-fit__columns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin-top: var(--space-xl);
+  border-top: var(--border-thin) solid var(--color-border-subtle);
+  border-bottom: var(--border-thin) solid var(--color-border-subtle);
+}
+
+.agent-market-fit__columns > div {
+  padding: var(--space-lg);
+  border-right: var(--border-thin) solid var(--color-border-subtle);
+}
+
+.agent-market-fit__columns > div:first-child {
+  padding-left: 0;
+}
+
+.agent-market-fit__columns > div:last-child {
+  padding-right: 0;
+  border-right: 0;
+}
+
+.agent-market-fit__columns h4 {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: var(--text-body-sm);
+  font-weight: 600;
+  line-height: var(--leading-body-sm);
+}
+
+.agent-market-fit__columns > div:first-child h4 {
+  color: var(--color-action-primary);
+}
+
+.agent-market-fit__columns > div:last-child h4 {
+  color: var(--color-status-negative);
+}
+
+.agent-market-fit__columns ul {
+  padding: 0;
+  margin: var(--space-lg) 0 0;
+  list-style: none;
+}
+
+.agent-market-fit__columns li {
+  position: relative;
+  padding-left: var(--space-md);
+  margin-top: var(--space-md);
+  color: var(--color-text-secondary);
+  font-size: var(--text-body-sm);
+  line-height: var(--leading-body-sm);
+}
+
+.agent-market-fit__columns li::before {
+  position: absolute;
+  top: 0.55rem;
+  left: 0;
+  width: 0.375rem;
+  height: 0.375rem;
+  background: var(--color-intelligence-neutral);
+  content: "";
+}
+
+.agent-market-fit__columns > div:first-child li::before {
+  background: var(--color-action-primary);
+}
+
+.agent-market-fit__columns > div:last-child li::before {
+  background: var(--color-status-negative);
+}
+
+.agent-sources ul {
+  padding: 0;
+  margin: var(--space-xl) 0 0;
+  list-style: none;
+}
+
+.agent-sources li {
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: var(--space-sm);
+  align-items: center;
+  min-height: 4rem;
+  border-bottom: var(--border-thin) solid var(--color-border-subtle);
+}
+
+.agent-sources li > span {
+  color: var(--color-data-info);
+  font-family: var(--font-tech);
+  font-size: var(--text-label-xs);
+}
+
+.agent-sources li div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+.agent-sources strong {
+  font-size: var(--text-body-sm);
+  font-weight: 600;
+  line-height: var(--leading-body-sm);
+}
+
+.agent-sources small {
+  color: var(--color-text-tertiary);
+  font-size: var(--text-label-xs);
+  line-height: var(--leading-label-xs);
+}
+
+.agent-strategy__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 8.5rem;
+}
+
+.agent-strategy__footer p {
+  max-width: 50rem;
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--text-body-sm);
+  line-height: var(--leading-body-sm);
+}
+
+.agent-strategy__footer strong {
+  color: var(--color-text-primary);
+}
+
+@media (max-height: 52rem) {
+  .agent-identity,
+  .agent-performance,
+  .agent-team-fit,
+  .agent-capability,
+  .agent-market-fit,
+  .agent-sources {
+    padding-top: var(--space-lg);
+    padding-bottom: var(--space-lg);
+  }
+
+  .agent-performance__chart svg {
+    height: 11rem;
+  }
+
+  .agent-strategy__footer {
+    min-height: 6rem;
+  }
+}

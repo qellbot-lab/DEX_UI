@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>QELL Design System V3 — Component Lab</title>
+    <link rel="stylesheet" href="./qell-v3-tokens.css" />
+    <link rel="stylesheet" href="./component-lab.css" />
+  </head>
+  <body>
+    <header class="global-nav">
+      <div class="global-nav__inner shell">
+        <a class="brand" href="#top" aria-label="QELL Design System 首页">
+          <img src="../../QELL_Frontend_Art_Pack/QELL_Frontend_Art_Pack/assets/logos/qell-logo.svg" alt="QELL" />
+        </a>
+        <nav class="nav-links" aria-label="组件实验室导航">
+          <a class="nav-link" href="#foundations" aria-current="page">Foundations</a>
+          <a class="nav-link" href="#surfaces">Surfaces</a>
+          <a class="nav-link" href="#data">Data</a>
+          <a class="nav-link" href="#agents">Agents</a>
+          <a class="nav-link" href="#states">States</a>
+        </nav>
+        <div class="nav-action">
+          <button class="button button--secondary" type="button">V3.0 Draft</button>
+        </div>
+      </div>
+    </header>
+
+    <main id="top" class="shell">
+      <section class="page-intro" aria-labelledby="page-title">
+        <div>
+          <span class="micro-label">Foundation / Component Lab</span>
+          <h1 id="page-title">静默交易基础设施</h1>
+          <p class="page-intro__lede">
+            以排版、真实数据和产品层级建立高级感。视觉效果只在表达 Agent 身份、连接关系或实时状态时出现。
+          </p>
+        </div>
+        <aside class="design-intent" aria-label="设计意图">
+          <span class="micro-label">Design intent</span>
+          <dl>
+            <div><dt>Personality</dt><dd>克制 · 精确 · 有后果感</dd></div>
+            <div><dt>Primary</dt><dd>Acid 只用于操作、Live 与 Active</dd></div>
+            <div><dt>Surfaces</dt><dd>无框优先，实体暗色层级，不使用玻璃拟态</dd></div>
+            <div><dt>Hard ban</dt><dd>紫色家族、装饰细线、卡片嵌套与通用 HUD</dd></div>
+          </dl>
+        </aside>
+      </section>
+
+      <section id="foundations" class="lab-section">
+        <header class="section-intro">
+          <span class="section-index">01 / 05</span>
+          <h2>Foundations</h2>
+          <p>双层 Token、固定字体比例、4pt 空间系统。所有后续组件必须继承，不允许在页面里临时创造新颜色和间距。</p>
+        </header>
+
+        <div class="section-content">
+          <div class="subsection">
+            <div class="subsection-head"><h3>表面与中性色</h3><span>Explicit surface steps</span></div>
+            <div class="color-grid">
+              <div class="swatch swatch--dark" style="--swatch-color: var(--color-canvas)"><strong>Canvas</strong><code>ink / 1000</code></div>
+              <div class="swatch swatch--dark" style="--swatch-color: var(--color-surface-1)"><strong>Surface 01</strong><code>ink / 950</code></div>
+              <div class="swatch swatch--dark" style="--swatch-color: var(--color-surface-2)"><strong>Surface 02</strong><code>ink / 900</code></div>
+              <div class="swatch swatch--dark" style="--swatch-color: var(--color-surface-3)"><strong>Surface 03</strong><code>ink / 850</code></div>
+              <div class="swatch swatch--light" style="--swatch-color: var(--color-text-primary)"><strong>Primary text</strong><code>#f2f5ec</code></div>
+            </div>
+          </div>
+
+          <div class="subsection">
+            <div class="subsection-head"><h3>状态色只表达语义</h3><span>Total visual weight &lt; 10%</span></div>
+            <div class="usage-rules">
+              <article class="usage-rule" style="--rule-color: var(--color-action-primary)"><strong>Acid / Action</strong><p>主要操作、Live、Active 和正收益。</p></article>
+              <article class="usage-rule" style="--rule-color: var(--color-data-info)"><strong>Cyan / Data</strong><p>同步、结构、数据与系统信息。</p></article>
+              <article class="usage-rule" style="--rule-color: var(--color-status-warning)"><strong>Ember / Execute</strong><p>执行中、等待和风险注意。</p></article>
+              <article class="usage-rule" style="--rule-color: var(--color-status-negative)"><strong>Rose / Risk</strong><p>损失、失败、冲突和风险。</p></article>
+            </div>
+          </div>
+
+          <div class="subsection">
+            <div class="subsection-head"><h3>字体层级</h3><span>Fixed scale for product UI</span></div>
+            <div class="type-specimen">
+              <div class="type-row"><span class="type-token">label-xs</span><span class="sample-label">Runtime Status / Live</span><span class="type-meta">12 / 16</span></div>
+              <div class="type-row"><span class="type-token">body-md</span><span class="sample-body">战队正在评估历史市场中的风险与执行条件。</span><span class="type-meta">16 / 26</span></div>
+              <div class="type-row"><span class="type-token">title-md</span><span class="sample-title">模拟前校验</span><span class="type-meta">28 / 36</span></div>
+              <div class="type-row"><span class="type-token">metric-lg</span><span class="sample-metric">+148.7%</span><span class="type-meta">48 / 48</span></div>
+            </div>
+          </div>
+
+          <div class="subsection">
+            <div class="subsection-head"><h3>空间节奏</h3><span>4pt base / semantic names</span></div>
+            <div class="spacing-rhythm">
+              <div class="space-token"><span>XS · 12</span><i style="--space-size: var(--space-xs)"></i></div>
+              <div class="space-token"><span>SM · 16</span><i style="--space-size: var(--space-sm)"></i></div>
+              <div class="space-token"><span>MD · 24</span><i style="--space-size: var(--space-md)"></i></div>
+              <div class="space-token"><span>LG · 32</span><i style="--space-size: var(--space-lg)"></i></div>
+              <div class="space-token"><span>XL · 48</span><i style="--space-size: var(--space-xl)"></i></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="surfaces" class="lab-section">
+        <header class="section-intro">
+          <span class="section-index">02 / 05</span>
+          <h2>Surfaces & Actions</h2>
+          <p>空间分组优先。完整边框只属于可操作、可选择或具有独立状态的内容。</p>
+        </header>
+
+        <div class="section-content">
+          <div class="subsection">
+            <div class="subsection-head"><h3>四级表面</h3><span>No generic card grid</span></div>
+            <div class="surface-grid">
+              <article class="surface-demo surface-demo--canvas"><span class="micro-label">Canvas region</span><h4>主内容无需卡片</h4><p>标题、图表和核心数据通过空间与对齐自然成组。</p></article>
+              <article class="surface-demo surface-demo--group"><span class="micro-label">Section group</span><h4>背景区分层级</h4><p>使用实体表面，而不是模糊、透明和大阴影。</p></article>
+              <article class="surface-demo surface-demo--panel" tabindex="0"><span class="micro-label">Interactive panel</span><h4>Hover 只提高边界</h4><p>可点击或可选择内容才拥有完整边框。</p></article>
+              <article class="surface-demo surface-demo--focus"><span class="micro-label">Focused surface</span><h4>当前选择</h4><p>依靠实体亮度与 Acid 边界，不依靠发光。</p></article>
+            </div>
+          </div>
+
+          <div class="subsection">
+            <div class="subsection-head"><h3>动作层级</h3><span>44px minimum target</span></div>
+            <div class="control-row">
+              <button class="button button--primary" type="button">开始历史模拟</button>
+              <button class="button button--secondary" type="button">调整战队</button>
+              <button class="button button--destructive" type="button">结束模拟</button>
+              <button class="button button--secondary" type="button" disabled>等待校验</button>
+            </div>
+          </div>
+
+          <div class="subsection">
+            <div class="subsection-head"><h3>模式选择</h3><span>Segmented control</span></div>
+            <div class="segmented-control" role="group" aria-label="战队风险模式">
+              <button class="segment" type="button" aria-pressed="true">Balanced</button>
+              <button class="segment" type="button" aria-pressed="false">Defensive</button>
+              <button class="segment" type="button" aria-pressed="false">Aggressive</button>
+            </div>
+          </div>
+
+          <div class="subsection">
+            <div class="subsection-head"><h3>状态标签</h3><span>Never color alone</span></div>
+            <div class="status-row">
+              <span class="status-label" style="--status-color: var(--color-action-primary); --status-fill: var(--color-action-primary)">Live</span>
+              <span class="status-label" style="--status-color: var(--color-data-info)">Synced</span>
+              <span class="status-label" style="--status-color: var(--color-status-warning)">Executing</span>
+              <span class="status-label" style="--status-color: var(--color-status-negative)">Risk Alert</span>
+              <span class="status-label" style="--status-color: var(--color-intelligence-neutral)">Quant</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="data" class="lab-section">
+        <header class="section-intro">
+          <span class="section-index">03 / 05</span>
+          <h2>Data & Evidence</h2>
+          <p>真实数字与可验证图表替代装饰性视觉。图表必须回答趋势、比较、构成、阶段或关系中的一个问题。</p>
+        </header>
+
+        <div class="section-content">
+          <div class="subsection">
+            <div class="subsection-head"><h3>核心指标</h3><span>One hierarchy / no icon tiles</span></div>
+            <div class="metric-strip">
+              <div class="metric-cell"><span>模拟收益</span><strong class="positive">+148.7%</strong><small>相对基准 +112.6%</small></div>
+              <div class="metric-cell"><span>战队同步率</span><strong>92%</strong><small>3 位 Agent 在线</small></div>
+              <div class="metric-cell"><span>最大回撤</span><strong class="negative">-18.6%</strong><small>风险阈值 22%</small></div>
+              <div class="metric-cell"><span>总交易次数</span><strong>127</strong><small>胜率 71.4%</small></div>
+            </div>
+          </div>
+
+          <div class="subsection">
+            <div class="subsection-head"><h3>排行榜行</h3><span>Readable table / selected state</span></div>
+            <div class="data-table-wrap">
+              <table class="data-table">
+                <thead><tr><th>排名</th><th>战队</th><th>最佳事件</th><th>收益率</th><th>风险</th></tr></thead>
+                <tbody>
+                  <tr><td class="table-number">01</td><td>Alpha Trinity</td><td>FTX 崩盘</td><td class="table-number positive">+98.7%</td><td>低</td></tr>
+                  <tr aria-selected="true"><td class="table-number">02</td><td>Quantum Edge（你）</td><td>2008 金融危机</td><td class="table-number positive">+72.3%</td><td>中</td></tr>
+                  <tr><td class="table-number">03</td><td>Value Seekers</td><td>互联网泡沫</td><td class="table-number positive">+63.2%</td><td>低</td></tr>
+                  <tr><td class="table-number">04</td><td>Chain Reaction</td><td>Terra / LUNA</td><td class="table-number negative">-12.4%</td><td>高</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="subsection">
+            <div class="subsection-head"><h3>收益曲线</h3><span>Primary vs benchmark / 12 months</span></div>
+            <figure class="chart-frame">
+              <figcaption class="chart-head"><h4>2008 金融危机模拟</h4><span>2008.03—2009.03</span></figcaption>
+              <svg class="chart-canvas" viewBox="0 0 900 260" role="img" aria-label="模拟收益逐步升至 148.7%，明显高于灰色基准">
+                <line class="grid-line" x1="16" y1="48" x2="884" y2="48" />
+                <line class="grid-line" x1="16" y1="130" x2="884" y2="130" />
+                <line class="grid-line" x1="16" y1="212" x2="884" y2="212" />
+                <path class="benchmark" d="M16 156 C112 171 178 194 255 181 S406 205 492 189 S654 173 734 181 S824 156 884 142" />
+                <path class="primary-series" d="M16 188 C87 179 134 162 198 154 S310 126 375 132 S487 105 548 96 S661 76 716 81 S824 44 884 51" />
+              </svg>
+              <div class="chart-footer"><span>基准：买入并持有</span><span class="positive tech">最终收益 +148.7%</span></div>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section id="agents" class="lab-section">
+        <header class="section-intro">
+          <span class="section-index">04 / 05</span>
+          <h2>Agent-native Components</h2>
+          <p>列表使用稳定身份标记，不重复粒子半身像。粒子资产只属于当前 Agent 的焦点视图。</p>
+        </header>
+
+        <div class="section-content">
+          <div class="subsection">
+            <div class="subsection-head"><h3>战队成员</h3><span>Structured rows / no portrait cards</span></div>
+            <div class="agent-stack">
+              <div class="agent-row">
+                <div class="agent-id" style="--agent-color: var(--color-action-primary)">01</div>
+                <div class="agent-copy"><strong>情绪智者</strong><span>情绪与行为分析</span></div>
+                <div class="agent-meta"><span>角色</span><strong>宏观</strong></div>
+                <div class="agent-meta"><span>状态</span><strong class="positive">扫描中</strong></div>
+                <button class="button button--secondary" type="button">查看</button>
+              </div>
+              <div class="agent-row">
+                <div class="agent-id" style="--agent-color: var(--color-data-info)">02</div>
+                <div class="agent-copy"><strong>模式预言家</strong><span>技术形态预测</span></div>
+                <div class="agent-meta"><span>角色</span><strong>结构</strong></div>
+                <div class="agent-meta"><span>状态</span><strong class="info">映射中</strong></div>
+                <button class="button button--secondary" type="button">查看</button>
+              </div>
+              <div class="agent-row">
+                <div class="agent-id" style="--agent-color: var(--color-status-warning)">03</div>
+                <div class="agent-copy"><strong>风险守护者</strong><span>风险监控与防御</span></div>
+                <div class="agent-meta"><span>角色</span><strong>执行</strong></div>
+                <div class="agent-meta"><span>状态</span><strong class="warning">校验中</strong></div>
+                <button class="button button--secondary" type="button">查看</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="subsection">
+            <div class="subsection-head"><h3>Session Tape</h3><span>Decision summaries / no hidden reasoning</span></div>
+            <div class="session-list">
+              <article class="session-row" tabindex="0"><span class="session-id">RT-0021</span><div class="session-decision"><strong>降低多头暴露</strong><span>波动率因子触发风险阈值</span></div><span class="status-label" style="--status-color: var(--color-status-warning)">Executing</span><time class="session-time">10:14:55</time></article>
+              <article class="session-row" tabindex="0"><span class="session-id">RT-0020</span><div class="session-decision"><strong>维持当前仓位</strong><span>结构信号未出现反转确认</span></div><span class="status-label" style="--status-color: var(--color-data-info)">Observed</span><time class="session-time">10:12:18</time></article>
+              <article class="session-row" tabindex="0"><span class="session-id">RT-0019</span><div class="session-decision"><strong>建立初始对冲</strong><span>Risk Sentinel 完成风险检查</span></div><span class="status-label" style="--status-color: var(--color-action-primary)">Completed</span><time class="session-time">10:10:33</time></article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="states" class="lab-section">
+        <header class="section-intro">
+          <span class="section-index">05 / 05</span>
+          <h2>System States</h2>
+          <p>状态页面是设计系统的一部分。加载、空、失败和完成都必须告诉用户发生了什么以及下一步怎么做。</p>
+        </header>
+
+        <div class="section-content">
+          <div class="state-grid">
+            <article class="state-box" style="--state-color: var(--color-data-info)"><span class="micro-label">Loading</span><h4>正在同步市场</h4><p>通常在 10 秒内完成。</p><div class="loading-line" aria-hidden="true"></div></article>
+            <article class="state-box"><span class="micro-label">Empty</span><h4>还没有模拟记录</h4><p>选择一个历史事件开始首次验证。</p></article>
+            <article class="state-box" style="--state-color: var(--color-status-negative)"><span class="micro-label">Error</span><h4>市场数据未连接</h4><p>检查网络后重新同步数据。</p></article>
+            <article class="state-box" style="--state-color: var(--color-action-primary)"><span class="micro-label">Success</span><h4>战队已准备就绪</h4><p>所有风险检查均已通过。</p></article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="lab-footer shell">
+      <strong>QELL Design System / V3</strong>
+      <span>Foundation prototype · Desktop first · No purple family</span>
+    </footer>
+
+    <script>
+      document.querySelectorAll('.segmented-control').forEach((group) => {
+        group.addEventListener('click', (event) => {
+          const button = event.target.closest('.segment');
+          if (!button) return;
+          group.querySelectorAll('.segment').forEach((item) => item.setAttribute('aria-pressed', 'false'));
+          button.setAttribute('aria-pressed', 'true');
+        });
+      });
+    </script>
+  </body>
+</html>

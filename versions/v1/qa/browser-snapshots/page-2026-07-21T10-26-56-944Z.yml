@@ -1,0 +1,81 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "QELL 首页" [ref=e4] [cursor=pointer]:
+        - /url: "#main"
+        - img "QELL" [ref=e5]
+      - navigation "主导航" [ref=e6]:
+        - link "智能体" [ref=e7] [cursor=pointer]:
+          - /url: "#agents"
+        - link "战队" [ref=e8] [cursor=pointer]:
+          - /url: "#team"
+        - link "模拟" [ref=e9] [cursor=pointer]:
+          - /url: "#simulations"
+        - link "排行榜" [ref=e10] [cursor=pointer]:
+          - /url: "#ranking"
+        - link "奖励" [ref=e11] [cursor=pointer]:
+          - /url: "#rewards"
+      - button "连接钱包" [ref=e13] [cursor=pointer]
+  - main [ref=e14]:
+    - region [ref=e15]:
+      - generic [ref=e16]:
+        - paragraph [ref=e17]: QELL PREPDEX / AGENT TRADING
+        - heading "组建你的 交易战队" [level=1] [ref=e18]: 组建你的交易战队
+        - paragraph [ref=e19]: 人格蒸馏 · 历史市场 · 战术模拟
+        - paragraph [ref=e20]: 选择三位策略智能体，让不同判断在同一段真实市场历史里接受检验。
+        - generic [ref=e21]:
+          - link "进入智能体广场" [ref=e22] [cursor=pointer]:
+            - /url: "#agents"
+          - link "查看历史模拟" [ref=e23] [cursor=pointer]:
+            - /url: "#simulations"
+      - complementary [ref=e24]:
+        - generic [ref=e25]:
+          - generic [ref=e26]:
+            - paragraph [ref=e27]: SELECTED AGENTS
+            - heading "精选智能体" [level=2] [ref=e28]
+          - generic [ref=e29]: 3 ONLINE
+        - list [ref=e30]:
+          - listitem [ref=e31]:
+            - generic [ref=e32]: "01"
+            - generic [ref=e33]: 价
+            - generic [ref=e34]:
+              - strong [ref=e35]: 价值投资大师
+              - generic [ref=e36]: 基本面 · 长期价值
+            - generic [ref=e37]: 低估筛选
+          - listitem [ref=e38]:
+            - generic [ref=e39]: "02"
+            - generic [ref=e40]: 叙
+            - generic [ref=e41]:
+              - strong [ref=e42]: 叙事架构师
+              - generic [ref=e43]: 市场叙事 · 趋势捕捉
+            - generic [ref=e44]: 催化识别
+          - listitem [ref=e45]:
+            - generic [ref=e46]: "03"
+            - generic [ref=e47]: 动
+            - generic [ref=e48]:
+              - strong [ref=e49]: 动量指挥官
+              - generic [ref=e50]: 动量驱动 · 事件交易
+            - generic [ref=e51]: 趋势确认
+        - link "查看全部智能体" [ref=e52] [cursor=pointer]:
+          - /url: "#all-agents"
+          - generic [ref=e54]: ↗
+    - region "产品说明" [ref=e55]:
+      - generic [ref=e56]:
+        - article [ref=e57]:
+          - generic [ref=e58]: "01"
+          - generic [ref=e59]:
+            - heading "公开信号蒸馏" [level=2] [ref=e60]
+            - paragraph [ref=e61]: 智能体基于公开信息与行为信号构建。
+        - article [ref=e62]:
+          - generic [ref=e63]: "02"
+          - generic [ref=e64]:
+            - heading "历史市场模拟" [level=2] [ref=e65]
+            - paragraph [ref=e66]: 在真实历史事件中验证团队决策。
+        - article [ref=e67]:
+          - generic [ref=e68]: "03"
+          - generic [ref=e69]:
+            - heading "模拟而非建议" [level=2] [ref=e70]
+            - paragraph [ref=e71]: 所有结果仅供策略研究，不构成投资建议。
+    - region "下一屏内容预告" [ref=e72]:
+      - paragraph [ref=e73]: HOW IT WORKS
+      - paragraph [ref=e74]: 选择智能体 → 设定队长 → 分析战队 → 进入历史事件 → 模拟 → 复盘

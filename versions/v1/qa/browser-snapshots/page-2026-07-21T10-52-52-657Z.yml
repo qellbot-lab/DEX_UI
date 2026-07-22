@@ -1,0 +1,192 @@
+- generic [active] [ref=f11e1]:
+  - banner [ref=f11e2]:
+    - generic [ref=f11e3]:
+      - link "QELL 首页" [ref=f11e4] [cursor=pointer]:
+        - /url: ./home.html
+        - img "QELL" [ref=f11e5]
+      - navigation "主导航" [ref=f11e6]:
+        - link "智能体" [ref=f11e7] [cursor=pointer]:
+          - /url: "#overview"
+        - link "战队" [ref=f11e8] [cursor=pointer]:
+          - /url: ./team.html
+        - link "模拟" [ref=f11e9] [cursor=pointer]:
+          - /url: ./runtime.html
+        - link "排行榜" [ref=f11e10] [cursor=pointer]:
+          - /url: "#ranking"
+        - link "奖励" [ref=f11e11] [cursor=pointer]:
+          - /url: "#rewards"
+      - button "连接钱包" [ref=f11e13] [cursor=pointer]
+  - main [ref=f11e14]:
+    - region [ref=f11e15]:
+      - generic [ref=f11e16]:
+        - link "← 返回智能体广场" [ref=f11e17] [cursor=pointer]:
+          - /url: ./home.html#agents
+        - generic [ref=f11e18]: 01 / 02
+      - generic [ref=f11e19]:
+        - article [ref=f11e20]:
+          - paragraph [ref=f11e21]: VALUE STRATEGY AGENT
+          - heading "巴菲特" [level=1] [ref=f11e22]
+          - paragraph [ref=f11e23]: 价值策略 AI 智能体
+          - paragraph [ref=f11e24]: 遵循长期主义投资原则，关注可持续护城河、合理估值与复利增长能力。
+          - generic "策略标签" [ref=f11e25]:
+            - generic [ref=f11e26]: 长期主义
+            - generic [ref=f11e27]: 质量优先
+            - generic [ref=f11e28]: 护城河
+            - generic [ref=f11e29]: 逆向思维
+          - generic [ref=f11e30]:
+            - generic [ref=f11e31]:
+              - term [ref=f11e32]: 胜率档位
+              - definition [ref=f11e33]: 前 10%
+            - generic [ref=f11e34]:
+              - term [ref=f11e35]: 风险等级
+              - definition [ref=f11e36]: 低
+            - generic [ref=f11e37]:
+              - term [ref=f11e38]: 队伍适配
+              - definition [ref=f11e39]: 优秀
+          - generic [ref=f11e40]:
+            - generic [ref=f11e41]: "01"
+            - strong [ref=f11e42]: VALUE
+        - region [ref=f11e43]:
+          - generic [ref=f11e44]:
+            - generic [ref=f11e45]:
+              - paragraph [ref=f11e46]: SIMULATION PERFORMANCE
+              - heading "历史模拟表现" [level=2] [ref=f11e47]
+            - generic [ref=f11e48]: VERIFIED DATA
+          - generic [ref=f11e49]:
+            - generic [ref=f11e50]:
+              - term [ref=f11e51]: 总收益
+              - definition [ref=f11e52]: +148.7%
+            - generic [ref=f11e53]:
+              - term [ref=f11e54]: 年化收益
+              - definition [ref=f11e55]: +12.3%
+          - figure "2019.01 — 2025.05 高于全部智能体中位数" [ref=f11e56]:
+            - img "巴菲特智能体历史模拟收益曲线 2019 年至 2025 年整体稳步增长，中间包含数次可控回撤。" [ref=f11e57]
+            - generic [ref=f11e61]:
+              - generic [ref=f11e62]: 2019.01 — 2025.05
+              - strong [ref=f11e63]: 高于全部智能体中位数
+          - generic [ref=f11e64]:
+            - generic [ref=f11e65]: TOP 10%
+            - paragraph [ref=f11e66]: 长期收益优势主要来自低估买入与复利持有。
+        - complementary [ref=f11e67]:
+          - generic [ref=f11e68]:
+            - generic [ref=f11e69]:
+              - paragraph [ref=f11e70]: TEAM FIT
+              - heading "兼容战队伙伴" [level=2] [ref=f11e71]
+            - strong [ref=f11e72]: "92"
+          - list [ref=f11e73]:
+            - listitem [ref=f11e74]:
+              - generic [ref=f11e75]: "01"
+              - generic [ref=f11e76]:
+                - strong [ref=f11e77]: 孙正义
+                - generic [ref=f11e78]: 愿景架构师
+              - emphasis [ref=f11e79]: "92"
+            - listitem [ref=f11e80]:
+              - generic [ref=f11e81]: "02"
+              - generic [ref=f11e82]:
+                - strong [ref=f11e83]: 特朗普
+                - generic [ref=f11e84]: 宏观情绪统帅
+              - emphasis [ref=f11e85]: "88"
+            - listitem [ref=f11e86]:
+              - generic [ref=f11e87]: "03"
+              - generic [ref=f11e88]:
+                - strong [ref=f11e89]: 凯茜·伍德
+                - generic [ref=f11e90]: 创新成长探索者
+              - emphasis [ref=f11e91]: "84"
+          - generic [ref=f11e92]:
+            - button "加入战队" [ref=f11e93] [cursor=pointer]
+            - button "加入对比" [ref=f11e94] [cursor=pointer]
+            - button "设为队长候选 →" [ref=f11e95] [cursor=pointer]
+          - paragraph [ref=f11e96]: AI 蒸馏模型 · 仅供模拟 · 不构成投资建议
+      - link "查看策略系统" [ref=f11e97] [cursor=pointer]:
+        - /url: "#strategy"
+        - generic [ref=f11e99]: ↓
+    - region [ref=f11e100]:
+      - generic [ref=f11e101]:
+        - generic [ref=f11e102]:
+          - paragraph [ref=f11e103]: STRATEGY SYSTEM
+          - heading "策略如何形成判断" [level=2] [ref=f11e104]
+        - generic [ref=f11e105]: 02 / 02
+      - generic [ref=f11e106]:
+        - region [ref=f11e107]:
+          - generic [ref=f11e108]:
+            - heading "策略能力" [level=3] [ref=f11e109]
+            - generic [ref=f11e110]: 六项决策倾向
+          - generic [ref=f11e111]:
+            - generic [ref=f11e112]:
+              - term [ref=f11e113]: 质量判断
+              - definition [ref=f11e114]
+              - emphasis [ref=f11e116]: "94"
+            - generic [ref=f11e117]:
+              - term [ref=f11e118]: 价值发现
+              - definition [ref=f11e119]
+              - emphasis [ref=f11e121]: "92"
+            - generic [ref=f11e122]:
+              - term [ref=f11e123]: 风险管理
+              - definition [ref=f11e124]
+              - emphasis [ref=f11e126]: "88"
+            - generic [ref=f11e127]:
+              - term [ref=f11e128]: 复利耐心
+              - definition [ref=f11e129]
+              - emphasis [ref=f11e131]: "95"
+            - generic [ref=f11e132]:
+              - term [ref=f11e133]: 逆向判断
+              - definition [ref=f11e134]
+              - emphasis [ref=f11e136]: "87"
+            - generic [ref=f11e137]:
+              - term [ref=f11e138]: 波动控制
+              - definition [ref=f11e139]
+              - emphasis [ref=f11e141]: "82"
+        - region [ref=f11e142]:
+          - generic [ref=f11e143]:
+            - heading "市场适配" [level=3] [ref=f11e144]
+            - generic [ref=f11e145]: CONTEXT FILTER
+          - generic [ref=f11e146]:
+            - generic [ref=f11e147]:
+              - heading "适合环境" [level=4] [ref=f11e148]
+              - list [ref=f11e149]:
+                - listitem [ref=f11e150]: 价值被低估的市场
+                - listitem [ref=f11e151]: 经济稳定、低通胀
+                - listitem [ref=f11e152]: 利率低位或常态化
+                - listitem [ref=f11e153]: 自由现金流充沛
+            - generic [ref=f11e154]:
+              - heading "不适合环境" [level=4] [ref=f11e155]
+              - list [ref=f11e156]:
+                - listitem [ref=f11e157]: 泡沫化主题市场
+                - listitem [ref=f11e158]: 高波动、高投机情绪
+                - listitem [ref=f11e159]: 盈利周期末期
+                - listitem [ref=f11e160]: 宏观极端不确定
+        - region [ref=f11e161]:
+          - generic [ref=f11e162]:
+            - heading "关键数据来源" [level=3] [ref=f11e163]
+            - generic [ref=f11e164]: PUBLIC SIGNALS
+          - list [ref=f11e165]:
+            - listitem [ref=f11e166]:
+              - generic [ref=f11e167]: "01"
+              - generic [ref=f11e168]:
+                - strong [ref=f11e169]: SEC 文件
+                - generic [ref=f11e170]: 10-K · 13-F · 13-D
+            - listitem [ref=f11e171]:
+              - generic [ref=f11e172]: "02"
+              - generic [ref=f11e173]:
+                - strong [ref=f11e174]: 业绩电话会
+                - generic [ref=f11e175]: 管理层表述与经营变化
+            - listitem [ref=f11e176]:
+              - generic [ref=f11e177]: "03"
+              - generic [ref=f11e178]:
+                - strong [ref=f11e179]: 投资者信件
+                - generic [ref=f11e180]: 年度信与长期原则
+            - listitem [ref=f11e181]:
+              - generic [ref=f11e182]: "04"
+              - generic [ref=f11e183]:
+                - strong [ref=f11e184]: 宏观数据
+                - generic [ref=f11e185]: 利率 · GDP · CPI
+            - listitem [ref=f11e186]:
+              - generic [ref=f11e187]: "05"
+              - generic [ref=f11e188]:
+                - strong [ref=f11e189]: 公开访谈
+                - generic [ref=f11e190]: 新闻与观点声明
+      - generic [ref=f11e191]:
+        - paragraph [ref=f11e192]:
+          - strong [ref=f11e193]: 核心逻辑
+          - text: ：在价格显著低于长期价值时介入，并通过纪律与耐心等待复利兑现。
+        - button "加入 Alpha Team" [ref=f11e194] [cursor=pointer]

@@ -1,0 +1,218 @@
+- generic [active] [ref=f17e1]:
+  - banner [ref=f17e2]:
+    - generic [ref=f17e3]:
+      - link "QELL 首页" [ref=f17e4] [cursor=pointer]:
+        - /url: ./home.html
+        - img "QELL" [ref=f17e5]
+      - navigation "主导航" [ref=f17e6]:
+        - link "智能体" [ref=f17e7] [cursor=pointer]:
+          - /url: ./marketplace.html
+        - link "战队" [ref=f17e8] [cursor=pointer]:
+          - /url: ./team.html
+        - link "模拟" [ref=f17e9] [cursor=pointer]:
+          - /url: "#summary"
+        - link "排行榜" [ref=f17e10] [cursor=pointer]:
+          - /url: ./leaderboard.html
+        - link "奖励" [ref=f17e11] [cursor=pointer]:
+          - /url: "#rewards"
+      - button "连接钱包" [ref=f17e13] [cursor=pointer]
+  - main [ref=f17e14]:
+    - region [ref=f17e15]:
+      - generic [ref=f17e16]:
+        - generic [ref=f17e17]:
+          - generic [ref=f17e18]: SIMULATION COMPLETE
+          - heading "2008 金融危机" [level=1] [ref=f17e19]
+          - paragraph [ref=f17e20]: 2008.03—2009.03 · 6 个月模拟
+        - generic [ref=f17e21]:
+          - generic [ref=f17e22]:
+            - term [ref=f17e23]: 最终盈亏
+            - definition [ref=f17e24]: +$148,700
+          - generic [ref=f17e25]:
+            - term [ref=f17e26]: 收益率
+            - definition [ref=f17e27]: +148.7%
+          - generic [ref=f17e28]:
+            - term [ref=f17e29]: 最终排名
+            - definition [ref=f17e30]: "#1"
+          - generic [ref=f17e31]:
+            - term [ref=f17e32]: 获得积分
+            - definition [ref=f17e33]: 24,550
+      - generic [ref=f17e34]:
+        - region [ref=f17e35]:
+          - generic [ref=f17e36]:
+            - generic [ref=f17e37]:
+              - paragraph [ref=f17e38]: PERFORMANCE CURVE
+              - heading "盈亏曲线" [level=2] [ref=f17e39]
+            - generic [ref=f17e40]: BENCHMARKED
+          - figure [ref=f17e41]:
+            - img "2008 金融危机模拟收益曲线 团队收益在前期震荡后持续上升，并显著跑赢市场基准。" [ref=f17e42]
+            - generic [ref=f17e46]:
+              - generic [ref=f17e47]: Alpha Team
+              - generic [ref=f17e49]: SPY 基准
+              - strong [ref=f17e51]: 超额收益 +112.6%
+          - generic [ref=f17e52]:
+            - generic [ref=f17e53]:
+              - term [ref=f17e54]: 夏普比率
+              - definition [ref=f17e55]: "2.34"
+            - generic [ref=f17e56]:
+              - term [ref=f17e57]: 最大回撤
+              - definition [ref=f17e58]: −18.6%
+            - generic [ref=f17e59]:
+              - term [ref=f17e60]: 胜率
+              - definition [ref=f17e61]: 71.4%
+            - generic [ref=f17e62]:
+              - term [ref=f17e63]: 交易次数
+              - definition [ref=f17e64]: "127"
+        - complementary [ref=f17e65]:
+          - generic [ref=f17e66]:
+            - paragraph [ref=f17e67]: SETTLEMENT
+            - heading "奖励与结算" [level=2] [ref=f17e68]
+          - generic [ref=f17e69]:
+            - generic [ref=f17e70]: 总计获得
+            - strong [ref=f17e71]: 24,550
+            - generic [ref=f17e72]: Qell PrepDex 积分
+          - generic [ref=f17e73]:
+            - generic [ref=f17e74]:
+              - term [ref=f17e75]: 基础积分
+              - definition [ref=f17e76]: 11,159
+            - generic [ref=f17e77]:
+              - term [ref=f17e78]: 表现加成
+              - definition [ref=f17e79]: +13,391
+            - generic [ref=f17e80]:
+              - term [ref=f17e81]: 表现倍率
+              - definition [ref=f17e82]: ×1.20
+          - generic [ref=f17e83]:
+            - heading "可兑换用途" [level=3] [ref=f17e84]
+            - paragraph [ref=f17e85]: 智能体升级 · 专属奖励 · 未来空投
+          - button "领取并归档" [ref=f17e86] [cursor=pointer]
+      - region [ref=f17e87]:
+        - generic [ref=f17e88]:
+          - heading "战局回顾" [level=2] [ref=f17e89]
+          - link "查看完整归因 ↓" [ref=f17e90] [cursor=pointer]:
+            - /url: "#review"
+        - list [ref=f17e91]:
+          - listitem [ref=f17e92]:
+            - time [ref=f17e93]: 2008.03.16
+            - strong [ref=f17e94]: 完美入场
+            - paragraph [ref=f17e95]: 做空次贷市场
+            - emphasis [ref=f17e96]: +18.4%
+          - listitem [ref=f17e97]:
+            - time [ref=f17e98]: 2008.09.15
+            - strong [ref=f17e99]: 恐慌卖出失误
+            - paragraph [ref=f17e100]: 雷曼破产期间过早减仓
+            - emphasis [ref=f17e101]: −7.7%
+          - listitem [ref=f17e102]:
+            - time [ref=f17e103]: 2009.01.02
+            - strong [ref=f17e104]: 错过突破
+            - paragraph [ref=f17e105]: 未能参与量化宽松反弹
+            - emphasis [ref=f17e106]: −6.2%
+          - listitem [ref=f17e107]:
+            - time [ref=f17e108]: 2009.03.02
+            - strong [ref=f17e109]: 理想止盈
+            - paragraph [ref=f17e110]: 在市场反弹前锁定利润
+            - emphasis [ref=f17e111]: +12.6%
+    - region [ref=f17e112]:
+      - generic [ref=f17e113]:
+        - generic [ref=f17e114]:
+          - paragraph [ref=f17e115]: POST-MORTEM / ATTRIBUTION
+          - heading "归因复盘" [level=2] [ref=f17e116]
+        - generic [ref=f17e117]:
+          - generic [ref=f17e118]: REPORT READY
+          - generic [ref=f17e119]: 02 / 02
+      - generic [ref=f17e120]:
+        - region [ref=f17e121]:
+          - generic [ref=f17e122]:
+            - heading "成员贡献" [level=3] [ref=f17e123]
+            - generic [ref=f17e124]: RETURN ATTRIBUTION
+          - generic [ref=f17e125]:
+            - generic [ref=f17e126]: MVP
+            - strong [ref=f17e127]: 巴菲特 AI
+            - paragraph [ref=f17e128]: 在金融与价值轮动、风控调整后的收益方面表现卓越。
+            - emphasis [ref=f17e129]: +54.8%
+          - list [ref=f17e130]:
+            - listitem [ref=f17e131]:
+              - generic [ref=f17e132]: "01"
+              - generic [ref=f17e133]:
+                - strong [ref=f17e134]: 巴菲特 AI
+                - generic [ref=f17e135]: 价值投资大师
+              - emphasis [ref=f17e136]
+              - generic [ref=f17e138]: +54.8%
+            - listitem [ref=f17e139]:
+              - generic [ref=f17e140]: "02"
+              - generic [ref=f17e141]:
+                - strong [ref=f17e142]: 孙宇晨
+                - generic [ref=f17e143]: 叙事交易猎手
+              - emphasis [ref=f17e144]
+              - generic [ref=f17e146]: +38.4%
+            - listitem [ref=f17e147]:
+              - generic [ref=f17e148]: "03"
+              - generic [ref=f17e149]:
+                - strong [ref=f17e150]: 特朗普
+                - generic [ref=f17e151]: 动量指挥官
+              - emphasis [ref=f17e152]
+              - generic [ref=f17e154]: +23.1%
+            - listitem [ref=f17e155]:
+              - generic [ref=f17e156]: "04"
+              - generic [ref=f17e157]:
+                - strong [ref=f17e158]: 团队协同
+                - generic [ref=f17e159]: Team Core
+              - emphasis [ref=f17e160]
+              - generic [ref=f17e162]: +12.4%
+        - region [ref=f17e163]:
+          - generic [ref=f17e164]:
+            - heading "表现评分" [level=3] [ref=f17e165]
+            - generic [ref=f17e166]: 3 DIMENSIONS
+          - generic [ref=f17e167]:
+            - generic [ref=f17e168]:
+              - term [ref=f17e169]: 风险管理
+              - definition [ref=f17e170]
+              - emphasis [ref=f17e172]: "78"
+              - generic [ref=f17e173]: 管理良好
+            - generic [ref=f17e174]:
+              - term [ref=f17e175]: 执行质量
+              - definition [ref=f17e176]
+              - emphasis [ref=f17e178]: "86"
+              - generic [ref=f17e179]: 优秀
+            - generic [ref=f17e180]:
+              - term [ref=f17e181]: 团队协同
+              - definition [ref=f17e182]
+              - emphasis [ref=f17e184]: "91"
+              - generic [ref=f17e185]: 优秀
+          - generic [ref=f17e186]:
+            - article [ref=f17e187]:
+              - generic [ref=f17e188]: BEST
+              - heading "做空次贷市场" [level=4] [ref=f17e189]
+              - paragraph [ref=f17e190]: 入场时点与风险预算匹配。
+              - strong [ref=f17e191]: +32.5%
+            - article [ref=f17e192]:
+              - generic [ref=f17e193]: WORST
+              - heading "恐慌卖出雷曼" [level=4] [ref=f17e194]
+              - paragraph [ref=f17e195]: 在流动性修复前过早减仓。
+              - strong [ref=f17e196]: −14.7%
+        - complementary [ref=f17e197]:
+          - generic [ref=f17e198]:
+            - heading "升级建议" [level=3] [ref=f17e199]
+            - generic [ref=f17e200]: 3 ACTIONS
+          - list [ref=f17e201]:
+            - listitem [ref=f17e202]:
+              - generic [ref=f17e203]: "01"
+              - generic [ref=f17e204]:
+                - strong [ref=f17e205]: 提高极端行情耐受
+                - generic [ref=f17e206]: 降低恐慌阈值的敏感度
+            - listitem [ref=f17e207]:
+              - generic [ref=f17e208]: "02"
+              - generic [ref=f17e209]:
+                - strong [ref=f17e210]: 优化止损一致性
+                - generic [ref=f17e211]: 让队长风险门覆盖全队
+            - listitem [ref=f17e212]:
+              - generic [ref=f17e213]: "03"
+              - generic [ref=f17e214]:
+                - strong [ref=f17e215]: 补充流动性因子
+                - generic [ref=f17e216]: 增强危机后的反弹识别
+          - generic [ref=f17e217]:
+            - heading "本局解锁" [level=4] [ref=f17e218]
+            - paragraph [ref=f17e219]: 智能体升级资格 · 专属徽章 · 未来空投积分
+      - generic [ref=f17e220]:
+        - paragraph [ref=f17e221]: 模拟表现不代表未来收益 · 所有智能体基于公开信号蒸馏
+        - generic [ref=f17e222]:
+          - button "选择其他模拟" [ref=f17e223] [cursor=pointer]
+          - button "升级战队" [ref=f17e224] [cursor=pointer]

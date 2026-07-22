@@ -1,0 +1,122 @@
+:root {
+  color-scheme: dark;
+
+  /* Primitive neutrals: subtly tinted toward the QELL green hue. */
+  --primitive-ink-1000: oklch(11.5% 0.008 145);
+  --primitive-ink-950: oklch(13.5% 0.008 145);
+  --primitive-ink-900: oklch(16.5% 0.009 145);
+  --primitive-ink-850: oklch(19.5% 0.01 145);
+  --primitive-ink-800: oklch(23% 0.011 145);
+  --primitive-ink-700: oklch(31% 0.012 145);
+  --primitive-steel-500: #9da89f;
+  --primitive-steel-300: #c4ccc5;
+  --primitive-paper-100: #f2f5ec;
+
+  /* Primitive signals. No purple family is defined in V3. */
+  --primitive-acid-500: #b7ee5b;
+  --primitive-acid-600: #9fd443;
+  --primitive-cyan-500: #6de3d3;
+  --primitive-ember-500: #eab56c;
+  --primitive-rose-500: #e6789e;
+
+  /* Semantic surfaces. */
+  --color-canvas: var(--primitive-ink-1000);
+  --color-surface-1: var(--primitive-ink-950);
+  --color-surface-2: var(--primitive-ink-900);
+  --color-surface-3: var(--primitive-ink-850);
+  --color-border-subtle: var(--primitive-ink-800);
+  --color-border-strong: var(--primitive-ink-700);
+  --color-text-primary: var(--primitive-paper-100);
+  --color-text-secondary: var(--primitive-steel-300);
+  --color-text-tertiary: var(--primitive-steel-500);
+  --color-action-primary: var(--primitive-acid-500);
+  --color-action-primary-hover: var(--primitive-acid-600);
+  --color-data-info: var(--primitive-cyan-500);
+  --color-status-warning: var(--primitive-ember-500);
+  --color-status-negative: var(--primitive-rose-500);
+  --color-intelligence-neutral: #b8c2ba;
+
+  /* Typography. */
+  --font-brand: "Merkur", sans-serif;
+  --font-tech: "Chakra Petch Local", "Segoe UI", sans-serif;
+  --font-ui: "Microsoft YaHei UI", "PingFang SC", "Noto Sans CJK SC", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+
+  --text-label-xs: 0.75rem;
+  --text-body-sm: 0.875rem;
+  --text-body-md: 1rem;
+  --text-title-sm: 1.25rem;
+  --text-title-md: 1.75rem;
+  --text-title-lg: 3rem;
+  --text-metric-md: 2rem;
+  --text-metric-lg: 3rem;
+
+  --leading-label-xs: 1rem;
+  --leading-body-sm: 1.375rem;
+  --leading-body-md: 1.625rem;
+  --leading-title-sm: 1.75rem;
+  --leading-title-md: 2.25rem;
+  --leading-title-lg: 3.25rem;
+  --leading-metric: 1;
+
+  /* 4pt spatial system, named by relationship. */
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+
+  /* Layout. */
+  --layout-max: 82.5rem;
+  --layout-nav-height: 4.5rem;
+  --layout-gutter: 1.5rem;
+
+  /* Shape and border. */
+  --radius-none: 0;
+  --radius-micro: 0.125rem;
+  --border-thin: 1px;
+
+  /* Motion. */
+  --duration-instant: 120ms;
+  --duration-state: 240ms;
+  --duration-layout: 360ms;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Semantic stacking. */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-modal-backdrop: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+  --z-tooltip: 600;
+}
+
+@font-face {
+  font-family: "Chakra Petch Local";
+  src: url("../../QELL_Frontend_Art_Pack/QELL_Frontend_Art_Pack/assets/fonts/ChakraPetch-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Chakra Petch Local";
+  src: url("../../QELL_Frontend_Art_Pack/QELL_Frontend_Art_Pack/assets/fonts/ChakraPetch-SemiBold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Merkur";
+  src: url("../../QELL_Frontend_Art_Pack/QELL_Frontend_Art_Pack/assets/fonts/Merkur-j147.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+

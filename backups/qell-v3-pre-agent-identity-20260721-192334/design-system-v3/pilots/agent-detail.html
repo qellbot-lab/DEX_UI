@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="QELL 智能体详情页双屏设计试点。" />
+    <title>QELL — 巴菲特价值策略智能体</title>
+    <link
+      rel="icon"
+      href="../../../QELL_Frontend_Art_Pack/QELL_Frontend_Art_Pack/assets/logos/qell-logo.svg"
+    />
+    <link rel="stylesheet" href="./pilot-shared.css" />
+    <link rel="stylesheet" href="./agent-detail.css" />
+  </head>
+  <body class="agent-detail-page">
+    <header class="pilot-nav agent-detail-nav">
+      <div class="pilot-nav__inner pilot-shell">
+        <a class="pilot-nav__brand" href="./home.html" aria-label="QELL 首页">
+          <img
+            src="../../../QELL_Frontend_Art_Pack/QELL_Frontend_Art_Pack/assets/logos/qell-logo.svg"
+            alt="QELL"
+          />
+        </a>
+        <nav class="pilot-nav__links" aria-label="主导航">
+          <a class="pilot-nav__link" href="#overview" aria-current="page">智能体</a>
+          <a class="pilot-nav__link" href="./team.html">战队</a>
+          <a class="pilot-nav__link" href="./runtime.html">模拟</a>
+          <a class="pilot-nav__link" href="#ranking">排行榜</a>
+          <a class="pilot-nav__link" href="#rewards">奖励</a>
+        </nav>
+        <div class="pilot-nav__action">
+          <button class="pilot-button pilot-button--secondary" type="button">连接钱包</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="agent-screen agent-overview pilot-shell" id="overview" aria-labelledby="agent-name">
+        <div class="agent-screen__topline">
+          <a href="./home.html#agents">← 返回智能体广场</a>
+          <span class="pilot-number">01 / 02</span>
+        </div>
+
+        <div class="agent-overview__grid">
+          <article class="agent-identity">
+            <p class="pilot-kicker">VALUE STRATEGY AGENT</p>
+            <h1 id="agent-name">巴菲特</h1>
+            <p class="agent-identity__role">价值策略 AI 智能体</p>
+            <p class="agent-identity__summary">
+              遵循长期主义投资原则，关注可持续护城河、合理估值与复利增长能力。
+            </p>
+            <div class="agent-identity__tags" aria-label="策略标签">
+              <span>长期主义</span>
+              <span>质量优先</span>
+              <span>护城河</span>
+              <span>逆向思维</span>
+            </div>
+
+            <dl class="agent-identity__metrics">
+              <div><dt>胜率档位</dt><dd>前 10%</dd></div>
+              <div><dt>风险等级</dt><dd>低</dd></div>
+              <div><dt>队伍适配</dt><dd>优秀</dd></div>
+            </dl>
+
+            <div class="agent-identity__signature" aria-hidden="true">
+              <span>01</span>
+              <strong>VALUE</strong>
+            </div>
+          </article>
+
+          <section class="agent-performance" aria-labelledby="performance-title">
+            <header>
+              <div>
+                <p class="pilot-label">SIMULATION PERFORMANCE</p>
+                <h2 class="pilot-section-heading" id="performance-title">历史模拟表现</h2>
+              </div>
+              <span class="pilot-status pilot-status--data">VERIFIED DATA</span>
+            </header>
+
+            <dl class="agent-performance__metrics">
+              <div><dt>总收益</dt><dd class="pilot-number">+148.7%</dd></div>
+              <div><dt>年化收益</dt><dd class="pilot-number">+12.3%</dd></div>
+            </dl>
+
+            <figure class="agent-performance__chart">
+              <svg viewBox="0 0 560 260" role="img" aria-labelledby="agent-chart-title agent-chart-desc">
+                <title id="agent-chart-title">巴菲特智能体历史模拟收益曲线</title>
+                <desc id="agent-chart-desc">2019 年至 2025 年整体稳步增长，中间包含数次可控回撤。</desc>
+                <g aria-hidden="true">
+                  <line x1="0" y1="42" x2="560" y2="42" />
+                  <line x1="0" y1="108" x2="560" y2="108" />
+                  <line x1="0" y1="174" x2="560" y2="174" />
+                  <line x1="0" y1="240" x2="560" y2="240" />
+                </g>
+                <path d="M0 222 L30 214 L58 218 L86 198 L116 202 L144 181 L176 187 L204 158 L234 164 L262 139 L290 144 L318 112 L346 123 L376 92 L404 99 L432 70 L462 77 L492 54 L520 62 L560 28" />
+                <circle cx="560" cy="28" r="5" />
+              </svg>
+              <figcaption>
+                <span>2019.01 — 2025.05</span>
+                <strong>高于全部智能体中位数</strong>
+              </figcaption>
+            </figure>
+
+            <div class="agent-performance__note">
+              <span class="pilot-status pilot-status--live">TOP 10%</span>
+              <p>长期收益优势主要来自低估买入与复利持有。</p>
+            </div>
+          </section>
+
+          <aside class="agent-team-fit" aria-labelledby="fit-title">
+            <header>
+              <div>
+                <p class="pilot-label">TEAM FIT</p>
+                <h2 class="pilot-section-heading" id="fit-title">兼容战队伙伴</h2>
+              </div>
+              <strong class="pilot-number">92</strong>
+            </header>
+
+            <ol class="agent-team-fit__list">
+              <li><span class="pilot-number">01</span><div><strong>孙正义</strong><small>愿景架构师</small></div><em class="pilot-number">92</em></li>
+              <li><span class="pilot-number">02</span><div><strong>特朗普</strong><small>宏观情绪统帅</small></div><em class="pilot-number">88</em></li>
+              <li><span class="pilot-number">03</span><div><strong>凯茜·伍德</strong><small>创新成长探索者</small></div><em class="pilot-number">84</em></li>
+            </ol>
+
+            <div class="agent-team-fit__actions">
+              <button class="pilot-button pilot-button--primary" type="button">加入战队</button>
+              <button class="pilot-button pilot-button--secondary" type="button">加入对比</button>
+              <button class="pilot-button pilot-button--quiet" type="button">设为队长候选 →</button>
+            </div>
+
+            <p class="agent-team-fit__disclosure">AI 蒸馏模型 · 仅供模拟 · 不构成投资建议</p>
+          </aside>
+        </div>
+
+        <a class="agent-screen__continue" href="#strategy">
+          <span>查看策略系统</span><span aria-hidden="true">↓</span>
+        </a>
+      </section>
+
+      <section class="agent-screen agent-strategy pilot-shell" id="strategy" aria-labelledby="strategy-title">
+        <div class="agent-screen__topline">
+          <div>
+            <p class="pilot-label">STRATEGY SYSTEM</p>
+            <h2 id="strategy-title">策略如何形成判断</h2>
+          </div>
+          <span class="pilot-number">02 / 02</span>
+        </div>
+
+        <div class="agent-strategy__grid">
+          <section class="agent-capability" aria-labelledby="capability-title">
+            <header>
+              <h3 id="capability-title">策略能力</h3>
+              <span>六项决策倾向</span>
+            </header>
+            <dl>
+              <div><dt>质量判断</dt><dd><span style="--score: 94%"></span></dd><em class="pilot-number">94</em></div>
+              <div><dt>价值发现</dt><dd><span style="--score: 92%"></span></dd><em class="pilot-number">92</em></div>
+              <div><dt>风险管理</dt><dd><span style="--score: 88%"></span></dd><em class="pilot-number">88</em></div>
+              <div><dt>复利耐心</dt><dd><span style="--score: 95%"></span></dd><em class="pilot-number">95</em></div>
+              <div><dt>逆向判断</dt><dd><span style="--score: 87%"></span></dd><em class="pilot-number">87</em></div>
+              <div><dt>波动控制</dt><dd><span style="--score: 82%"></span></dd><em class="pilot-number">82</em></div>
+            </dl>
+          </section>
+
+          <section class="agent-market-fit" aria-labelledby="market-fit-title">
+            <header>
+              <h3 id="market-fit-title">市场适配</h3>
+              <span class="pilot-status pilot-status--data">CONTEXT FILTER</span>
+            </header>
+            <div class="agent-market-fit__columns">
+              <div>
+                <h4>适合环境</h4>
+                <ul>
+                  <li>价值被低估的市场</li>
+                  <li>经济稳定、低通胀</li>
+                  <li>利率低位或常态化</li>
+                  <li>自由现金流充沛</li>
+                </ul>
+              </div>
+              <div>
+                <h4>不适合环境</h4>
+                <ul>
+                  <li>泡沫化主题市场</li>
+                  <li>高波动、高投机情绪</li>
+                  <li>盈利周期末期</li>
+                  <li>宏观极端不确定</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <section class="agent-sources" aria-labelledby="sources-title">
+            <header>
+              <h3 id="sources-title">关键数据来源</h3>
+              <span>PUBLIC SIGNALS</span>
+            </header>
+            <ul>
+              <li><span>01</span><div><strong>SEC 文件</strong><small>10-K · 13-F · 13-D</small></div></li>
+              <li><span>02</span><div><strong>业绩电话会</strong><small>管理层表述与经营变化</small></div></li>
+              <li><span>03</span><div><strong>投资者信件</strong><small>年度信与长期原则</small></div></li>
+              <li><span>04</span><div><strong>宏观数据</strong><small>利率 · GDP · CPI</small></div></li>
+              <li><span>05</span><div><strong>公开访谈</strong><small>新闻与观点声明</small></div></li>
+            </ul>
+          </section>
+        </div>
+
+        <footer class="agent-strategy__footer">
+          <p><strong>核心逻辑</strong>：在价格显著低于长期价值时介入，并通过纪律与耐心等待复利兑现。</p>
+          <button class="pilot-button pilot-button--primary" type="button">加入 Alpha Team</button>
+        </footer>
+      </section>
+    </main>
+  </body>
+</html>
