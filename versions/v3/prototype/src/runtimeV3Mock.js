@@ -106,6 +106,96 @@ export const V3_TASKS = [
     deliverable: '执行指令',
     lanes: [0, 0, 0, 0, 1, 3],
   },
+  {
+    id: 'funding-spread',
+    ownerId: 'dalio',
+    title: '拆解融资利差',
+    skill: 'Funding Stress',
+    factor: '商业票据 / 互换价差',
+    deliverable: '流动性快报',
+    lanes: [0, 1, 1, 2, 3, 3],
+  },
+  {
+    id: 'balance-sheet',
+    ownerId: 'buffett',
+    title: '扫描资产负债表',
+    skill: 'Balance Sheet Filter',
+    factor: '杠杆 / 自由现金流',
+    deliverable: '质量名单',
+    lanes: [0, 0, 1, 1, 2, 3],
+  },
+  {
+    id: 'volume-exhaustion',
+    ownerId: 'livermore',
+    title: '确认卖盘衰竭',
+    skill: 'Tape Exhaustion',
+    factor: '成交量 / 价差',
+    deliverable: '结构信号',
+    lanes: [0, 1, 1, 2, 3, 3],
+  },
+  {
+    id: 'correlation-cluster',
+    ownerId: 'simons',
+    title: '重算相关性簇',
+    skill: 'Correlation Cluster',
+    factor: '协方差 / 信号衰减',
+    deliverable: '聚类矩阵',
+    lanes: [0, 0, 1, 2, 2, 3],
+  },
+  {
+    id: 'gap-risk',
+    ownerId: 'taleb',
+    title: '压力测试跳空风险',
+    skill: 'Gap Risk Stress',
+    factor: '波动率 / 尾部损失',
+    deliverable: '压力阈值',
+    lanes: [0, 1, 2, 2, 3, 3],
+  },
+  {
+    id: 'policy-news',
+    ownerId: 'dalio',
+    title: '筛选政策新闻',
+    skill: 'Policy Signal Map',
+    factor: '央行措辞 / 可信度',
+    deliverable: '政策简报',
+    lanes: [0, 0, 0, 1, 2, 3],
+  },
+  {
+    id: 'entry-liquidity',
+    ownerId: 'livermore',
+    title: '测算入场冲击',
+    skill: 'Execution Depth',
+    factor: '深度 / 滑点',
+    deliverable: '价格阶梯',
+    lanes: [0, 0, 1, 1, 2, 3],
+  },
+  {
+    id: 'earnings-resilience',
+    ownerId: 'buffett',
+    title: '验证盈利韧性',
+    skill: 'Earnings Quality',
+    factor: '利润率 / 应收账款',
+    deliverable: '盈利备忘',
+    lanes: [0, 0, 0, 1, 2, 3],
+  },
+  {
+    id: 'hedge-cost',
+    ownerId: 'taleb',
+    title: '评估对冲成本',
+    skill: 'Hedge Cost',
+    factor: '偏度 / 期限结构',
+    deliverable: '对冲报价',
+    lanes: [0, 1, 2, 3, 3, 3],
+  },
+  {
+    id: 'signal-decay',
+    ownerId: 'simons',
+    title: '估计信号半衰期',
+    skill: 'Signal Decay',
+    factor: 'IC / 换手率',
+    deliverable: '信号曲线',
+    lanes: [0, 0, 1, 1, 2, 3],
+  },
 ]
 
 const AGENT_ATTENTION_LABELS = {
@@ -119,9 +209,45 @@ const AGENT_ATTENTION_LABELS = {
 export function getV3AgentAttention(tick, visibleTasks = []) {
   if (!visibleTasks.length) return []
 
-  return V3_TEAM_IDS.map((agentId, agentIndex) => {
-    const attentionStep = Math.floor((tick + agentIndex * 2) / 3)
-    const task = visibleTasks[(agentIndex + attentionStep) % visibleTasks.length]
+  const attentionStep = Math.floor(tick / 3)
+  const attentionLimit = Math.min(
+    V3_TEAM_IDS.length,
+    Math.max(1, visibleTasks.length - 1),
+  )
+  const laneBuckets = RUNTIME_LANES
+    .map((_, laneIndex) => visibleTasks.filter((task) => task.lane === laneIndex))
+    .filter((tasks) => tasks.length)
+  const usedTaskIds = new Set()
+  const attendedTasks = []
+
+  const takeAvailableTask = (tasks, seed) => {
+    for (let offset = 0; offset < tasks.length; offset += 1) {
+      const task = tasks[(seed + offset) % tasks.length]
+      if (!usedTaskIds.has(task.id)) {
+        usedTaskIds.add(task.id)
+        return task
+      }
+    }
+    return null
+  }
+
+  laneBuckets.forEach((tasks, laneOrder) => {
+    if (attendedTasks.length >= attentionLimit) return
+    const task = takeAvailableTask(tasks, attentionStep + laneOrder * 2)
+    if (task) attendedTasks.push(task)
+  })
+
+  const remainingTasks = visibleTasks.filter((task) => !usedTaskIds.has(task.id))
+  while (attendedTasks.length < attentionLimit && remainingTasks.length) {
+    const index = (attentionStep * 2 + attendedTasks.length) % remainingTasks.length
+    const [task] = remainingTasks.splice(index, 1)
+    usedTaskIds.add(task.id)
+    attendedTasks.push(task)
+  }
+
+  const agentRotation = Math.floor(attentionStep / 2) % V3_TEAM_IDS.length
+  return attendedTasks.map((task, slotIndex) => {
+    const agentId = V3_TEAM_IDS[(slotIndex + agentRotation) % V3_TEAM_IDS.length]
     const state = task.lane === 2
       ? '复核中'
       : task.lane === 3
@@ -130,7 +256,7 @@ export function getV3AgentAttention(tick, visibleTasks = []) {
 
     return {
       agentId,
-      anchor: (attentionStep + agentIndex) % 3,
+      anchor: (attentionStep + slotIndex) % 3,
       taskId: task.id,
       state,
     }

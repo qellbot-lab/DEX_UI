@@ -28,7 +28,48 @@ import '../v3-runtime.css'
 
 const speeds = [1, 2, 4]
 const identityFallback = Object.values(AGENT_IDENTITY)
-const LANE_VISIBLE_TASK_LIMIT = 3
+const LANE_VISIBLE_TASK_LIMIT = 5
+const paperAssetFormatter = new Intl.NumberFormat('zh-CN', {
+  style: 'currency',
+  currency: 'CNY',
+  maximumFractionDigits: 0,
+})
+
+function paperEquityAt(tick) {
+  const snapshot = getV3RuntimeSnapshot(Math.max(0, tick))
+  const base = 3_200_000
+  const phaseContribution = base * (snapshot.phase.alpha / 100)
+  const intraphaseDrift = snapshot.phaseTick * 3_800
+  const marketNoise = Math.sin(tick * .74) * 6_200 + Math.cos(tick * .31) * 3_100
+  return Math.round(base + phaseContribution + intraphaseDrift + marketNoise)
+}
+
+function AlphaSparkline({ values, negative }) {
+  const minimum = Math.min(...values)
+  const maximum = Math.max(...values)
+  const range = Math.max(1, maximum - minimum)
+  const points = values.map((value, index) => {
+    const x = values.length === 1 ? 50 : (index / (values.length - 1)) * 100
+    const y = 24 - ((value - minimum) / range) * 20
+    return `${x.toFixed(2)},${y.toFixed(2)}`
+  }).join(' ')
+  const latestPoint = points.split(' ').at(-1)?.split(',') ?? ['100', '14']
+
+  return (
+    <svg
+      className={`v3-alpha-sparkline ${negative ? 'is-negative' : ''}`}
+      viewBox="0 0 100 28"
+      role="img"
+      aria-label="最近十八个运行刻的模拟净值变化"
+      preserveAspectRatio="none"
+    >
+      <title>最近十八个运行刻的模拟净值变化</title>
+      <path d="M0 24H100" />
+      <polyline points={points} />
+      <circle cx={latestPoint[0]} cy={latestPoint[1]} r="2.1" />
+    </svg>
+  )
+}
 
 function taskTone(state) {
   if (state === '待复核' || state === '执行中') return 'ember'
@@ -68,6 +109,11 @@ export function RuntimePage() {
   const candles = useMemo(() => createV3Candles(tick, 28), [tick])
   const position = getV3Position(tick, phase)
   const latestCandle = candles.at(-1)
+  const paperAssets = useMemo(() => paperEquityAt(tick), [tick])
+  const equityHistory = useMemo(
+    () => Array.from({ length: 18 }, (_, index) => paperEquityAt(tick - 17 + index)),
+    [tick],
+  )
 
   const seatByRoleId = useMemo(
     () => Object.fromEntries(V3_TEAM_IDS.map((roleId, index) => [roleId, team[index]])),
@@ -106,6 +152,7 @@ export function RuntimePage() {
   const visibleActivityCount = Math.min(phase.activity.length, 1 + phaseTick)
   const visibleActivity = phase.activity.slice(0, visibleActivityCount)
   const activeTaskCount = runtimeTasks.filter((task) => task.lane === 1 || task.lane === 2).length
+  const selectedAttention = attentionByTask[selectedTask.id]?.[0]
 
   const resolveActor = (actor) => {
     if (actor === 'TEAM CORE') return { name: 'TEAM CORE', identity: null }
@@ -158,9 +205,17 @@ export function RuntimePage() {
           </div>
 
           <div className="v3-runtime-kpis" aria-label="模拟关键指标">
-            <div><span>ACTIVE TASKS</span><b>{activeTaskCount}<small>/ 06</small></b><em>实时任务</em></div>
+            <div><span>ACTIVE TASKS</span><b>{activeTaskCount}<small>/ {runtimeTasks.length}</small></b><em>实时任务</em></div>
             <div><span>AVG CYCLE</span><b>{phase.averageCycle}</b><em>平均处理时间</em></div>
-            <div><span>PAPER ALPHA</span><b className={phase.alpha < 0 ? 'tone-rose' : 'tone-acid'}>{phase.alpha > 0 ? '+' : ''}{phase.alpha.toFixed(1)}%</b><em>模拟贡献</em></div>
+            <div className="v3-kpi-assets"><span>PAPER ASSETS</span><b>{paperAssetFormatter.format(paperAssets)}</b><em>模拟账户净值</em></div>
+            <div className="v3-kpi-alpha">
+              <span>PAPER ALPHA</span>
+              <div className="v3-kpi-curve-row">
+                <b className={phase.alpha < 0 ? 'tone-rose' : 'tone-acid'}>{phase.alpha > 0 ? '+' : ''}{phase.alpha.toFixed(1)}%</b>
+                <AlphaSparkline values={equityHistory} negative={phase.alpha < 0} />
+              </div>
+              <em>近 18 个运行刻</em>
+            </div>
             <div><span>RISK BUDGET</span><b>{phase.risk}%</b><em>可用风险预算</em></div>
           </div>
 
@@ -231,21 +286,34 @@ export function RuntimePage() {
                       <div className="v3-lane-stack" data-overflow-count={hiddenTaskCount}>
                         <AnimatePresence initial={false} mode="popLayout">
                           {visibleLaneTasks.map((task, visibleIndex) => {
-                            const identity = AGENT_IDENTITY[task.owner?.id] ?? identityFallback[V3_TEAM_IDS.indexOf(task.ownerId)]
-                            const dimmed = focusedAgentId && focusedAgentId !== task.owner?.id
                             const laneLead = visibleIndex === 0
                             const taskAttention = attentionByTask[task.id] ?? []
+                            const activeAttention = taskAttention[0]
+                            const identity = AGENT_IDENTITY[task.owner?.id] ?? identityFallback[V3_TEAM_IDS.indexOf(task.ownerId)]
+                            const visualIdentity = activeAttention?.identity ?? identity
+                            const hasActiveAgent = taskAttention.length > 0
+                            const dimmed = focusedAgentId && !taskAttention.some((attention) => attention.agent?.id === focusedAgentId)
+                            const cardOpacity = dimmed ? .2 : hasActiveAgent ? 1 : .52
+                            const cardFilter = dimmed
+                              ? 'brightness(.62) saturate(.18)'
+                              : hasActiveAgent
+                                ? 'brightness(1) saturate(1)'
+                                : 'brightness(.76) saturate(.32)'
                             return (
                               <motion.button
                                 layout
                                 layoutId={`task-${task.id}`}
                                 key={task.id}
                                 type="button"
-                                className={`v3-task-card ${laneLead ? 'is-lane-lead' : ''} ${selectedTaskId === task.id ? 'is-selected' : ''} ${dimmed ? 'is-dimmed' : ''}`}
-                                style={{ '--agent-color': identity.color, '--agent-tint': `${identity.color}12` }}
+                                className={`v3-task-card ${laneLead ? 'is-lane-lead' : ''} ${hasActiveAgent ? 'has-active-agent' : 'is-unassigned'} ${selectedTaskId === task.id ? 'is-selected' : ''} ${dimmed ? 'is-dimmed' : ''}`}
+                                style={{
+                                  '--agent-color': visualIdentity.color,
+                                  '--domain-color': identity.color,
+                                  '--agent-tint': `${visualIdentity.color}12`,
+                                }}
                                 transition={motionTransition}
                                 initial={reducedMotion || !laneLead ? false : { opacity: 0, scaleY: 0.035, filter: 'brightness(2.8)' }}
-                                animate={{ opacity: 1, scaleY: 1, filter: 'brightness(1)' }}
+                                animate={{ opacity: cardOpacity, scaleY: 1, filter: cardFilter }}
                                 exit={reducedMotion
                                   ? { opacity: 0 }
                                   : {
@@ -261,11 +329,11 @@ export function RuntimePage() {
                                     }}
                                 onClick={() => {
                                   setSelectedTaskId(task.id)
-                                  setFocusedAgentId(task.owner?.id ?? '')
+                                  setFocusedAgentId(activeAttention?.agent?.id ?? '')
                                 }}
                               >
                                 <div className="v3-task-owner">
-                                  <span><i />{task.owner?.name}</span>
+                                  <span><i />{identity.shortRole}任务</span>
                                   <em className={`tone-${taskTone(task.state)}`}>{task.state}</em>
                                 </div>
                                 <h3>{task.title}</h3>
@@ -287,7 +355,7 @@ export function RuntimePage() {
                                       style={{
                                         '--agent-color': attention.identity.color,
                                         '--presence-order': attentionIndex,
-                                        marginRight: `${attention.anchor * 18}px`,
+                                        marginRight: `${attention.anchor * 10}px`,
                                       }}
                                       initial={reducedMotion ? false : { opacity: 0, scale: .92 }}
                                       animate={{ opacity: 1, scale: 1 }}
@@ -356,9 +424,12 @@ export function RuntimePage() {
               })}
             </div>
 
-            <div className="v3-task-inspector" style={{ '--agent-color': (AGENT_IDENTITY[selectedTask.owner?.id] ?? identityFallback[0]).color }}>
+            <div
+              className="v3-task-inspector"
+              style={{ '--agent-color': selectedAttention?.identity.color ?? (AGENT_IDENTITY[selectedTask.owner?.id] ?? identityFallback[0]).color }}
+            >
               <span>ACTIVE TASK</span>
-              <div><b>{selectedTask.owner?.name}</b><em>{selectedTask.state}</em></div>
+              <div><b>{selectedAttention?.agent?.name ?? '待分配'}</b><em>{selectedAttention?.state ?? selectedTask.state}</em></div>
               <h3>{selectedTask.title}</h3>
               <dl>
                 <div><dt>Skill</dt><dd>{selectedTask.skill}</dd></div>

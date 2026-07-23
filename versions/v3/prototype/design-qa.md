@@ -59,8 +59,9 @@ low-glow institutional visual system.
   timing.
 - The first visible card in every non-empty lane carries the CRT running-state
   treatment. Overflow exits collapse vertically into a one-pixel bright line.
-- Lane capacity is three cards on desktop; hidden task count is retained in the
-  lane header rather than changing board geometry.
+- Lane capacity is five cards on desktop. Four cards remain fully readable and
+  the fifth is intentionally clipped to signal queued work; hidden task count
+  stays in the lane header rather than changing board geometry.
 - Changing activity count uses five fixed slots and `contain: layout paint`;
   adjacent panels do not inherit feed-height changes.
 - `prefers-reduced-motion` disables runtime animation and transition duration.
@@ -112,14 +113,14 @@ Resolution:
 Resolution:
 
 - Fix the desktop operations board at `575px`.
-- Reserve three visible task slots per lane; changing task count no longer
-  changes the board or lower-section position.
+- Reserve five visible task slots per lane inside a `450px` clipping stage;
+  changing task count no longer changes the board or lower-section position.
 - When a lane exceeds its visible capacity, older leading cards close in
   sequence with a vertical CRT collapse into a bright line, then disappear.
 - The first visible task in each non-empty lane receives a restrained scan-line
   treatment so the active edge of every workflow stage remains identifiable.
-- Below `1220px`, the board returns to natural height and horizontal lane
-  scrolling to protect touch readability.
+- Below `1220px`, the clipping stage retains its final geometry and the
+  workflow board gains horizontal lane scrolling to protect touch readability.
 
 ### Iteration 5
 
@@ -137,6 +138,30 @@ Resolution:
   tick. Pause and speed controls continue to govern the complete motion system.
 - Shared-layout transitions use transform and opacity only; reduced-motion mode
   updates the pointers without spatial animation.
+
+### Iteration 6
+
+- P2: three tasks per lane under-represented queue depth, while assigning a
+  visible Agent to every task weakened the sense of prioritization.
+- P2: the Runtime summary lacked both portfolio-scale context and a compact
+  trend signal.
+
+Resolution:
+
+- Expand the mock workflow from six to sixteen tasks and keep the board height
+  fixed at `575px`.
+- Use `92px` task rows so four full cards and `41px` of the fifth card remain
+  visible in a dense lane.
+- Allocate Agent Presence pointers independently of task-domain ownership.
+  Each non-empty lane receives attention where capacity allows, no two Agents
+  occupy the same task, and at least one visible task remains unassigned.
+- Render unassigned cards at `0.52` opacity with reduced brightness and
+  saturation while active cards retain full contrast.
+- Expand the Runtime summary to five fixed cells. `PAPER ASSETS` renders a
+  currency-scale value and `PAPER ALPHA` includes an eighteen-tick semantic
+  equity trace.
+- Desktop QA at `1890 × 936`: operations board `575px`, lane stage `450px`,
+  full card height `92px`, clipped fifth-card height `41px`.
 
 ## Remaining P3 observations
 
