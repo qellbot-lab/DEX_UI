@@ -1,0 +1,56 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="qell-q-title qell-q-desc">
+  <title id="qell-q-title">QELL Q Logo Mark</title>
+  <desc id="qell-q-desc">A modular pixel-style Q mark for QELL with circuit and AI-inspired details.</desc>
+  <defs>
+    <linearGradient id="qell-q-tail" x1="72" y1="72" x2="112" y2="112" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#B7FF5A"/>
+      <stop offset="1" stop-color="#58F4DD"/>
+    </linearGradient>
+    <filter id="qell-q-glow" x="0" y="0" width="128" height="128" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.72 0 0 0 0 1 0 0 0 0 0.35 0 0 0 0.35 0" result="glow"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <g filter="url(#qell-q-glow)">
+    <path fill="#F4F7EF" fill-rule="evenodd" clip-rule="evenodd" d="M24 12H84V24H96V82H84V94H24V82H12V24H24V12ZM34 32V74H74V32H34Z"/>
+    <path fill="url(#qell-q-tail)" d="M72 72H88V84H100V96H112V112H94V100H82V88H72V72Z"/>
+    <path fill="#B7FF5A" d="M24 12H44V24H24V12Z"/>
+    <path fill="#B7FF5A" d="M12 64H24V82H12V64Z"/>
+    <path fill="#58F4DD" d="M96 42H108V54H96V42Z"/>
+  </g>
+
+  <g opacity="0.86">
+    <path d="M44 44H56V54H66" stroke="#B7FF5A" stroke-width="4" stroke-linecap="square" stroke-linejoin="miter"/>
+    <path d="M64 64H54V70" stroke="#58F4DD" stroke-width="4" stroke-linecap="square" stroke-linejoin="miter"/>
+    <rect x="46" y="46" width="8" height="8" fill="#B7FF5A"/>
+    <rect x="64" y="52" width="8" height="8" fill="#58F4DD"/>
+    <rect x="50" y="66" width="8" height="8" fill="#F4F7EF"/>
+  </g>
+
+  <g opacity="0.62" stroke="#58F4DD" stroke-width="3" stroke-linecap="square">
+    <path d="M96 30H116"/>
+    <path d="M96 66H112"/>
+    <path d="M56 94V114"/>
+    <path d="M42 94V106"/>
+  </g>
+
+  <g fill="#B7FF5A">
+    <rect x="114" y="27" width="6" height="6"/>
+    <rect x="110" y="63" width="6" height="6"/>
+    <rect x="53" y="112" width="6" height="6"/>
+    <rect x="39" y="104" width="6" height="6"/>
+  </g>
+
+  <g opacity="0.46" fill="#F4F7EF">
+    <rect x="16" y="108" width="8" height="8"/>
+    <rect x="30" y="108" width="8" height="8"/>
+    <rect x="8" y="96" width="8" height="8"/>
+    <rect x="104" y="14" width="8" height="8"/>
+    <rect x="116" y="14" width="4" height="4"/>
+  </g>
+</svg>
