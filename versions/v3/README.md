@@ -7,7 +7,7 @@ V3 is isolated from the deployed V2 prototype.
 - Direction: live historical-simulation operations board
 - Default Alpha Team: five Agents
 - V2 remains in `versions/v2/prototype` on `main`
-- The existing Cloudflare project selects V2 or V3 from the Git branch
+- The existing Cloudflare build root delegates to V3 only on the `v3` branch
 
 ## Specifications
 

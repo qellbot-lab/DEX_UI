@@ -1,15 +1,15 @@
 # Cloudflare Pages deployment for V3
 
-The existing `qell-alpha` Pages project uses one stable build root while its
-branches select the appropriate prototype at build time:
+The existing `qell-alpha` Pages project keeps
+`versions/v2/prototype` as its stable build root:
 
-- `main` builds V2 from `versions/v2/prototype`.
-- `v3` builds V3 from `versions/v3/prototype`.
-- Both targets write the final site to the configured `dist` directory.
+- On `main`, that directory contains the V2 entry point.
+- On `v3`, its `src/main.jsx` is a thin adapter that imports the V3 entry point
+  from `versions/v3/prototype`.
+- Both branches use the standard Vite build and write to `dist`.
 
-The selector lives in
-`versions/v2/prototype/cloudflare-build.mjs`. Cloudflare Pages injects
-`CF_PAGES_BRANCH`; local QA can set `QELL_DEPLOY_TARGET=v3`.
+Git branches provide the version boundary. No environment-variable build
+selector or cross-root build script is required.
 
 ## Existing project settings
 
@@ -27,12 +27,9 @@ No runtime environment variables are required for the current frontend demo.
 
 ## Verification
 
-Cloudflare should print one of these lines near the start of the build:
-
-```text
-[qell-build] branch=main target=v2
-[qell-build] branch=v3 target=v3
-```
+On the `v3` branch, running `npm run build` inside
+`versions/v2/prototype` must produce an asset containing
+`v3-runtime-page` and `TEAM WORKFLOW`.
 
 Every push to `v3` creates a new immutable deployment URL. The earlier
 deployment URL continues to show the artifact that was built at that time.
