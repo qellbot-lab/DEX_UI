@@ -467,7 +467,7 @@ body:has(.v3-runtime-page) main {
   flex-direction: column;
   min-width: 0;
   min-height: 92px;
-  padding: 8px 9px;
+  padding: 7px 9px;
   overflow: hidden;
   border: 1px solid var(--v3-rule);
   background: var(--v3-surface-raised);
@@ -516,12 +516,7 @@ body:has(.v3-runtime-page) main {
 }
 
 .v3-task-card.is-lane-lead {
-  background-image: repeating-linear-gradient(
-    to bottom,
-    transparent 0,
-    transparent 3px,
-    color-mix(in oklch, var(--agent-color) 8%, transparent) 4px
-  );
+  background-image: none;
 }
 
 .v3-task-card.is-lane-lead::after {
@@ -542,6 +537,8 @@ body:has(.v3-runtime-page) main {
 
 .v3-task-owner {
   display: flex;
+  min-height: 12px;
+  flex: 0 0 12px;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
@@ -575,33 +572,42 @@ body:has(.v3-runtime-page) main {
 }
 
 .v3-task-card h3 {
-  margin: 7px 0 0;
+  flex: 0 0 auto;
+  margin: 6px 0 0;
   font-size: 12px;
   font-weight: 650;
   letter-spacing: -.015em;
-  line-height: 1.35;
+  line-height: 1.25;
 }
 
 .v3-task-card > p {
-  margin: 4px 0 0;
+  min-height: 12px;
+  flex: 0 0 12px;
+  margin: 3px 0 0;
   overflow: hidden;
   color: var(--fog);
-  font: 500 9px/1.15 Chakra, sans-serif;
+  font: 500 10px/12px Chakra, sans-serif;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .v3-task-card > small {
-  margin-top: 3px;
+  min-height: 11px;
+  flex: 0 0 11px;
+  margin-top: 2px;
   overflow: hidden;
   color: var(--muted);
-  font-size: 9px;
+  font: 500 9px/11px Chakra, sans-serif;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
+.v3-task-card.has-active-agent > small {
+  max-width: 48%;
+}
+
 .v3-task-card-footer {
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
@@ -689,8 +695,13 @@ body:has(.v3-runtime-page) main {
 }
 
 .v3-task-progress {
+  position: absolute;
+  z-index: 2;
+  right: 9px;
+  bottom: 0;
+  left: 9px;
   height: 3px;
-  margin-top: 4px;
+  margin: 0;
   overflow: hidden;
   background: rgba(242, 245, 236, .07);
 }

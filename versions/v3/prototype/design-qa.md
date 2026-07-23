@@ -163,6 +163,27 @@ Resolution:
 - Desktop QA at `1890 × 936`: operations board `575px`, lane stage `450px`,
   full card height `92px`, clipped fifth-card height `41px`.
 
+### Iteration 7
+
+- P1: compact task cards allowed their metadata rows to participate in Flexbox
+  shrinking. A `10.35px` Skill line collapsed to `1.6–3.6px`, and an
+  approximately `12px` factor line collapsed to `1.8–4.2px`, visually cutting
+  the glyphs into horizontal fragments.
+
+Resolution:
+
+- Reserve non-shrinking `12px` and `11px` line boxes for Skill and factor
+  metadata.
+- Move the analysis progress rule out of document flow and anchor it to the
+  card's lower edge.
+- Remove the duplicated deliverable footer from the compact card; the complete
+  deliverable remains available in the Active Task inspector.
+- Remove the full-card static scan texture while retaining the moving CRT scan
+  edge, so the runtime state remains visible without crossing small type.
+- Desktop QA at `1890 × 936`: `0` clipped Skill/factor rows across all visible
+  cards; card height remains `92px`, operations board remains `575px`, and the
+  market strip stays at document position `795px`.
+
 ## Remaining P3 observations
 
 - Mobile users discover the workflow lanes through horizontal scrolling. A
