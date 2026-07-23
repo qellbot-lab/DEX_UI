@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Area, AreaChart, CartesianGrid, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { performanceData } from '../data.js'
 
@@ -28,9 +28,13 @@ export function PerformanceChart({ compact = false }) {
 }
 
 export function MarketChart({ candles = [], paused = false }) {
-  const width = 420
-  const height = 232
-  const padding = { top: 28, right: 54, bottom: 30, left: 34 }
+  const chartRef = useRef(null)
+  const [dimensions, setDimensions] = useState({ width: 860, height: 220 })
+  const { width, height } = dimensions
+  const compact = width < 520
+  const padding = compact
+    ? { top: 24, right: 42, bottom: 30, left: 24 }
+    : { top: 26, right: 60, bottom: 30, left: 42 }
   const chartWidth = width - padding.left - padding.right
   const chartHeight = height - padding.top - padding.bottom
   const values = candles.flatMap((item) => [item.low, item.high])
@@ -61,8 +65,29 @@ export function MarketChart({ candles = [], paused = false }) {
     }]
   })
 
+  useEffect(() => {
+    const chart = chartRef.current
+    if (!chart) return undefined
+
+    const measure = () => {
+      const rect = chart.getBoundingClientRect()
+      const next = {
+        width: Math.max(280, Math.round(rect.width)),
+        height: Math.max(160, Math.round(rect.height)),
+      }
+      setDimensions((current) => current.width === next.width && current.height === next.height
+        ? current
+        : next)
+    }
+
+    measure()
+    const observer = new ResizeObserver(measure)
+    observer.observe(chart)
+    return () => observer.disconnect()
+  }, [])
+
   return (
-    <div className="chart-a11y runtime-market-chart" role="img" aria-label={`历史事件动态 K 线，当前指数 ${latest?.close?.toFixed(2) ?? '--'}`} data-paused={paused}>
+    <div ref={chartRef} className="chart-a11y runtime-market-chart" role="img" aria-label={`历史事件动态 K 线，当前指数 ${latest?.close?.toFixed(2) ?? '--'}`} data-paused={paused}>
       <svg viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none" aria-hidden="true">
         {grid.map((line) => (
           <g key={line.y}>

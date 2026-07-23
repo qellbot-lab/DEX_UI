@@ -27,6 +27,7 @@ import '../v3-runtime.css'
 
 const speeds = [1, 2, 4]
 const identityFallback = Object.values(AGENT_IDENTITY)
+const LANE_VISIBLE_TASK_LIMIT = 3
 
 function taskTone(state) {
   if (state === '待复核' || state === '执行中') return 'ember'
@@ -194,27 +195,47 @@ export function RuntimePage() {
               <div className="v3-lanes">
                 {RUNTIME_LANES.map((lane) => {
                   const laneTasks = runtimeTasks.filter((task) => task.lane === RUNTIME_LANES.indexOf(lane))
+                  const hiddenTaskCount = Math.max(0, laneTasks.length - LANE_VISIBLE_TASK_LIMIT)
+                  const visibleLaneTasks = laneTasks.slice(hiddenTaskCount)
                   return (
                     <section className="v3-lane" key={lane.id} aria-labelledby={`lane-${lane.id}`}>
                       <header>
                         <div><span>{lane.index}</span><h2 id={`lane-${lane.id}`}>{lane.label}</h2></div>
-                        <em>{laneTasks.length.toString().padStart(2, '0')} TASKS</em>
+                        <em title={hiddenTaskCount ? `${hiddenTaskCount} 个较早任务已收束` : undefined}>
+                          {laneTasks.length.toString().padStart(2, '0')} TASKS
+                        </em>
                         <small>{lane.meta}</small>
                       </header>
-                      <div className="v3-lane-stack">
+                      <div className="v3-lane-stack" data-overflow-count={hiddenTaskCount}>
                         <AnimatePresence initial={false} mode="popLayout">
-                          {laneTasks.map((task) => {
+                          {visibleLaneTasks.map((task, visibleIndex) => {
                             const identity = AGENT_IDENTITY[task.owner?.id] ?? identityFallback[V3_TEAM_IDS.indexOf(task.ownerId)]
                             const dimmed = focusedAgentId && focusedAgentId !== task.owner?.id
+                            const laneLead = visibleIndex === 0
                             return (
                               <motion.button
                                 layout
                                 layoutId={`task-${task.id}`}
                                 key={task.id}
                                 type="button"
-                                className={`v3-task-card ${selectedTaskId === task.id ? 'is-selected' : ''} ${dimmed ? 'is-dimmed' : ''}`}
+                                className={`v3-task-card ${laneLead ? 'is-lane-lead' : ''} ${selectedTaskId === task.id ? 'is-selected' : ''} ${dimmed ? 'is-dimmed' : ''}`}
                                 style={{ '--agent-color': identity.color, '--agent-tint': `${identity.color}12` }}
                                 transition={motionTransition}
+                                initial={reducedMotion || !laneLead ? false : { opacity: 0, scaleY: 0.035, filter: 'brightness(2.8)' }}
+                                animate={{ opacity: 1, scaleY: 1, filter: 'brightness(1)' }}
+                                exit={reducedMotion
+                                  ? { opacity: 0 }
+                                  : {
+                                      opacity: [1, 1, 0],
+                                      scaleY: [1, 0.025, 0],
+                                      filter: ['brightness(1)', 'brightness(2.8)', 'brightness(4)'],
+                                      transition: {
+                                        duration: 0.42,
+                                        delay: visibleIndex * 0.07,
+                                        ease: [0.4, 0, 0.2, 1],
+                                        times: [0, 0.72, 1],
+                                      },
+                                    }}
                                 onClick={() => {
                                   setSelectedTaskId(task.id)
                                   setFocusedAgentId(task.owner?.id ?? '')
@@ -237,9 +258,9 @@ export function RuntimePage() {
                             )
                           })}
                         </AnimatePresence>
-                        {Array.from({ length: Math.max(0, 2 - laneTasks.length) }, (_, index) => (
+                        {Array.from({ length: Math.max(0, LANE_VISIBLE_TASK_LIMIT - visibleLaneTasks.length) }, (_, index) => (
                           <div className="v3-empty-task-slot" key={`empty-${lane.id}-${index}`} aria-hidden="true">
-                            <span>SLOT {String(index + laneTasks.length + 1).padStart(2, '0')}</span>
+                            <span>SLOT {String(index + visibleLaneTasks.length + 1).padStart(2, '0')}</span>
                           </div>
                         ))}
                       </div>
