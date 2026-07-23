@@ -6,6 +6,8 @@ The existing `qell-alpha` Pages project keeps
 - On `main`, that directory contains the V2 entry point.
 - On `v3`, its `src/main.jsx` is a thin adapter that imports the V3 entry point
   from `versions/v3/prototype`.
+- The V2-root Vite config resolves V3 bare imports from the dependency directory
+  installed by Cloudflare inside the fixed build root.
 - Both branches use the standard Vite build and write to `dist`.
 
 Git branches provide the version boundary. No environment-variable build
