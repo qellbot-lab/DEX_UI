@@ -20,6 +20,7 @@ import {
   V3_TEAM_IDS,
   createV3Candles,
   formatV3Time,
+  getV3AgentAttention,
   getV3Position,
   getV3RuntimeSnapshot,
 } from '../runtimeV3Mock.js'
@@ -77,6 +78,29 @@ export function RuntimePage() {
     ...task,
     owner: seatByRoleId[task.ownerId] ?? team[0],
   })), [snapshot.tasks, seatByRoleId, team])
+  const laneTaskGroups = useMemo(() => RUNTIME_LANES.map((_, laneIndex) => {
+    const tasks = runtimeTasks.filter((task) => task.lane === laneIndex)
+    const hiddenTaskCount = Math.max(0, tasks.length - LANE_VISIBLE_TASK_LIMIT)
+    return {
+      tasks,
+      hiddenTaskCount,
+      visibleTasks: tasks.slice(hiddenTaskCount),
+    }
+  }), [runtimeTasks])
+  const agentAttention = useMemo(
+    () => getV3AgentAttention(tick, laneTaskGroups.flatMap((lane) => lane.visibleTasks)),
+    [tick, laneTaskGroups],
+  )
+  const attentionByTask = useMemo(() => agentAttention.reduce((tasks, attention) => {
+    const identityIndex = V3_TEAM_IDS.indexOf(attention.agentId)
+    const agent = seatByRoleId[attention.agentId] ?? team[identityIndex]
+    const identity = AGENT_IDENTITY[agent?.id] ?? identityFallback[identityIndex]
+    tasks[attention.taskId] = [
+      ...(tasks[attention.taskId] ?? []),
+      { ...attention, agent, identity },
+    ]
+    return tasks
+  }, {}), [agentAttention, seatByRoleId, team])
 
   const selectedTask = runtimeTasks.find((task) => task.id === selectedTaskId) ?? runtimeTasks[0]
   const visibleActivityCount = Math.min(phase.activity.length, 1 + phaseTick)
@@ -193,10 +217,8 @@ export function RuntimePage() {
 
             <LayoutGroup id="runtime-board">
               <div className="v3-lanes">
-                {RUNTIME_LANES.map((lane) => {
-                  const laneTasks = runtimeTasks.filter((task) => task.lane === RUNTIME_LANES.indexOf(lane))
-                  const hiddenTaskCount = Math.max(0, laneTasks.length - LANE_VISIBLE_TASK_LIMIT)
-                  const visibleLaneTasks = laneTasks.slice(hiddenTaskCount)
+                {RUNTIME_LANES.map((lane, laneIndex) => {
+                  const { tasks: laneTasks, hiddenTaskCount, visibleTasks: visibleLaneTasks } = laneTaskGroups[laneIndex]
                   return (
                     <section className="v3-lane" key={lane.id} aria-labelledby={`lane-${lane.id}`}>
                       <header>
@@ -212,6 +234,7 @@ export function RuntimePage() {
                             const identity = AGENT_IDENTITY[task.owner?.id] ?? identityFallback[V3_TEAM_IDS.indexOf(task.ownerId)]
                             const dimmed = focusedAgentId && focusedAgentId !== task.owner?.id
                             const laneLead = visibleIndex === 0
+                            const taskAttention = attentionByTask[task.id] ?? []
                             return (
                               <motion.button
                                 layout
@@ -254,6 +277,36 @@ export function RuntimePage() {
                                   </div>
                                 )}
                                 <div className="v3-task-card-footer"><span>{task.deliverable}</span><ArrowRight size={13} /></div>
+                                <div className="v3-agent-presence-rail" aria-hidden="true">
+                                  {taskAttention.map((attention, attentionIndex) => (
+                                    <motion.div
+                                      layout
+                                      layoutId={`agent-presence-${attention.agentId}`}
+                                      key={attention.agentId}
+                                      className="v3-agent-presence"
+                                      style={{
+                                        '--agent-color': attention.identity.color,
+                                        '--presence-order': attentionIndex,
+                                        marginRight: `${attention.anchor * 18}px`,
+                                      }}
+                                      initial={reducedMotion ? false : { opacity: 0, scale: .92 }}
+                                      animate={{ opacity: 1, scale: 1 }}
+                                      transition={reducedMotion
+                                        ? { duration: 0 }
+                                        : {
+                                            layout: { duration: .46, ease: [0.16, 1, 0.3, 1] },
+                                            opacity: { duration: .18 },
+                                            scale: { duration: .24, ease: [0.16, 1, 0.3, 1] },
+                                          }}
+                                    >
+                                      <i />
+                                      <span>
+                                        <b>{attention.agent?.name}</b>
+                                        <em>{attention.state}</em>
+                                      </span>
+                                    </motion.div>
+                                  ))}
+                                </div>
                               </motion.button>
                             )
                           })}

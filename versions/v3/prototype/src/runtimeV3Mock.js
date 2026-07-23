@@ -108,6 +108,35 @@ export const V3_TASKS = [
   },
 ]
 
+const AGENT_ATTENTION_LABELS = {
+  buffett: '核价中',
+  dalio: '推演中',
+  livermore: '盯盘中',
+  simons: '回测中',
+  taleb: '压测中',
+}
+
+export function getV3AgentAttention(tick, visibleTasks = []) {
+  if (!visibleTasks.length) return []
+
+  return V3_TEAM_IDS.map((agentId, agentIndex) => {
+    const attentionStep = Math.floor((tick + agentIndex * 2) / 3)
+    const task = visibleTasks[(agentIndex + attentionStep) % visibleTasks.length]
+    const state = task.lane === 2
+      ? '复核中'
+      : task.lane === 3
+        ? task.state === '执行中' ? '执行中' : '跟踪中'
+        : AGENT_ATTENTION_LABELS[agentId]
+
+    return {
+      agentId,
+      anchor: (attentionStep + agentIndex) % 3,
+      taskId: task.id,
+      state,
+    }
+  })
+}
+
 const phaseAgents = [
   {
     buffett: ['咖啡还热，价格先凉了', '复核核心资产现金流压力', 'Cashflow Stress'],

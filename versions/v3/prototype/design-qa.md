@@ -6,6 +6,7 @@
 - Desktop implementation capture: `qa/runtime-v3-2094x1080.png`
 - K-line proportion capture: `qa/runtime-v3-kline-fixed-viewport.png`
 - Fixed workflow capture: `qa/runtime-v3-workflow-fixed-2094x1080.png`
+- Agent Presence capture: `qa/runtime-v3-agent-presence-full.png`
 - Mobile implementation capture: `qa/runtime-v3-mobile-390x844.png`
 - Side-by-side comparison: `qa/runtime-v3-source-comparison.jpg`
 
@@ -44,6 +45,10 @@ low-glow institutional visual system.
 - Speed changes from `1×` to `2×`; session time advanced eight simulated
   minutes in the measured 1.9-second interval.
 - Selecting `回测相关性突变` focuses 西蒙斯 and updates `ACTIVE TASK`.
+- All five Agent Presence pointers remained pixel-identical during a measured
+  paused interval, then reassigned to new task cards after resume.
+- At the final monitoring phase, five Agents distributed `2 / 1 / 2` across
+  the three visible execution tasks instead of collapsing onto one card.
 - Core click flow passed:
   `/ → /agents → /team → /events → /runtime → /result → /leaderboard`.
 - Browser warning/error log after the route sweep: empty.
@@ -115,6 +120,23 @@ Resolution:
   treatment so the active edge of every workflow stage remains identifiable.
 - Below `1220px`, the board returns to natural height and horizontal lane
   scrolling to protect touch readability.
+
+### Iteration 5
+
+- P2: Agent ownership was readable, but each Agent appeared permanently bound
+  to a task card and lacked an independent sense of attention or initiative.
+
+Resolution:
+
+- Retain the card header as the stable responsibility signal.
+- Add five independent Agent Presence pointers that relocate across visible
+  tasks without moving or resizing the cards.
+- Give every pointer a high-weight color identity, Agent name and concise live
+  work state. Multiple Agents can now occupy different tasks in the same lane.
+- Stagger attention reassignment so only part of the team moves on each runtime
+  tick. Pause and speed controls continue to govern the complete motion system.
+- Shared-layout transitions use transform and opacity only; reduced-motion mode
+  updates the pointers without spatial animation.
 
 ## Remaining P3 observations
 
