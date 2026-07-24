@@ -265,9 +265,9 @@
   display: grid;
   height: 222px;
   min-height: 222px;
-  grid-template-rows: 14px 43px 30px 47px 32px;
-  gap: 6px;
-  padding: 11px 14px 12px;
+  grid-template-rows: 16px minmax(58px, 1fr) 52px 34px;
+  gap: 8px;
+  padding: 12px 14px;
   overflow: hidden;
   background: color-mix(in oklch, var(--agent-color) 4%, var(--v3-surface-raised));
   contain: layout paint;
@@ -308,8 +308,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  gap: 10px;
-  border-block: 1px solid var(--v3-rule);
+  gap: 16px;
 }
 
 .v4-permission-task > div {
@@ -326,141 +325,129 @@
 
 .v4-permission-task small {
   color: var(--muted);
-  font-size: 9px;
+  font-size: 9.5px;
 }
 
 .v4-permission-task h3 {
-  margin: 4px 0 0;
-  font-size: 13.5px;
+  margin: 6px 0 0;
+  color: var(--ivory);
+  font-size: 15.5px;
   font-weight: 650;
-  letter-spacing: -.015em;
+  letter-spacing: -.025em;
 }
 
 .v4-permission-task > span {
+  display: grid;
+  justify-items: end;
+  gap: 5px;
   color: var(--ember);
-  font: 650 9.5px/1 Chakra, sans-serif;
   white-space: nowrap;
 }
 
-.v4-permission-modes {
+.v4-permission-task > span small {
+  font: 500 8px/1 Chakra, sans-serif;
+  letter-spacing: .1em;
+}
+
+.v4-permission-task > span b {
+  font: 650 13px/1 Chakra, sans-serif;
+}
+
+.v4-permission-current {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  border: 1px solid var(--v3-rule);
-}
-
-.v4-permission-modes button {
-  min-width: 0;
-  border: 0;
-  border-right: 1px solid var(--v3-rule);
-  background: transparent;
-  color: var(--muted);
-  font-size: 9px;
-  white-space: nowrap;
-  transition:
-    background-color 160ms var(--v3-ease),
-    color 160ms var(--v3-ease);
-}
-
-.v4-permission-modes button:last-child {
-  border-right: 0;
-}
-
-.v4-permission-modes button:hover {
-  color: var(--ivory);
-}
-
-.v4-permission-modes button.is-selected {
-  background: rgba(183, 238, 91, .09);
-  color: var(--acid);
-}
-
-.v4-permission-review[data-mode="full"] .v4-permission-modes button.is-selected {
-  background: rgba(230, 120, 158, .1);
-  color: var(--rose);
-}
-
-.v4-permission-review[data-mode="custom"] .v4-permission-modes button.is-selected {
-  background: rgba(109, 227, 211, .08);
-  color: var(--cyan);
-}
-
-.v4-permission-policy {
-  display: grid;
-  grid-template-columns: 76px minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  gap: 8px;
-  padding-inline: 8px;
+  gap: 12px;
+  padding-block: 7px;
   border-block: 1px solid var(--v3-rule);
 }
 
-.v4-permission-policy > b {
-  color: var(--fog);
-  font-size: 10px;
-  font-weight: 650;
+.v4-permission-current > div {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 10px;
+  row-gap: 5px;
+  align-items: baseline;
 }
 
-.v4-permission-policy > span,
-.v4-permission-policy label > span {
+.v4-permission-current > div > small {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font: 500 8px/1 Chakra, sans-serif;
+  letter-spacing: .1em;
+}
+
+.v4-permission-current > div > b {
+  color: var(--fog);
+  font-size: 10.5px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.v4-permission-current > div > span {
   overflow: hidden;
   color: var(--muted);
   font-size: 9px;
-  line-height: 1.35;
+  line-height: 1.2;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.v4-permission-policy.tone-acid > b {
+.v4-permission-current.tone-acid > div > b {
   color: var(--acid);
 }
 
-.v4-permission-policy.tone-cyan > b {
+.v4-permission-current.tone-cyan > div > b {
   color: var(--cyan);
 }
 
-.v4-permission-policy.tone-rose > b {
+.v4-permission-current.tone-rose > div > b {
   color: var(--rose);
 }
 
-.v4-permission-policy label {
-  display: grid;
-  grid-template-columns: 88px minmax(0, 1fr);
+.v4-permission-cycle {
+  position: relative;
+  display: inline-flex;
+  width: 42px;
+  height: 26px;
   align-items: center;
-  gap: 7px;
-  min-width: 0;
-}
-
-.v4-permission-policy select {
-  width: 88px;
-  height: 23px;
+  justify-content: center;
+  gap: 4px;
   border: 1px solid var(--v3-rule-strong);
-  border-radius: 0;
-  outline: 0;
-  background: var(--v3-surface);
+  background: transparent;
+  color: var(--fog);
+  font-size: 8.5px;
+  white-space: nowrap;
+  transition:
+    border-color 160ms var(--v3-ease),
+    color 160ms var(--v3-ease),
+    background-color 160ms var(--v3-ease);
+}
+
+.v4-permission-cycle::before {
+  position: absolute;
+  content: "";
+  inset: -8px -4px;
+}
+
+.v4-permission-cycle:hover,
+.v4-permission-cycle:focus-visible {
+  border-color: var(--ivory);
+  background: rgba(242, 245, 236, .035);
   color: var(--ivory);
-  font: 500 8.5px/1 Chakra, sans-serif;
+  outline: 0;
 }
 
-.v4-permission-policy select:focus-visible {
-  border-color: var(--cyan);
-}
-
-.v4-permission-policy output {
-  grid-column: 1 / -1;
-  font-size: 9.5px;
-  font-weight: 650;
-}
-
-.v4-permission-policy output.is-approved {
-  color: var(--acid);
-}
-
-.v4-permission-policy output.is-denied {
-  color: var(--rose);
+.v4-permission-resolution {
+  min-width: 0;
+  min-height: 34px;
 }
 
 .v4-permission-actions {
   display: grid;
-  grid-template-columns: .72fr 1.28fr;
+  height: 34px;
+  grid-template-columns: .74fr 1.26fr;
   gap: 6px;
 }
 
@@ -476,6 +463,10 @@
   font-size: 9.5px;
   font-weight: 650;
   white-space: nowrap;
+  transition:
+    border-color 160ms var(--v3-ease),
+    background-color 160ms var(--v3-ease),
+    color 160ms var(--v3-ease);
 }
 
 .v4-permission-actions button:hover {
@@ -494,9 +485,24 @@
   background: var(--cyan);
 }
 
-.v4-permission-actions .is-approve.tone-rose {
-  border-color: var(--rose);
-  background: color-mix(in oklch, var(--rose) 16%, var(--v3-surface));
+.v4-permission-outcome {
+  display: flex;
+  height: 34px;
+  min-width: 0;
+  align-items: center;
+  gap: 7px;
+  color: var(--acid);
+  font-size: 9.5px;
+  font-weight: 650;
+}
+
+.v4-permission-outcome span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.v4-permission-outcome.is-denied {
   color: var(--rose);
 }
 
@@ -702,7 +708,10 @@
   .v4-runtime-page .v3-task-card,
   .v4-runtime-page .v3-agent-presence,
   .v4-runtime-page .v4-team-core-copy,
-  .v4-runtime-page .v4-position-number > span {
+  .v4-runtime-page .v4-position-number > span,
+  .v4-runtime-page .v4-permission-task,
+  .v4-runtime-page .v4-permission-actions,
+  .v4-runtime-page .v4-permission-outcome {
     transform: none !important;
   }
 

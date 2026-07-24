@@ -10,6 +10,60 @@ export { AGENT_IDENTITY, RUNTIME_LANES, V3_TEAM_IDS }
 export const V4_RUNTIME_CYCLE_MS = 60_000
 export const V4_CANDLE_MS = 2_400
 export const V4_MARKET_SAMPLE_MS = 480
+export const V4_TEAM_CORE_STAGE_COUNT = 6
+export const V4_TEAM_CORE_STAGE_MS = 900
+
+const V4_TEAM_CORE_PHASE_MS = V4_TEAM_CORE_STAGE_COUNT * V4_TEAM_CORE_STAGE_MS
+const V4_TEAM_CORE_PHASES = [
+  {
+    id: 'shock',
+    label: '降低风险预算',
+    phaseLabel: '流动性冲击',
+    note: '信用利差与融资压力同时恶化，团队进入防御模式。',
+    volatility: 48.6,
+    liquidity: 'LOW',
+  },
+  {
+    id: 'hedge',
+    label: '建立尾部保护',
+    phaseLabel: '建立保护',
+    note: '波动率曲面出现断层，保护成本仍低于预估尾部损失。',
+    volatility: 62.4,
+    liquidity: 'THIN',
+  },
+  {
+    id: 'observe',
+    label: '等待结构确认',
+    phaseLabel: '等待确认',
+    note: '卖单开始衰减，主动买盘仍未形成可靠反转。',
+    volatility: 77.9,
+    liquidity: 'LOW',
+  },
+  {
+    id: 'review',
+    label: '处理团队分歧',
+    phaseLabel: '交叉复核',
+    note: '估值、动量与风险信号发生冲突，进入二次验证。',
+    volatility: 68.2,
+    liquidity: 'MIXED',
+  },
+  {
+    id: 'reentry',
+    label: '分批建立仓位',
+    phaseLabel: '分批再入场',
+    note: '成交深度回升，高质量资产进入历史低估区间。',
+    volatility: 54.7,
+    liquidity: 'RISING',
+  },
+  {
+    id: 'monitor',
+    label: '持有并监控回撤',
+    phaseLabel: '持有与监控',
+    note: '反弹结构成立，团队保留风险缓冲并跟踪利润质量。',
+    volatility: 46.8,
+    liquidity: 'NORMAL',
+  },
+]
 
 const RUNTIME_START_SECONDS = (9 * 60 + 30) * 60
 const INITIAL_ASSETS = 3_200_000
@@ -1063,6 +1117,22 @@ export function getV4LivePosition(state) {
   const pulse = Math.floor(Math.max(0, state.timeMs) / 520)
   const wave = Math.sin(pulse * 0.88) * 2.2 + Math.cos(pulse * 0.41) * 1.4
   return Math.max(0, Math.min(100, Math.round(state.metrics.position + wave)))
+}
+
+export function getV4TeamCoreState(timeMs = 0) {
+  const elapsed = Math.max(0, timeMs)
+  const phaseSequence = Math.floor(elapsed / V4_TEAM_CORE_PHASE_MS)
+  const phaseIndex = phaseSequence % V4_TEAM_CORE_PHASES.length
+  const stageIndex = Math.floor(elapsed / V4_TEAM_CORE_STAGE_MS) % V4_TEAM_CORE_STAGE_COUNT
+
+  return {
+    ...V4_TEAM_CORE_PHASES[phaseIndex],
+    phaseIndex,
+    phaseSequence,
+    stageCount: V4_TEAM_CORE_STAGE_COUNT,
+    stageIndex,
+    progressPercent: Math.round(((stageIndex + 1) / V4_TEAM_CORE_STAGE_COUNT) * 100),
+  }
 }
 
 export function getV4Alpha(assets) {

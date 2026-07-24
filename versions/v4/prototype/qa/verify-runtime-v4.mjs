@@ -6,6 +6,7 @@ import {
   getV4LaneTasks,
   getV4LivePosition,
   getV4TaskAgents,
+  getV4TeamCoreState,
 } from '../src/runtimeV4Engine.js'
 
 const advanceTo = (timeMs) => advanceV4Runtime(createV4RuntimeState(), timeMs)
@@ -40,6 +41,17 @@ assert.notEqual(
   livePositionPulse,
   'The displayed position should pulse between trade events instead of remaining static',
 )
+
+const openingTeamCore = getV4TeamCoreState(0)
+const finalOpeningStage = getV4TeamCoreState(5_399)
+const nextTeamCore = getV4TeamCoreState(5_400)
+assert.equal(finalOpeningStage.stageIndex, 5, 'The Team Core light should fill all six stages')
+assert.notEqual(
+  openingTeamCore.label,
+  nextTeamCore.label,
+  'A completed Team Core light cycle must advance to a new title',
+)
+assert.equal(nextTeamCore.stageIndex, 0, 'A new Team Core title should restart the light sequence')
 
 const alertOpened = advanceTo(9_300)
 assert.equal(alertOpened.alert?.status, 'error', 'The data-source alert should open')
