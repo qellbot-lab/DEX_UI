@@ -12,8 +12,18 @@ export const V4_CANDLE_MS = 2_400
 export const V4_MARKET_SAMPLE_MS = 480
 export const V4_TEAM_CORE_STAGE_COUNT = 6
 export const V4_TEAM_CORE_STAGE_MS = 900
+export const V4_HUMOR_MIN_MS = 4_000
+export const V4_HUMOR_MAX_MS = 8_000
 
 const V4_TEAM_CORE_PHASE_MS = V4_TEAM_CORE_STAGE_COUNT * V4_TEAM_CORE_STAGE_MS
+// Stable per-Agent seeds keep replays reproducible while preventing synchronized copy changes.
+const AGENT_HUMOR_SEEDS = {
+  buffett: 0x243f6a88,
+  dalio: 0x85a308d3,
+  livermore: 0x13198a2e,
+  simons: 0x03707344,
+  taleb: 0xa4093822,
+}
 const V4_TEAM_CORE_PHASES = [
   {
     id: 'shock',
@@ -185,6 +195,28 @@ export const AGENT_HUMOR_LIBRARY = {
 const humorPool = (agentId, mood) => AGENT_HUMOR_LIBRARY[agentId][mood]
 const firstHumor = (agentId, mood) => humorPool(agentId, mood)[0]
 
+function humorEntropy(agentId, step, channel = 0) {
+  let value = (AGENT_HUMOR_SEEDS[agentId] ?? 0x9e3779b9)
+    ^ Math.imul(step + 1, 0x9e3779b1)
+    ^ channel
+  value = Math.imul(value ^ (value >>> 16), 0x21f0aaad)
+  value = Math.imul(value ^ (value >>> 15), 0x735a2d97)
+  return ((value ^ (value >>> 15)) >>> 0) / 0x1_0000_0000
+}
+
+export function getV4HumorDelay(agentId, step = 0) {
+  const range = V4_HUMOR_MAX_MS - V4_HUMOR_MIN_MS + 1
+  return V4_HUMOR_MIN_MS + Math.floor(humorEntropy(agentId, step, 0x51ed270b) * range)
+}
+
+function nextHumorIndex(agentId, step, currentIndex, poolLength) {
+  if (poolLength <= 1) return 0
+  const offset = 1 + Math.floor(
+    humorEntropy(agentId, step, 0x68bc21eb) * (poolLength - 1),
+  )
+  return (currentIndex + offset) % poolLength
+}
+
 const INITIAL_LANES = [
   1, 0, 1, 2,
   0, 0, 1, 0,
@@ -196,6 +228,7 @@ const INITIAL_AGENT_STATE = {
   buffett: {
     taskId: 'quality-screen',
     mode: 'working',
+    humorMood: 'working',
     humor: firstHumor('buffett', 'working'),
     detail: '复核核心资产现金流压力',
     skill: 'Margin of Safety',
@@ -205,6 +238,7 @@ const INITIAL_AGENT_STATE = {
   dalio: {
     taskId: 'liquidity-break',
     mode: 'working',
+    humorMood: 'working',
     humor: firstHumor('dalio', 'working'),
     detail: '扫描美元流动性断点',
     skill: 'Liquidity Regime',
@@ -214,6 +248,7 @@ const INITIAL_AGENT_STATE = {
   livermore: {
     taskId: 'tape-confirmation',
     mode: 'working',
+    humorMood: 'working',
     humor: firstHumor('livermore', 'working'),
     detail: '观察卖盘加速结构',
     skill: 'Tape Reader',
@@ -223,6 +258,7 @@ const INITIAL_AGENT_STATE = {
   simons: {
     taskId: 'liquidity-break',
     mode: 'reviewing',
+    humorMood: 'collab',
     humor: firstHumor('simons', 'collab'),
     detail: '交叉验证流动性信号',
     skill: 'Regime Match',
@@ -232,6 +268,7 @@ const INITIAL_AGENT_STATE = {
   taleb: {
     taskId: 'tail-budget',
     mode: 'reviewing',
+    humorMood: 'working',
     humor: firstHumor('taleb', 'working'),
     detail: '压缩尾部风险预算',
     skill: 'Convexity Guard',
@@ -309,7 +346,7 @@ const SCENARIO_EVENTS = [
     agentId: 'buffett',
     taskId: 'quality-screen',
     mode: 'working',
-    humor: humorPool('buffett', 'working'),
+    humorMood: 'working',
     detail: '筛选现金流质量标的',
     skill: 'Margin of Safety',
     stateLabel: '核价中',
@@ -323,7 +360,7 @@ const SCENARIO_EVENTS = [
     agentId: 'dalio',
     taskId: 'liquidity-break',
     mode: 'working',
-    humor: humorPool('dalio', 'working'),
+    humorMood: 'working',
     detail: '扫描美元流动性断点',
     skill: 'Liquidity Regime',
     stateLabel: '推演中',
@@ -337,7 +374,7 @@ const SCENARIO_EVENTS = [
     agentId: 'simons',
     taskId: 'liquidity-break',
     mode: 'reviewing',
-    humor: humorPool('simons', 'collab'),
+    humorMood: 'collab',
     detail: '交叉验证危机窗口',
     skill: 'Regime Match',
     stateLabel: '协作中',
@@ -362,7 +399,7 @@ const SCENARIO_EVENTS = [
     agentId: 'livermore',
     taskId: 'tape-confirmation',
     mode: 'working',
-    humor: humorPool('livermore', 'working'),
+    humorMood: 'working',
     detail: '观察卖盘加速结构',
     skill: 'Breakout Filter',
     stateLabel: '盯盘中',
@@ -376,7 +413,7 @@ const SCENARIO_EVENTS = [
     agentId: 'taleb',
     taskId: 'tail-budget',
     mode: 'reviewing',
-    humor: humorPool('taleb', 'working'),
+    humorMood: 'working',
     detail: '审核尾部保护条件',
     skill: 'Convexity Guard',
     stateLabel: '复核中',
@@ -402,7 +439,7 @@ const SCENARIO_EVENTS = [
     type: 'agent.state',
     agentId: 'dalio',
     mode: 'incident',
-    humor: humorPool('dalio', 'incident'),
+    humorMood: 'incident',
     detail: '切换备用市场深度源',
     skill: 'Feed Recovery',
     stateLabel: '救火中',
@@ -425,7 +462,7 @@ const SCENARIO_EVENTS = [
     agentId: 'simons',
     taskId: 'tail-budget',
     mode: 'reviewing',
-    humor: humorPool('simons', 'collab'),
+    humorMood: 'collab',
     detail: '复核波动率曲面异常',
     skill: 'Volatility Surface',
     stateLabel: '联合复核',
@@ -448,7 +485,7 @@ const SCENARIO_EVENTS = [
     at: 16_850,
     type: 'agent.release',
     agentId: 'dalio',
-    humor: humorPool('dalio', 'waiting'),
+    humorMood: 'waiting',
     detail: '等待下一轮宏观输入',
     skill: 'Macro Scanner',
     stateLabel: '待命中',
@@ -474,7 +511,7 @@ const SCENARIO_EVENTS = [
     agentId: 'dalio',
     taskId: 'funding-spread',
     mode: 'working',
-    humor: humorPool('dalio', 'working'),
+    humorMood: 'working',
     detail: '拆解商业票据融资利差',
     skill: 'Funding Stress',
     stateLabel: '推演中',
@@ -487,7 +524,7 @@ const SCENARIO_EVENTS = [
     agentId: 'buffett',
     taskId: 'balance-sheet',
     mode: 'working',
-    humor: humorPool('buffett', 'working'),
+    humorMood: 'working',
     detail: '扫描杠杆与自由现金流',
     skill: 'Balance Sheet Filter',
     stateLabel: '筛选中',
@@ -502,7 +539,7 @@ const SCENARIO_EVENTS = [
     agentId: 'simons',
     taskId: 'quality-screen',
     mode: 'reviewing',
-    humor: humorPool('simons', 'collab'),
+    humorMood: 'collab',
     detail: '验证质量因子稳定性',
     skill: 'Quality Stability',
     stateLabel: '联合分析',
@@ -516,7 +553,7 @@ const SCENARIO_EVENTS = [
     type: 'agent.state',
     agentId: 'livermore',
     mode: 'waiting',
-    humor: humorPool('livermore', 'waiting'),
+    humorMood: 'waiting',
     detail: '等待成交量确认',
     skill: 'Breakout Filter',
     stateLabel: '等确认',
@@ -539,7 +576,7 @@ const SCENARIO_EVENTS = [
     at: 30_000,
     type: 'agent.release',
     agentId: 'simons',
-    humor: humorPool('simons', 'waiting'),
+    humorMood: 'waiting',
     detail: '等待下一项交叉验证',
     skill: 'Regime Match',
     stateLabel: '待命中',
@@ -553,7 +590,7 @@ const SCENARIO_EVENTS = [
     agentId: 'buffett',
     taskId: 'reentry-plan',
     mode: 'working',
-    humor: humorPool('buffett', 'collab'),
+    humorMood: 'collab',
     detail: '制定两档建仓计划',
     skill: 'Position Staging',
     stateLabel: '核价中',
@@ -566,7 +603,7 @@ const SCENARIO_EVENTS = [
     agentId: 'livermore',
     taskId: 'reentry-plan',
     mode: 'working',
-    humor: humorPool('livermore', 'collab'),
+    humorMood: 'collab',
     detail: '测算入场滑点与成交深度',
     skill: 'Execution Depth',
     stateLabel: '测深度',
@@ -581,7 +618,7 @@ const SCENARIO_EVENTS = [
     agentId: 'taleb',
     taskId: 'reentry-plan',
     mode: 'reviewing',
-    humor: humorPool('taleb', 'collab'),
+    humorMood: 'collab',
     detail: '设置再入场风险上限',
     skill: 'Exposure Gate',
     stateLabel: '风险复核',
@@ -616,7 +653,7 @@ const SCENARIO_EVENTS = [
     at: 42_000,
     type: 'agent.release',
     agentId: 'buffett',
-    humor: humorPool('buffett', 'waiting'),
+    humorMood: 'waiting',
     detail: '等待持仓质量回传',
     skill: 'Quality Drift',
     stateLabel: '待命中',
@@ -630,7 +667,7 @@ const SCENARIO_EVENTS = [
     agentId: 'simons',
     taskId: 'balance-sheet',
     mode: 'reviewing',
-    humor: humorPool('simons', 'working'),
+    humorMood: 'working',
     detail: '验证资产质量因子',
     skill: 'Balance Sheet Test',
     stateLabel: '复核中',
@@ -644,7 +681,7 @@ const SCENARIO_EVENTS = [
     type: 'agent.state',
     agentId: 'dalio',
     mode: 'waiting',
-    humor: humorPool('dalio', 'waiting'),
+    humorMood: 'waiting',
     detail: '等待政策信号更新',
     skill: 'Policy Map',
     stateLabel: '等回传',
@@ -658,7 +695,7 @@ const SCENARIO_EVENTS = [
     agentId: 'dalio',
     taskId: 'policy-news',
     mode: 'working',
-    humor: humorPool('dalio', 'collab'),
+    humorMood: 'collab',
     detail: '筛选央行措辞与可信度',
     skill: 'Policy Signal Map',
     stateLabel: '扫描中',
@@ -673,7 +710,7 @@ const SCENARIO_EVENTS = [
     agentId: 'taleb',
     taskId: 'policy-news',
     mode: 'reviewing',
-    humor: humorPool('taleb', 'collab'),
+    humorMood: 'collab',
     detail: '审核政策信号失效风险',
     skill: 'Narrative Risk',
     stateLabel: '联合分析',
@@ -705,7 +742,7 @@ const SCENARIO_EVENTS = [
     at: 57_000,
     type: 'agent.release',
     agentId: 'livermore',
-    humor: humorPool('livermore', 'loss'),
+    humorMood: 'loss',
     detail: '监控价格结构与回撤',
     skill: 'Position Keeper',
     stateLabel: '监控中',
@@ -719,7 +756,7 @@ const SCENARIO_EVENTS = [
     agentId: 'buffett',
     taskId: 'earnings-resilience',
     mode: 'working',
-    humor: humorPool('buffett', 'win'),
+    humorMood: 'win',
     detail: '验证盈利韧性与应收质量',
     skill: 'Earnings Quality',
     stateLabel: '核价中',
@@ -754,6 +791,10 @@ export function createV4RuntimeState() {
         anchor: index % 3,
         updatedAt: -index * 160,
         movingUntil: 0,
+        humorIndex: 0,
+        humorStep: 0,
+        humorUpdatedAt: 0,
+        humorNextAt: getV4HumorDelay(agentId, 0),
       },
     ])),
     activities: INITIAL_ACTIVITY,
@@ -776,6 +817,68 @@ export function createV4RuntimeState() {
     tradeMarkers: [],
     lastEvent: null,
   }
+}
+
+function eventHumorPatch(state, agentId, event) {
+  const current = state.agents[agentId]
+  const nextMood = event.humorMood ?? current.humorMood
+  if (!nextMood || nextMood === current.humorMood) return {}
+
+  const pool = humorPool(agentId, nextMood)
+  const nextStep = (current.humorStep ?? 0) + 1
+  let nextIndex = Math.floor(
+    humorEntropy(agentId, nextStep, 0x1b873593) * pool.length,
+  )
+  if (pool.length > 1 && pool[nextIndex] === current.humor) {
+    nextIndex = (nextIndex + 1) % pool.length
+  }
+
+  return {
+    humorMood: nextMood,
+    humor: pool[nextIndex],
+    humorIndex: nextIndex,
+    humorStep: nextStep,
+    humorUpdatedAt: event.at,
+    humorNextAt: event.at + getV4HumorDelay(agentId, nextStep),
+  }
+}
+
+function refreshAgentHumors(state, targetTime) {
+  let didChange = false
+  const agents = { ...state.agents }
+
+  for (const agentId of V3_TEAM_IDS) {
+    const current = agents[agentId]
+    const pool = humorPool(agentId, current.humorMood)
+    let nextAt = current.humorNextAt
+    let nextStep = current.humorStep
+    let nextIndex = current.humorIndex
+    let nextHumor = current.humor
+    let updatedAt = current.humorUpdatedAt
+    let agentChanged = false
+
+    while (nextAt <= targetTime) {
+      nextStep += 1
+      nextIndex = nextHumorIndex(agentId, nextStep, nextIndex, pool.length)
+      nextHumor = pool[nextIndex]
+      updatedAt = nextAt
+      nextAt = updatedAt + getV4HumorDelay(agentId, nextStep)
+      agentChanged = true
+    }
+
+    if (!agentChanged) continue
+    didChange = true
+    agents[agentId] = {
+      ...current,
+      humor: nextHumor,
+      humorIndex: nextIndex,
+      humorStep: nextStep,
+      humorUpdatedAt: updatedAt,
+      humorNextAt: nextAt,
+    }
+  }
+
+  return didChange ? { ...state, agents } : state
 }
 
 function cloneAgent(state, agentId, patch, event) {
@@ -821,33 +924,33 @@ function applyEvent(currentState, event) {
       return cloneAgent(state, event.agentId, {
         taskId: event.taskId,
         mode: event.mode,
-        humor: event.humor,
         detail: event.detail,
         skill: event.skill,
         stateLabel: event.stateLabel,
         stateTone: event.stateTone,
         anchor: state.sequence % 3,
         movingUntil: event.at + 680,
+        ...eventHumorPatch(state, event.agentId, event),
       }, event)
     case 'agent.state':
       return cloneAgent(state, event.agentId, {
         mode: event.mode,
-        humor: event.humor,
         detail: event.detail,
         skill: event.skill,
         stateLabel: event.stateLabel,
         stateTone: event.stateTone,
+        ...eventHumorPatch(state, event.agentId, event),
       }, event)
     case 'agent.release':
       return cloneAgent(state, event.agentId, {
         taskId: null,
         mode: 'idle',
-        humor: event.humor,
         detail: event.detail,
         skill: event.skill,
         stateLabel: event.stateLabel,
         stateTone: event.stateTone,
         movingUntil: event.at + 420,
+        ...eventHumorPatch(state, event.agentId, event),
       }, event)
     case 'task.recycle':
       return cloneTask(state, event.taskId, {
@@ -958,15 +1061,9 @@ function applyEvent(currentState, event) {
 
 function materializeEvent(relativeEvent, cycleIndex) {
   const at = cycleIndex * V4_RUNTIME_CYCLE_MS + relativeEvent.at
-  const humor = Array.isArray(relativeEvent.humor)
-    ? relativeEvent.humor[
-      (cycleIndex + Math.floor(relativeEvent.at / 1_000)) % relativeEvent.humor.length
-    ]
-    : relativeEvent.humor
 
   return {
     ...relativeEvent,
-    ...(humor == null ? null : { humor }),
     at,
     cycleIndex,
     absoluteId: `${cycleIndex}-${relativeEvent.id}`,
@@ -994,8 +1091,10 @@ export function advanceV4Runtime(currentState, elapsedMs) {
   let nextState = currentState
 
   for (const event of eventsBetween(currentState.timeMs, targetTime)) {
+    nextState = refreshAgentHumors(nextState, event.at)
     nextState = applyEvent(nextState, event)
   }
+  nextState = refreshAgentHumors(nextState, targetTime)
 
   return nextState.timeMs === targetTime
     ? nextState

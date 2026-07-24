@@ -1,9 +1,13 @@
 import assert from 'node:assert/strict'
 import {
   AGENT_HUMOR_LIBRARY,
+  V3_TEAM_IDS,
+  V4_HUMOR_MAX_MS,
+  V4_HUMOR_MIN_MS,
   advanceV4Runtime,
   createV4Candles,
   createV4RuntimeState,
+  getV4HumorDelay,
   getV4LaneTasks,
   getV4LivePosition,
   getV4TaskAgents,
@@ -66,13 +70,63 @@ assert.equal(
   'The liquidity task should move to analysis after its handoff event',
 )
 
-const firstCycleHumor = advanceTo(1_500).agents.buffett.humor
-const nextCycleHumor = advanceTo(61_500).agents.buffett.humor
-assert.equal(typeof firstCycleHumor, 'string', 'Agent humor must materialize as display-ready copy')
-assert.notEqual(
-  firstCycleHumor,
-  nextCycleHumor,
-  'Repeated runtime cycles should rotate Agent humor instead of replaying one line',
+const sampledHumorDelays = V3_TEAM_IDS.flatMap((agentId) => (
+  Array.from({ length: 24 }, (_, step) => getV4HumorDelay(agentId, step))
+))
+assert.ok(
+  sampledHumorDelays.every(
+    (delay) => delay >= V4_HUMOR_MIN_MS && delay <= V4_HUMOR_MAX_MS,
+  ),
+  'Every generated humor interval should stay within four to eight seconds',
+)
+assert.equal(
+  new Set(V3_TEAM_IDS.map((agentId) => getV4HumorDelay(agentId, 0))).size,
+  V3_TEAM_IDS.length,
+  'The five Agents should start with distinct humor change times',
+)
+
+let humorTimeline = createV4RuntimeState()
+const humorChangeCounts = Object.fromEntries(V3_TEAM_IDS.map((agentId) => [agentId, 0]))
+let maxConcurrentHumorChanges = 0
+for (let elapsed = 100; elapsed <= 120_000; elapsed += 100) {
+  const previousAgents = humorTimeline.agents
+  humorTimeline = advanceV4Runtime(humorTimeline, 100)
+  const changedAgents = V3_TEAM_IDS.filter(
+    (agentId) => humorTimeline.agents[agentId].humor !== previousAgents[agentId].humor,
+  )
+  maxConcurrentHumorChanges = Math.max(maxConcurrentHumorChanges, changedAgents.length)
+
+  for (const agentId of V3_TEAM_IDS) {
+    const previous = previousAgents[agentId]
+    const current = humorTimeline.agents[agentId]
+    assert.ok(
+      current.humorNextAt - current.humorUpdatedAt >= V4_HUMOR_MIN_MS
+        && current.humorNextAt - current.humorUpdatedAt <= V4_HUMOR_MAX_MS,
+      `${agentId} should always schedule its next line four to eight seconds ahead`,
+    )
+    if (current.humorUpdatedAt === previous.humorUpdatedAt) continue
+    humorChangeCounts[agentId] += 1
+    if (current.humorMood === previous.humorMood) {
+      assert.notEqual(
+        current.humor,
+        previous.humor,
+        `${agentId} should not repeat a line inside the same status category`,
+      )
+      assert.ok(
+        current.humorUpdatedAt - previous.humorUpdatedAt >= V4_HUMOR_MIN_MS
+          && current.humorUpdatedAt - previous.humorUpdatedAt <= V4_HUMOR_MAX_MS,
+        `${agentId} should rotate stable-category copy every four to eight seconds`,
+      )
+    }
+  }
+}
+assert.ok(
+  Object.values(humorChangeCounts).every((count) => count >= 12),
+  'Every Agent should independently rotate humor throughout the runtime',
+)
+assert.ok(
+  maxConcurrentHumorChanges <= 2,
+  'Humor updates should remain staggered to at most two Agents per frame',
 )
 
 const openingPosition = getV4LivePosition(advanceTo(0))
