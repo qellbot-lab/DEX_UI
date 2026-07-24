@@ -467,7 +467,7 @@
 }
 
 .v4-runtime-page .v3-activity-rail {
-  grid-template-rows: 55px minmax(280px, 1fr) 222px;
+  grid-template-rows: 55px minmax(280px, 1fr) 180px;
 }
 
 .v4-activity-list {
@@ -498,11 +498,11 @@
 
 .v4-permission-review {
   display: grid;
-  height: 222px;
-  min-height: 222px;
-  grid-template-rows: 16px minmax(58px, 1fr) 52px 34px;
-  gap: 8px;
-  padding: 12px 14px;
+  height: 180px;
+  min-height: 180px;
+  grid-template-rows: 14px minmax(0, 1fr) 40px 28px;
+  gap: 6px;
+  padding: 9px 12px;
   overflow: hidden;
   background: color-mix(in oklch, var(--agent-color) 4%, var(--v3-surface-raised));
   contain: layout paint;
@@ -510,6 +510,10 @@
 
 .v4-permission-review > * {
   min-width: 0;
+}
+
+.v4-permission-review > div {
+  margin-top: 0;
 }
 
 .v4-permission-heading {
@@ -539,11 +543,11 @@
   color: var(--rose);
 }
 
-.v4-permission-task {
+.v4-permission-review > .v4-permission-task {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
 }
 
 .v4-permission-task > div {
@@ -564,7 +568,7 @@
 }
 
 .v4-permission-task h3 {
-  margin: 6px 0 0;
+  margin: 4px 0 0;
   color: var(--ivory);
   font-size: 15.5px;
   font-weight: 650;
@@ -574,7 +578,7 @@
 .v4-permission-task > span {
   display: grid;
   justify-items: end;
-  gap: 5px;
+  gap: 3px;
   color: var(--ember);
   white-space: nowrap;
 }
@@ -588,12 +592,12 @@
   font: 650 13px/1 Chakra, sans-serif;
 }
 
-.v4-permission-current {
+.v4-permission-review > .v4-permission-current {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  gap: 12px;
-  padding-block: 7px;
+  gap: 10px;
+  padding-block: 4px;
   border-block: 1px solid var(--v3-rule);
 }
 
@@ -601,8 +605,8 @@
   display: grid;
   min-width: 0;
   grid-template-columns: auto minmax(0, 1fr);
-  column-gap: 10px;
-  row-gap: 5px;
+  column-gap: 8px;
+  row-gap: 3px;
   align-items: baseline;
 }
 
@@ -644,8 +648,8 @@
 .v4-permission-cycle {
   position: relative;
   display: inline-flex;
-  width: 42px;
-  height: 26px;
+  width: 44px;
+  height: 22px;
   align-items: center;
   justify-content: center;
   gap: 4px;
@@ -676,18 +680,21 @@
 
 .v4-permission-resolution {
   min-width: 0;
-  min-height: 34px;
+  min-height: 28px;
 }
 
 .v4-permission-actions {
   display: grid;
-  height: 34px;
-  grid-template-columns: .74fr 1.26fr;
-  gap: 6px;
+  width: 100%;
+  height: 28px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
 }
 
 .v4-permission-actions button {
+  position: relative;
   display: inline-flex;
+  width: 100%;
   min-width: 0;
   align-items: center;
   justify-content: center;
@@ -700,29 +707,61 @@
   white-space: nowrap;
   transition:
     border-color 160ms var(--v3-ease),
-    background-color 160ms var(--v3-ease),
+    box-shadow 160ms var(--v3-ease),
     color 160ms var(--v3-ease);
 }
 
-.v4-permission-actions button:hover {
-  border-color: var(--ivory);
-  color: var(--ivory);
+.v4-permission-actions button::before {
+  position: absolute;
+  content: "";
+  inset: -6px 0;
+}
+
+.v4-permission-actions .is-deny {
+  border-color: color-mix(in oklch, var(--rose) 68%, var(--v3-rule-strong));
+  color: var(--rose);
+  box-shadow: 0 0 8px color-mix(in oklch, var(--rose) 16%, transparent);
 }
 
 .v4-permission-actions .is-approve {
   border-color: var(--acid);
-  background: var(--acid);
-  color: #071008;
+  background: transparent;
+  color: var(--acid);
+  box-shadow: 0 0 8px color-mix(in oklch, var(--acid) 16%, transparent);
 }
 
 .v4-permission-actions .is-approve.tone-cyan {
   border-color: var(--cyan);
-  background: var(--cyan);
+  background: transparent;
+  color: var(--cyan);
+  box-shadow: 0 0 8px color-mix(in oklch, var(--cyan) 16%, transparent);
+}
+
+.v4-permission-actions .is-deny:hover,
+.v4-permission-actions .is-deny:focus-visible {
+  border-color: var(--rose);
+  color: var(--ivory);
+  box-shadow: 0 0 12px color-mix(in oklch, var(--rose) 28%, transparent);
+  outline: 0;
+}
+
+.v4-permission-actions .is-approve:hover,
+.v4-permission-actions .is-approve:focus-visible {
+  border-color: var(--acid);
+  color: var(--ivory);
+  box-shadow: 0 0 12px color-mix(in oklch, var(--acid) 28%, transparent);
+  outline: 0;
+}
+
+.v4-permission-actions .is-approve.tone-cyan:hover,
+.v4-permission-actions .is-approve.tone-cyan:focus-visible {
+  border-color: var(--cyan);
+  box-shadow: 0 0 12px color-mix(in oklch, var(--cyan) 28%, transparent);
 }
 
 .v4-permission-outcome {
   display: flex;
-  height: 34px;
+  height: 28px;
   min-width: 0;
   align-items: center;
   gap: 7px;
@@ -743,11 +782,11 @@
 
 .v4-meeting-minutes {
   display: grid;
-  height: 222px;
-  min-height: 222px;
-  grid-template-rows: 16px 42px minmax(0, 1fr) 30px;
-  gap: 8px;
-  padding: 12px 14px;
+  height: 180px;
+  min-height: 180px;
+  grid-template-rows: 14px 36px minmax(0, 1fr) 26px;
+  gap: 6px;
+  padding: 9px 12px;
   overflow: hidden;
   background:
     linear-gradient(90deg, color-mix(in oklch, var(--cyan) 5%, transparent), transparent 44%),
