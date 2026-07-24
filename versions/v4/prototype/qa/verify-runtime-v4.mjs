@@ -23,6 +23,15 @@ assert.equal(
   'The liquidity task should move to analysis after its handoff event',
 )
 
+const firstCycleHumor = advanceTo(1_500).agents.buffett.humor
+const nextCycleHumor = advanceTo(61_500).agents.buffett.humor
+assert.equal(typeof firstCycleHumor, 'string', 'Agent humor must materialize as display-ready copy')
+assert.notEqual(
+  firstCycleHumor,
+  nextCycleHumor,
+  'Repeated runtime cycles should rotate Agent humor instead of replaying one line',
+)
+
 const alertOpened = advanceTo(9_300)
 assert.equal(alertOpened.alert?.status, 'error', 'The data-source alert should open')
 

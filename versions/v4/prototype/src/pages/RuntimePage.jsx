@@ -90,24 +90,6 @@ function AlphaSparkline({ values, negative }) {
   )
 }
 
-function MetricTicker({ value, formatter = String, direction = 1 }) {
-  return (
-    <span className="v4-metric-ticker" aria-live="polite">
-      <AnimatePresence initial={false} mode="popLayout">
-        <motion.span
-          key={value}
-          initial={{ opacity: 0, y: direction >= 0 ? 9 : -9 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: direction >= 0 ? -7 : 7 }}
-          transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
-        >
-          {formatter(value)}
-        </motion.span>
-      </AnimatePresence>
-    </span>
-  )
-}
-
 function taskTone(state) {
   if (state === '待复核' || state === '执行中' || state === '已批准') return 'ember'
   if (state === '已阻塞') return 'rose'
@@ -235,6 +217,7 @@ export function RuntimePage() {
   const alpha = getV4Alpha(paperAssets)
   const equityHistory = useMemo(() => createV4EquityHistory(runtime), [runtime])
   const cycleProgress = getV4CycleProgress(runtime.timeMs)
+  const phaseProgressIndex = Math.min(5, Math.floor(cycleProgress * 6))
   const alertActor = runtime.alert?.actorId ? seatByRoleId[runtime.alert.actorId] : null
   const alertIdentity = runtime.alert?.actorId ? identityForRole(runtime.alert.actorId) : null
 
@@ -314,25 +297,25 @@ export function RuntimePage() {
       <section className="v3-runtime-shell" aria-label="历史副本实时模拟控制台">
         <header className="v3-runtime-topbar">
           <div className="v3-scenario-title">
-            <span>HISTORICAL RUNTIME · V4</span>
+            <span>HISTORICAL RUNTIME · 04</span>
             <div><b>{event.year}</b><h1>{event.name}</h1></div>
-            <small>{runtime.decision.phaseLabel} · EVENT DRIVEN REPLAY</small>
+            <small>{runtime.decision.phaseLabel} · PAPER REPLAY</small>
           </div>
 
           <div className="v3-runtime-kpis" aria-label="模拟关键指标">
             <div>
               <span>ACTIVE TASKS</span>
-              <b><MetricTicker value={activeTaskCount} /><small>/ {runtimeTasks.length}</small></b>
-              <em>独立事件队列</em>
+              <b>{activeTaskCount}<small>/ {runtimeTasks.length}</small></b>
+              <em>实时任务</em>
             </div>
             <div>
               <span>AVG CYCLE</span>
-              <b><MetricTicker value={runtime.metrics.averageCycle} /></b>
+              <b>{runtime.metrics.averageCycle}</b>
               <em>平均处理时间</em>
             </div>
             <div className="v3-kpi-assets">
               <span>PAPER ASSETS</span>
-              <b><MetricTicker value={displayAssets} formatter={paperAssetFormatter.format} /></b>
+              <b>{paperAssetFormatter.format(displayAssets)}</b>
               <em>模拟账户净值</em>
             </div>
             <div className="v3-kpi-alpha">
@@ -343,18 +326,19 @@ export function RuntimePage() {
                 </b>
                 <AlphaSparkline values={equityHistory} negative={alpha < 0} />
               </div>
-              <em>近 18 个市场采样</em>
+              <em>近 18 个运行刻</em>
             </div>
             <div>
               <span>RISK BUDGET</span>
-              <b><MetricTicker value={runtime.metrics.risk} />%</b>
+              <b>{runtime.metrics.risk}%</b>
               <em>可用风险预算</em>
             </div>
           </div>
 
           <div className="v3-runtime-clock">
-            <strong>{sessionTime}</strong>
             <span>{paused ? 'PAUSED' : `${speed}× RUNNING`}</span>
+            <b>{sessionTime}</b>
+            <small>SYNC {runtime.metrics.sync}</small>
           </div>
         </header>
 
@@ -654,8 +638,10 @@ export function RuntimePage() {
                 <p>{runtime.decision.note}</p>
               </motion.div>
             </AnimatePresence>
-            <div className="v4-cycle-progress" aria-label={`运行周期进度 ${Math.round(cycleProgress * 100)}%`}>
-              <span style={{ transform: `scaleX(${cycleProgress})` }} />
+            <div className="v3-phase-progress" aria-label={`运行周期进度 ${Math.round(cycleProgress * 100)}%`}>
+              {Array.from({ length: 6 }, (_, index) => (
+                <i key={index} className={index <= phaseProgressIndex ? 'is-active' : ''} />
+              ))}
             </div>
           </section>
 
