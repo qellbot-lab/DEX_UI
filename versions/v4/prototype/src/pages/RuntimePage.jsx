@@ -12,6 +12,7 @@ import {
   MousePointer2,
   RadioTower,
   RotateCcw,
+  Target,
   UsersRound,
   X,
 } from 'lucide-react'
@@ -52,11 +53,31 @@ import {
 } from '../runtimeMeeting.js'
 import '../v3-runtime.css'
 import '../v4-runtime-motion.css'
+import '../v45-goal-demo.css'
 
 const speeds = [1, 2, 4]
 const identityFallback = Object.values(AGENT_IDENTITY)
 const LANE_VISIBLE_TASK_LIMIT = 5
 const FRAME_COMMIT_MS = 80
+const GOAL_REEL_DURATION_MS = 3_000
+const GOAL_REEL_STEP_MS = [348, 397, 443, 491]
+const GOAL_REVEAL_DELAY_MS = 680
+const GOAL_REDEMPTION_MS = 24 * 60 * 60 * 1_000
+const createIdleGoalDemo = () => ({
+  phase: 'idle',
+  startedAt: 0,
+  expiresAt: 0,
+  targetTaskIds: [],
+  winningRowIndex: -1,
+})
+
+function pickNextGoalTask(taskIds, currentTaskId) {
+  if (!taskIds.length) return ''
+  if (taskIds.length === 1) return taskIds[0]
+  const currentIndex = Math.max(0, taskIds.indexOf(currentTaskId))
+  const offset = 1 + Math.floor(Math.random() * (taskIds.length - 1))
+  return taskIds[(currentIndex + offset) % taskIds.length]
+}
 const PERMISSION_MODES = [
   {
     id: 'request',
@@ -142,6 +163,14 @@ function taskTone(state) {
   if (state === '已交付' || state === '监控中') return 'acid'
   if (state === '协作中') return 'cyan'
   return 'steel'
+}
+
+function formatGoalCountdown(remainingMs) {
+  const totalSeconds = Math.max(0, Math.ceil(remainingMs / 1_000))
+  const hours = Math.floor(totalSeconds / 3_600)
+  const minutes = Math.floor((totalSeconds % 3_600) / 60)
+  const seconds = totalSeconds % 60
+  return [hours, minutes, seconds].map((value) => String(value).padStart(2, '0')).join(':')
 }
 
 function uniqueTeam(selectedAgentIds) {
@@ -403,6 +432,77 @@ function AgentPresence({
   )
 }
 
+function GoalEventOverlay({
+  phase,
+  team,
+  remainingMs,
+  onClose,
+  reducedMotion,
+}) {
+  const engaged = phase === 'aligning' || phase === 'celebrating'
+  const celebrating = phase === 'celebrating'
+
+  return (
+    <AnimatePresence>
+      {engaged && (
+        <motion.section
+          className={`v45-goal-overlay is-${phase}`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: reducedMotion ? 0 : .18 }}
+          aria-live="assertive"
+          aria-label={celebrating ? 'GOAL Pro 会员兑换提示' : '五位 Agent 正在对齐'}
+        >
+          <div className="v45-goal-scan-field" aria-hidden="true" />
+
+          <div className="v45-goal-agent-line" aria-label="五位 Agent 已在同一排">
+            {V3_TEAM_IDS.map((agentId, index) => (
+              <AgentPresence
+                agentId={agentId}
+                agent={team[index]}
+                identity={AGENT_IDENTITY[agentId]}
+                statusLabel="GOAL"
+                travelling={phase === 'aligning'}
+                presenting={false}
+                slacking={false}
+                agentIndex={index}
+                reducedMotion={reducedMotion}
+                speed={1}
+                key={agentId}
+              />
+            ))}
+          </div>
+
+          <AnimatePresence>
+            {celebrating && (
+              <motion.div
+                className="v45-goal-message"
+                initial={reducedMotion ? { opacity: 0 } : { opacity: 0, scaleY: .03 }}
+                animate={{ opacity: 1, scaleY: 1 }}
+                exit={{ opacity: 0, scaleY: .03 }}
+                transition={{ duration: reducedMotion ? 0 : .34, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <span>SYSTEM ALIGNMENT · 5/5</span>
+                <h2 data-text="GOAL!">GOAL!</h2>
+                <p>快去兑换您的 Pro 会员吧！<b>仅限今天！</b></p>
+                <time dateTime={`PT${Math.ceil(remainingMs / 1_000)}S`}>
+                  {formatGoalCountdown(remainingMs)}
+                </time>
+                <small>24H REDEMPTION WINDOW · 精确到秒</small>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <button type="button" className="v45-goal-exit" onClick={onClose}>
+            ESC · 退出演示
+          </button>
+        </motion.section>
+      )}
+    </AnimatePresence>
+  )
+}
+
 function MeetingMinutesCard({ minutes, team, sessionTime }) {
   const speakerIndex = V3_TEAM_IDS.indexOf(minutes.speakerId)
   const recorderIndex = V3_TEAM_IDS.indexOf(minutes.recorderId)
@@ -487,6 +587,8 @@ export function RuntimePage() {
   const [meetingElapsedMs, setMeetingElapsedMs] = useState(0)
   const [meetingMinutes, setMeetingMinutes] = useState(null)
   const [slackerRoute, setSlackerRoute] = useState([])
+  const [goalDemo, setGoalDemo] = useState(createIdleGoalDemo)
+  const [goalClockMs, setGoalClockMs] = useState(() => Date.now())
   const frameRef = useRef(null)
   const lastFrameRef = useRef(null)
   const lastCommitRef = useRef(null)
@@ -495,6 +597,10 @@ export function RuntimePage() {
   const meetingElapsedRef = useRef(0)
   const operationsGridRef = useRef(null)
   const meetingButtonRef = useRef(null)
+  const goalCandidateTaskIdsRef = useRef([])
+  const goalLaneTaskIdsRef = useRef([])
+  const goalTimersRef = useRef([])
+  const goalReelTimersRef = useRef([])
 
   const seatByRoleId = useMemo(
     () => Object.fromEntries(V3_TEAM_IDS.map((roleId, index) => [roleId, team[index]])),
@@ -531,6 +637,32 @@ export function RuntimePage() {
     }),
     [runtime, taskById],
   )
+
+  const goalCandidateTaskIds = useMemo(
+    () => laneTaskGroups
+      .map(({ visibleTasks }) => visibleTasks[0]?.id)
+      .filter(Boolean),
+    [laneTaskGroups],
+  )
+  const goalLaneTaskIds = useMemo(
+    () => laneTaskGroups.map(({ visibleTasks }) => visibleTasks.map((task) => task.id)),
+    [laneTaskGroups],
+  )
+
+  useEffect(() => {
+    goalCandidateTaskIdsRef.current = goalCandidateTaskIds
+    goalLaneTaskIdsRef.current = goalLaneTaskIds
+  }, [goalCandidateTaskIds, goalLaneTaskIds])
+
+  const goalSpinning = goalDemo.phase === 'spinning'
+  const goalEngaged = goalDemo.phase === 'aligning' || goalDemo.phase === 'celebrating'
+  const goalActive = goalDemo.phase !== 'idle'
+  const goalRemainingMs = goalDemo.expiresAt
+    ? Math.max(0, goalDemo.expiresAt - goalClockMs)
+    : GOAL_REDEMPTION_MS
+  const goalArmSeconds = goalSpinning
+    ? Math.max(1, Math.ceil((goalDemo.startedAt + GOAL_REEL_DURATION_MS - goalClockMs) / 1_000))
+    : 0
 
   const selectedTask = selectedTaskId ? taskById[selectedTaskId] ?? null : null
   const approvalTask = runtimeTasks
@@ -611,6 +743,116 @@ export function RuntimePage() {
     rotate: [-4, 7, -9, 5, 0],
     opacity: [.72, 1, .82, 1, .86],
   }), [slackerRoute])
+
+  const clearGoalTimers = () => {
+    goalTimersRef.current.forEach((timerId) => window.clearTimeout(timerId))
+    goalTimersRef.current = []
+    goalReelTimersRef.current.forEach((timerId) => window.clearInterval(timerId))
+    goalReelTimersRef.current = []
+  }
+
+  const stopGoalDemo = () => {
+    clearGoalTimers()
+    setGoalDemo(createIdleGoalDemo())
+    setGoalClockMs(Date.now())
+  }
+
+  const startGoalDemo = () => {
+    if (meeting || goalActive) return
+    clearGoalTimers()
+    const startedAt = Date.now()
+    setGoalClockMs(startedAt)
+    const initialTaskIds = goalLaneTaskIdsRef.current.map((taskIds) => (
+      taskIds[Math.floor(Math.random() * taskIds.length)] ?? ''
+    ))
+    setGoalDemo({
+      phase: 'spinning',
+      startedAt,
+      expiresAt: 0,
+      targetTaskIds: initialTaskIds,
+      winningRowIndex: -1,
+    })
+
+    goalReelTimersRef.current = goalLaneTaskIdsRef.current.map((_, laneIndex) => (
+      window.setInterval(() => {
+        setGoalDemo((current) => {
+          if (current.phase !== 'spinning') return current
+          const laneTaskIds = goalLaneTaskIdsRef.current[laneIndex] ?? []
+          const nextTaskIds = [...current.targetTaskIds]
+          nextTaskIds[laneIndex] = pickNextGoalTask(
+            laneTaskIds,
+            current.targetTaskIds[laneIndex],
+          )
+          return { ...current, targetTaskIds: nextTaskIds }
+        })
+      }, reducedMotion ? 520 : GOAL_REEL_STEP_MS[laneIndex])
+    ))
+
+    const alignTimer = window.setTimeout(() => {
+      const alignedAt = Date.now()
+      goalReelTimersRef.current.forEach((timerId) => window.clearInterval(timerId))
+      goalReelTimersRef.current = []
+      setGoalClockMs(alignedAt)
+      setGoalDemo((current) => {
+        if (current.phase !== 'spinning') return current
+        const laneTaskIds = goalLaneTaskIdsRef.current
+        const laneRowCounts = laneTaskIds
+          .map((taskIds) => taskIds.length)
+          .filter((rowCount) => rowCount > 0)
+        const sharedRowCount = laneRowCounts.length ? Math.min(...laneRowCounts) : 0
+        const winningRowIndex = sharedRowCount > 0
+          ? Math.floor(Math.random() * sharedRowCount)
+          : 0
+        const winningTaskIds = laneTaskIds
+          .map((taskIds) => taskIds[winningRowIndex])
+          .filter(Boolean)
+        return {
+          ...current,
+          phase: 'aligning',
+          expiresAt: alignedAt + GOAL_REDEMPTION_MS,
+          targetTaskIds: winningTaskIds.length === RUNTIME_LANES.length
+            ? winningTaskIds
+            : goalCandidateTaskIdsRef.current.slice(0, RUNTIME_LANES.length),
+          winningRowIndex,
+        }
+      })
+    }, GOAL_REEL_DURATION_MS)
+
+    const revealTimer = window.setTimeout(() => {
+      setGoalDemo((current) => current.phase === 'aligning'
+        ? { ...current, phase: 'celebrating' }
+        : current)
+    }, GOAL_REEL_DURATION_MS + GOAL_REVEAL_DELAY_MS)
+
+    goalTimersRef.current = [alignTimer, revealTimer]
+  }
+
+  const toggleGoalDemo = () => {
+    if (goalActive) {
+      stopGoalDemo()
+      return
+    }
+    startGoalDemo()
+  }
+
+  useEffect(() => {
+    if (!goalActive) return undefined
+    const tick = () => setGoalClockMs(Date.now())
+    tick()
+    const intervalId = window.setInterval(tick, 250)
+    return () => window.clearInterval(intervalId)
+  }, [goalActive])
+
+  useEffect(() => {
+    if (!goalActive) return undefined
+    const exitOnEscape = (event) => {
+      if (event.key === 'Escape') stopGoalDemo()
+    }
+    window.addEventListener('keydown', exitOnEscape)
+    return () => window.removeEventListener('keydown', exitOnEscape)
+  }, [goalActive])
+
+  useEffect(() => () => clearGoalTimers(), [])
 
   useEffect(() => {
     if (!meeting || !operationsGridRef.current || !meetingButtonRef.current) {
@@ -721,7 +963,7 @@ export function RuntimePage() {
   }
 
   const startMeeting = () => {
-    if (!selectedTask || meeting) return
+    if (!selectedTask || meeting || goalActive) return
     setMeeting(createMeetingState(selectedTask, runId, marketTimeMs))
     setMeetingElapsedMs(0)
     meetingElapsedRef.current = 0
@@ -763,7 +1005,7 @@ export function RuntimePage() {
           setMarketTimeMs((current) => current + marketElapsed)
           setMeetingElapsedMs((current) => current + meetingElapsed)
         }
-      } else if (!paused) {
+      } else if (!paused && !goalActive) {
         elapsedRef.current += rawDelta * speed
         marketElapsedRef.current += rawDelta * speed
         if (now - lastCommitRef.current >= FRAME_COMMIT_MS) {
@@ -795,7 +1037,7 @@ export function RuntimePage() {
       marketElapsedRef.current = 0
       meetingElapsedRef.current = 0
     }
-  }, [meeting, paused, speed])
+  }, [goalActive, meeting, paused, speed])
 
   useEffect(() => {
     if (!meeting || meetingElapsedMs < MEETING_END_MS) return
@@ -803,16 +1045,20 @@ export function RuntimePage() {
   }, [meeting, meetingElapsedMs])
 
   const togglePaused = () => {
-    if (meeting) return
+    if (meeting || goalActive) return
     setPaused((current) => !current)
   }
 
   const cycleSpeed = () => {
+    if (goalActive) return
     const currentIndex = speeds.indexOf(speed)
     setSpeed(speeds[(currentIndex + 1) % speeds.length])
   }
 
   const restartRuntime = () => {
+    clearGoalTimers()
+    setGoalDemo(createIdleGoalDemo())
+    setGoalClockMs(Date.now())
     setRuntime(createV4RuntimeState())
     setMarketTimeMs(0)
     setRunId((current) => current + 1)
@@ -831,10 +1077,11 @@ export function RuntimePage() {
 
   return (
     <div
-      className={`page v3-runtime-page v4-runtime-page ${paused ? 'is-paused' : 'is-running'} ${meeting ? 'is-meeting' : ''} ${reducedMotion ? 'is-reduced-motion' : ''}`}
+      className={`page v3-runtime-page v4-runtime-page ${paused ? 'is-paused' : 'is-running'} ${meeting ? 'is-meeting' : ''} ${reducedMotion ? 'is-reduced-motion' : ''} ${goalActive ? `v45-goal-active v45-goal-${goalDemo.phase}` : ''} ${goalEngaged ? 'v45-goal-engaged' : ''}`}
       data-runtime-version="v4"
       data-alert={effectiveAlert?.status ?? 'none'}
       data-meeting-phase={meetingPhase}
+      data-goal-phase={goalDemo.phase}
       style={{ '--runtime-speed': speed }}
     >
       <section className="v3-runtime-shell" aria-label="历史副本实时模拟控制台">
@@ -879,7 +1126,15 @@ export function RuntimePage() {
           </div>
 
           <div className="v3-runtime-clock">
-            <span>{meeting ? 'MEETING' : paused ? 'PAUSED' : `${speed}× RUNNING`}</span>
+            <span>{goalEngaged
+              ? 'GOAL EVENT'
+              : goalSpinning
+                ? `GOAL REEL · ${goalArmSeconds}s`
+                : meeting
+                  ? 'MEETING'
+                  : paused
+                    ? 'PAUSED'
+                    : `${speed}× RUNNING`}</span>
             <b>{sessionTime}</b>
             <small>{meeting ? `${meetingPhase.toUpperCase()} · ` : ''}SYNC {runtime.metrics.sync}</small>
           </div>
@@ -955,17 +1210,42 @@ export function RuntimePage() {
                       type="button"
                       className={`v4-meeting-room-button ${meeting ? 'is-active' : ''}`}
                       onClick={meeting ? () => finishMeeting('manual') : startMeeting}
-                      disabled={!meeting && !selectedTask}
+                      disabled={!meeting && (!selectedTask || goalActive)}
                       aria-pressed={Boolean(meeting)}
-                      title={!meeting && !selectedTask ? '请先选择一张任务卡片' : undefined}
+                      title={!meeting && goalActive
+                        ? '请先退出 GOAL 演示'
+                        : !meeting && !selectedTask
+                          ? '请先选择一张任务卡片'
+                          : undefined}
                     >
                       <UsersRound size={11} />
                       {meeting ? '结束会议' : '召集会议'}
                     </button>
+                    <button
+                      type="button"
+                      className={`v45-goal-button ${goalActive ? 'is-active' : ''}`}
+                      onClick={toggleGoalDemo}
+                      disabled={Boolean(meeting)}
+                      aria-pressed={goalActive}
+                      title={meeting
+                        ? '会议期间不可启动 GOAL 演示'
+                        : goalActive
+                          ? '退出 GOAL 演示'
+                          : '启动 3 秒 GOAL 抽取演示'}
+                    >
+                      <Target size={9} aria-hidden="true" />
+                      {goalSpinning ? `GOAL ${goalArmSeconds}` : goalEngaged ? 'GOAL ×' : 'GOAL'}
+                    </button>
                   </div>
                 </div>
               </div>
-              <em>{meeting ? '5/5 MEETING' : `${Object.values(runtime.agents).filter((agent) => agent.taskId).length}/5 ACTIVE`}</em>
+              <em>{goalEngaged
+                ? '5/5 GOAL'
+                : goalSpinning
+                  ? '4/4 ROLLING'
+                  : meeting
+                    ? '5/5 MEETING'
+                    : `${Object.values(runtime.agents).filter((agent) => agent.taskId).length}/5 ACTIVE`}</em>
             </div>
 
             <div className="v3-agent-list">
@@ -982,7 +1262,7 @@ export function RuntimePage() {
                     key={roleId}
                     onClick={() => setFocusedAgentId((current) => current === roleId ? '' : roleId)}
                     aria-pressed={focused}
-                    disabled={Boolean(meeting)}
+                    disabled={Boolean(meeting || goalActive)}
                     data-state-tone={status.stateTone}
                     data-meeting-role={meeting?.roles[roleId] ?? undefined}
                   >
@@ -1023,6 +1303,7 @@ export function RuntimePage() {
                       className={`v3-lane ${isMeetingLane ? `is-meeting-lane is-lane-${laneIndex}` : ''}`}
                       key={lane.id}
                       aria-labelledby={`lane-${lane.id}`}
+                      style={{ '--goal-lane-index': laneIndex }}
                     >
                       <header>
                         <div><span>{lane.index}</span><h2 id={`lane-${lane.id}`}>{lane.label}</h2></div>
@@ -1053,10 +1334,16 @@ export function RuntimePage() {
                                   : meeting.roles[agentId],
                               }))
                             }
-                            const visibleAgents = meeting
-                              ? displayedTaskAgents
-                              : displayedTaskAgents.slice(0, 2)
-                            const overflowAgents = Math.max(0, displayedTaskAgents.length - visibleAgents.length)
+                            const isGoalSpin = goalSpinning && goalDemo.targetTaskIds.includes(task.id)
+                            const isGoalTarget = goalEngaged && goalDemo.targetTaskIds.includes(task.id)
+                            const visibleAgents = goalEngaged
+                              ? []
+                              : meeting
+                                ? displayedTaskAgents
+                                : displayedTaskAgents.slice(0, 2)
+                            const overflowAgents = goalEngaged
+                              ? 0
+                              : Math.max(0, displayedTaskAgents.length - visibleAgents.length)
                             const ownerRoleIndex = V3_TEAM_IDS.indexOf(task.ownerId)
                             const domainIdentity = identityForRole(task.ownerId)
                             const visualIdentity = displayedTaskAgents.length
@@ -1070,7 +1357,7 @@ export function RuntimePage() {
                               ? !isMeetingTarget && !isSlackerPass
                               : focusedAgentId
                                 && !runtimeTaskAgents.some((item) => item.agentId === focusedAgentId)
-                            const isMoving = !meeting && task.movingUntil > runtime.timeMs
+                            const isMoving = !meeting && !goalActive && task.movingUntil > runtime.timeMs
                             const cardOpacity = meeting
                               ? isMeetingTarget
                                 ? 1
@@ -1097,11 +1384,12 @@ export function RuntimePage() {
                                 key={task.id}
                                 type="button"
                                 data-task-id={task.id}
-                                className={`v3-task-card ${visibleIndex === 0 ? 'is-lane-lead' : ''} ${hasActiveAgent ? 'has-active-agent' : 'is-unassigned'} ${isSelected ? 'is-selected' : ''} ${isMeetingTarget ? 'is-meeting-target' : ''} ${isSlackerPass ? 'is-slacker-pass' : ''} ${dimmed ? 'is-dimmed' : ''} ${isMoving ? 'is-moving' : ''}`}
+                                className={`v3-task-card ${visibleIndex === 0 ? 'is-lane-lead' : ''} ${hasActiveAgent ? 'has-active-agent' : 'is-unassigned'} ${isSelected ? 'is-selected' : ''} ${isMeetingTarget ? 'is-meeting-target' : ''} ${isSlackerPass ? 'is-slacker-pass' : ''} ${dimmed ? 'is-dimmed' : ''} ${isMoving ? 'is-moving' : ''} ${isGoalSpin ? 'is-goal-spin' : ''} ${isGoalTarget ? 'is-goal-target' : ''}`}
                                 style={{
                                   '--agent-color': visualIdentity.color,
                                   '--domain-color': domainIdentity.color,
                                   '--agent-tint': `${visualIdentity.color}12`,
+                                  '--goal-order': laneIndex,
                                   '--slacker-color': meetingWandererId
                                     ? identityForRole(meetingWandererId).color
                                     : 'var(--ember)',
@@ -1121,10 +1409,10 @@ export function RuntimePage() {
                                         times: [0, .72, 1],
                                       },
                                 }}
-                                disabled={Boolean(meeting)}
+                                disabled={Boolean(meeting || goalActive)}
                                 aria-pressed={isSelected}
                                 onClick={() => {
-                                  if (meeting) return
+                                  if (meeting || goalActive) return
                                   const nextTaskId = selectedTaskId === task.id ? '' : task.id
                                   setSelectedTaskId(nextTaskId)
                                   setFocusedAgentId(nextTaskId ? runtimeTaskAgents[0]?.agentId ?? '' : '')
@@ -1132,7 +1420,9 @@ export function RuntimePage() {
                               >
                                 <div className="v3-task-owner">
                                   <span><i />{identityFallback[ownerRoleIndex]?.shortRole ?? domainIdentity.shortRole}任务</span>
-                                  <em className={`tone-${taskTone(task.state)}`}>{task.state}</em>
+                                  <em className={isGoalSpin || isGoalTarget ? 'tone-acid' : `tone-${taskTone(task.state)}`}>
+                                    {isGoalTarget ? 'GOAL LOCK' : isGoalSpin ? 'ROLL' : task.state}
+                                  </em>
                                 </div>
                                 <h3>{task.title}</h3>
                                 <p>{task.skill}</p>
@@ -1272,6 +1562,13 @@ export function RuntimePage() {
             )}
           </aside>
         </div>
+        <GoalEventOverlay
+          phase={goalDemo.phase}
+          team={team}
+          remainingMs={goalRemainingMs}
+          onClose={stopGoalDemo}
+          reducedMotion={reducedMotion}
+        />
         </LayoutGroup>
 
         <div className="v3-market-strip">
@@ -1348,12 +1645,12 @@ export function RuntimePage() {
 
         <footer className="v3-runtime-controls">
           <div>
-            <button type="button" onClick={togglePaused} disabled={Boolean(meeting)}>
+            <button type="button" onClick={togglePaused} disabled={Boolean(meeting || goalActive)}>
               {paused && !meeting ? <CirclePlay size={16} /> : <CirclePause size={16} />}
-              {meeting ? '会议进行中' : paused ? '继续模拟' : '暂停模拟'}
+              {goalActive ? 'GOAL 演示中' : meeting ? '会议进行中' : paused ? '继续模拟' : '暂停模拟'}
             </button>
-            <button type="button" onClick={cycleSpeed}><FastForward size={16} />{speed}×</button>
-            <button type="button" onClick={restartRuntime} disabled={Boolean(meeting)}>
+            <button type="button" onClick={cycleSpeed} disabled={goalActive}><FastForward size={16} />{speed}×</button>
+            <button type="button" onClick={restartRuntime} disabled={Boolean(meeting || goalActive)}>
               <RotateCcw size={15} />重新播放
             </button>
           </div>
