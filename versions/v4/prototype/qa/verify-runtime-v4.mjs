@@ -118,6 +118,16 @@ assert.ok(
 const meetingTask = candleState.tasks['tape-confirmation']
 const meeting = createMeetingState(meetingTask, 2, candleState.timeMs)
 assert.equal(
+  MEETING_COUNTDOWN_AT_MS,
+  10_000,
+  'The meeting auto-close countdown should begin after ten seconds',
+)
+assert.equal(
+  MEETING_END_MS,
+  15_000,
+  'A meeting should auto-close after the five-second countdown',
+)
+assert.equal(
   new Set(Object.values(meeting.roles)).size,
   MEETING_ROLE_LABELS.length,
   'Every meeting should assign five distinct roles',

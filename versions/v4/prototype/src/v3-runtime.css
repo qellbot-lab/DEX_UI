@@ -1242,7 +1242,7 @@ body:has(.v3-runtime-page) main {
   }
 }
 
-@media (max-width: 960px) {
+@media (max-width: 1000px) {
   .v3-runtime-shell {
     padding-inline: 14px;
   }

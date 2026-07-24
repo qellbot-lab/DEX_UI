@@ -1,9 +1,9 @@
 import { V3_TEAM_IDS } from './runtimeV4Engine.js'
 
 export const MEETING_GATHER_MS = 1_600
-export const MEETING_WANDER_MS = 7_000
-export const MEETING_COUNTDOWN_AT_MS = 20_000
-export const MEETING_END_MS = 25_000
+export const MEETING_WANDER_MS = 6_200
+export const MEETING_COUNTDOWN_AT_MS = 10_000
+export const MEETING_END_MS = 15_000
 
 export const MEETING_ROLE_LABELS = [
   '正在汇报',
@@ -104,7 +104,7 @@ export function createMeetingActivities(meeting, elapsedMs) {
       tone: 'acid',
     },
     {
-      offset: 4_000,
+      offset: 3_000,
       from: recorder,
       to: speaker,
       action: '同步会议纪要',
@@ -112,7 +112,7 @@ export function createMeetingActivities(meeting, elapsedMs) {
       tone: 'cyan',
     },
     {
-      offset: 6_200,
+      offset: 4_400,
       from: dissenter,
       to: speaker,
       action: '提出反向意见',
@@ -120,7 +120,7 @@ export function createMeetingActivities(meeting, elapsedMs) {
       tone: 'rose',
     },
     {
-      offset: 8_500,
+      offset: 5_800,
       from: requester,
       to: 'TEAM CORE',
       action: '申请补充发言',
@@ -128,7 +128,7 @@ export function createMeetingActivities(meeting, elapsedMs) {
       tone: 'ember',
     },
     {
-      offset: 11_000,
+      offset: 7_000,
       from: wanderer,
       to: 'ALL',
       action: '短暂离席',
@@ -136,7 +136,7 @@ export function createMeetingActivities(meeting, elapsedMs) {
       tone: 'steel',
     },
     {
-      offset: 14_000,
+      offset: 8_000,
       from: speaker,
       to: dissenter,
       action: '回应异议',
@@ -144,7 +144,7 @@ export function createMeetingActivities(meeting, elapsedMs) {
       tone: 'acid',
     },
     {
-      offset: 17_000,
+      offset: 9_000,
       from: recorder,
       to: 'TEAM CORE',
       action: '提交纪要草案',
@@ -152,7 +152,7 @@ export function createMeetingActivities(meeting, elapsedMs) {
       tone: 'cyan',
     },
     {
-      offset: 19_500,
+      offset: 9_700,
       from: 'TEAM CORE',
       to: 'ALL',
       action: '收敛会议结论',

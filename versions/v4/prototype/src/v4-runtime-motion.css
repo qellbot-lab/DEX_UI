@@ -6,6 +6,11 @@
   position: relative;
 }
 
+.v4-runtime-page .v3-operations-grid {
+  position: relative;
+  isolation: isolate;
+}
+
 .v4-alert-stage {
   position: absolute;
   z-index: 70;
@@ -211,18 +216,32 @@
   cursor: not-allowed;
 }
 
-.v4-meeting-button-agent {
+.v4-floating-slacker {
   position: absolute;
-  z-index: 32;
-  top: 30px;
-  right: -2px;
+  z-index: 48;
+  top: 0;
+  left: 0;
   pointer-events: none;
+  will-change: transform, opacity;
 }
 
-.v4-meeting-button-agent .v3-agent-presence {
+.v4-floating-slacker .v3-agent-presence {
   filter:
-    drop-shadow(0 5px 10px rgba(0, 0, 0, .58))
-    saturate(.78);
+    drop-shadow(0 7px 12px rgba(0, 0, 0, .62))
+    saturate(.82);
+}
+
+.v4-floating-slacker .v3-agent-presence-pointer,
+.v4-floating-slacker .v3-agent-presence > span {
+  animation:
+    v4-slacker-float 3.2s ease-in-out infinite alternate,
+    v4-slacker-low-blink 4.6s steps(2, end) infinite;
+}
+
+.v4-floating-slacker.has-arrived .v3-agent-presence {
+  filter:
+    drop-shadow(0 5px 10px rgba(0, 0, 0, .56))
+    saturate(.72);
 }
 
 .v4-runtime-page .v3-agent-card.is-in-meeting {
@@ -264,7 +283,7 @@
 .v4-runtime-page .v3-task-card.is-selected {
   border-color: color-mix(in oklch, var(--acid) 76%, var(--v3-rule-strong));
   background: color-mix(in oklch, var(--acid) 6%, var(--v3-surface-raised));
-  box-shadow: inset 3px 0 0 var(--acid);
+  box-shadow: 0 0 0 1px color-mix(in oklch, var(--acid) 22%, transparent);
 }
 
 .v4-runtime-page .v3-task-card.is-selected .v3-task-card-footer {
@@ -274,19 +293,28 @@
 
 .v4-runtime-page .v3-task-card.is-meeting-target {
   z-index: 16;
+  overflow: visible;
   border-color: var(--acid);
   background:
     linear-gradient(90deg, color-mix(in oklch, var(--acid) 9%, transparent), transparent 42%),
     var(--v3-surface-raised);
-  box-shadow:
-    inset 3px 0 0 var(--acid),
-    0 0 18px color-mix(in oklch, var(--acid) 7%, transparent);
+  box-shadow: 0 0 18px color-mix(in oklch, var(--acid) 7%, transparent);
 }
 
-.v4-runtime-page .v3-task-card.is-wander-stop {
+.v4-runtime-page .v3-task-card.is-meeting-target > small {
+  display: none;
+}
+
+.v4-runtime-page .v3-task-card.is-meeting-target > p,
+.v4-runtime-page .v3-task-card.is-meeting-target h3 {
+  max-width: 44%;
+}
+
+.v4-runtime-page .v3-task-card.is-slacker-pass {
   z-index: 14;
-  border-color: color-mix(in oklch, var(--ember) 54%, var(--v3-rule-strong));
-  background: color-mix(in oklch, var(--ember) 5%, var(--v3-surface-raised));
+  border-color: color-mix(in oklch, var(--slacker-color) 62%, var(--v3-rule-strong));
+  background: color-mix(in oklch, var(--slacker-color) 8%, var(--v3-surface-raised));
+  box-shadow: 0 0 12px color-mix(in oklch, var(--slacker-color) 9%, transparent);
 }
 
 .v4-agent-presence-dock {
@@ -306,15 +334,10 @@
 }
 
 .v4-agent-presence-dock.is-meeting-target {
-  right: 5px;
-  bottom: 5px;
-  width: 55%;
-  max-width: 55%;
-  grid-template-columns: repeat(2, minmax(0, max-content));
-  grid-auto-flow: row;
-  align-content: end;
-  justify-content: end;
-  gap: 3px 4px;
+  inset: 3px 3px 3px 50%;
+  display: block;
+  width: auto;
+  max-width: none;
 }
 
 .v4-agent-presence-dock.is-meeting-target .v3-agent-presence-pointer {
@@ -342,6 +365,40 @@
   max-width: 46px;
   padding-inline: 5px;
   font-size: 7px;
+}
+
+.v4-agent-presence-dock.is-meeting-target .v3-agent-presence {
+  position: absolute;
+}
+
+.v4-agent-presence-dock.is-meeting-target .v3-agent-presence:nth-child(1) {
+  top: 1px;
+  right: 1px;
+}
+
+.v4-agent-presence-dock.is-meeting-target .v3-agent-presence:nth-child(2) {
+  top: 21px;
+  left: 0;
+}
+
+.v4-agent-presence-dock.is-meeting-target .v3-agent-presence:nth-child(3) {
+  right: 8px;
+  bottom: 18px;
+}
+
+.v4-agent-presence-dock.is-meeting-target .v3-agent-presence:nth-child(4) {
+  bottom: 0;
+  left: 14px;
+}
+
+.v4-agent-presence-dock.is-meeting-target .v3-agent-presence:nth-child(5) {
+  top: 30px;
+  right: 34px;
+}
+
+.v4-agent-presence-dock.is-meeting-target .v3-agent-presence > span {
+  animation: v4-meeting-capsule-breathe 2.8s ease-in-out infinite alternate;
+  animation-delay: calc(var(--presence-order, 0) * -430ms);
 }
 
 .v4-agent-presence-dock .v3-agent-presence {
@@ -372,8 +429,9 @@
 
 .v4-runtime-page .v3-agent-presence.is-slacking .v3-agent-presence-pointer {
   animation:
-    v3-agent-pointer-signal 1.8s steps(2, end) infinite,
-    v4-meeting-slacker 760ms ease-in-out infinite alternate;
+    v3-agent-pointer-signal 3.8s steps(2, end) infinite,
+    v4-slacker-float 3.2s ease-in-out infinite alternate,
+    v4-slacker-low-blink 4.6s steps(2, end) infinite;
 }
 
 .v4-agent-presence-dock .v3-agent-presence > span {
@@ -882,7 +940,9 @@
 .v4-runtime-page.is-reduced-motion .v3-stream-indicator svg,
 .v4-runtime-page.is-reduced-motion .v4-alert-icon svg,
 .v4-runtime-page.is-reduced-motion .v4-alert-agent i,
-.v4-runtime-page.is-reduced-motion .v3-agent-presence.is-presenting {
+.v4-runtime-page.is-reduced-motion .v3-agent-presence.is-presenting,
+.v4-runtime-page.is-reduced-motion .v4-floating-slacker .v3-agent-presence > span,
+.v4-runtime-page.is-reduced-motion .v4-agent-presence-dock.is-meeting-target .v3-agent-presence > span {
   animation: none;
 }
 
@@ -923,13 +983,38 @@
   }
 }
 
-@keyframes v4-meeting-slacker {
+@keyframes v4-meeting-capsule-breathe {
   from {
-    transform: translate(-1px, 0) rotate(-4deg);
+    opacity: .86;
+    transform: translateY(0) scale(.985);
   }
 
   to {
-    transform: translate(3px, -2px) rotate(5deg);
+    opacity: 1;
+    transform: translateY(-2px) scale(1.015);
+  }
+}
+
+@keyframes v4-slacker-float {
+  from {
+    transform: translateY(1px);
+  }
+
+  to {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes v4-slacker-low-blink {
+  0%,
+  72%,
+  100% {
+    opacity: .72;
+  }
+
+  76%,
+  90% {
+    opacity: 1;
   }
 }
 
@@ -999,6 +1084,22 @@
 @media (max-width: 1220px) {
   .v4-alert-stage {
     top: 152px;
+  }
+
+  .v4-runtime-page.is-meeting .v3-lane.is-meeting-lane,
+  .v4-runtime-page.is-meeting .v3-lane.is-meeting-lane .v3-lane-stack {
+    z-index: 20;
+    overflow: visible;
+  }
+
+  .v4-runtime-page.is-meeting .v3-lane.is-meeting-lane .v3-task-card.is-meeting-target {
+    width: 270px;
+    max-width: none;
+  }
+
+  .v4-runtime-page.is-meeting .v3-lane.is-meeting-lane.is-lane-2 .v3-task-card.is-meeting-target,
+  .v4-runtime-page.is-meeting .v3-lane.is-meeting-lane.is-lane-3 .v3-task-card.is-meeting-target {
+    margin-left: calc(100% - 270px);
   }
 }
 
