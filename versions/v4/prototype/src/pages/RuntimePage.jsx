@@ -11,6 +11,7 @@ import {
   MousePointer2,
   RadioTower,
   RotateCcw,
+  X,
 } from 'lucide-react'
 import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from 'motion/react'
 import { agentOrganizationLine, agents, events } from '../data.js'
@@ -28,8 +29,8 @@ import {
   formatV4Time,
   getV4ActiveTaskCount,
   getV4Alpha,
-  getV4CycleProgress,
   getV4LaneTasks,
+  getV4LivePosition,
   getV4PaperAssets,
   getV4RuntimeTasks,
   getV4TaskAgents,
@@ -41,6 +42,47 @@ const speeds = [1, 2, 4]
 const identityFallback = Object.values(AGENT_IDENTITY)
 const LANE_VISIBLE_TASK_LIMIT = 5
 const FRAME_COMMIT_MS = 80
+const TEAM_CORE_STAGE_COUNT = 6
+const TEAM_CORE_STAGE_MS = 900
+const PERMISSION_MODES = [
+  {
+    id: 'request',
+    tab: '请求批准',
+    label: '默认权限',
+    scope: '仅批准本次；下一项敏感操作继续询问',
+    tone: 'steel',
+    action: '仅批准本次',
+  },
+  {
+    id: 'review',
+    tab: '替我审核',
+    label: '代理审核',
+    scope: '总仓 ≤55% · 单笔 ≤8% · 杠杆 ≤1.5×',
+    tone: 'acid',
+    action: '启用并批准',
+  },
+  {
+    id: 'full',
+    tab: '完全访问',
+    label: '完全访问权限',
+    scope: '允许任意模拟仓位、杠杆与执行路由',
+    tone: 'rose',
+    action: '确认完全授权',
+  },
+  {
+    id: 'custom',
+    tab: '自定义',
+    label: '自定义权限',
+    scope: '使用已保存的仓位与杠杆守则',
+    tone: 'cyan',
+    action: '按守则批准',
+  },
+]
+const PERMISSION_PRESETS = [
+  { id: 'balanced', label: '均衡守则 A', summary: '总仓 55% · 单笔 8% · 杠杆 1.5×', maxTrade: 8 },
+  { id: 'defensive', label: '防守守则 B', summary: '总仓 35% · 单笔 5% · 杠杆 1.0×', maxTrade: 5 },
+  { id: 'offensive', label: '进攻守则 C', summary: '总仓 70% · 单笔 12% · 杠杆 2.0×', maxTrade: 12 },
+]
 const paperAssetFormatter = new Intl.NumberFormat('zh-CN', {
   style: 'currency',
   currency: 'CNY',
@@ -149,6 +191,162 @@ function RuntimeAlert({ alert, actor, identity, reducedMotion }) {
   )
 }
 
+function PermissionReviewCard({
+  task,
+  taskAgents,
+  team,
+  agentColor,
+  sessionTime,
+  runId,
+}) {
+  const [modeId, setModeId] = useState('request')
+  const [presetId, setPresetId] = useState('balanced')
+  const [outcome, setOutcome] = useState(null)
+  const [appliedPolicy, setAppliedPolicy] = useState(null)
+  const mode = PERMISSION_MODES.find((item) => item.id === modeId) ?? PERMISSION_MODES[0]
+  const preset = PERMISSION_PRESETS.find((item) => item.id === presetId) ?? PERMISSION_PRESETS[0]
+  const requestedPosition = 5 + (task.id.length % 7)
+  const agentNames = taskAgents.length
+    ? taskAgents
+      .map((item) => team[V3_TEAM_IDS.indexOf(item.agentId)]?.name)
+      .filter(Boolean)
+      .join(' × ')
+    : 'TEAM CORE'
+
+  useEffect(() => {
+    if (!appliedPolicy) {
+      setOutcome(null)
+      return
+    }
+
+    const appliedPreset = PERMISSION_PRESETS.find((item) => item.id === appliedPolicy.presetId)
+      ?? PERMISSION_PRESETS[0]
+    const maxTrade = appliedPolicy.modeId === 'full'
+      ? Number.POSITIVE_INFINITY
+      : appliedPolicy.modeId === 'review'
+        ? 8
+        : appliedPreset.maxTrade
+    const policyLabel = appliedPolicy.modeId === 'full'
+      ? '完全访问权限'
+      : appliedPolicy.modeId === 'review'
+        ? '代理审核'
+        : appliedPreset.label
+
+    setModeId(appliedPolicy.modeId)
+    setPresetId(appliedPolicy.presetId ?? 'balanced')
+    setOutcome(requestedPosition <= maxTrade
+      ? { status: 'approved', message: `${sessionTime} · ${policyLabel}自动批准` }
+      : null)
+  }, [task.id])
+
+  useEffect(() => {
+    setModeId('request')
+    setPresetId('balanced')
+    setOutcome(null)
+    setAppliedPolicy(null)
+  }, [runId])
+
+  const chooseMode = (nextModeId) => {
+    setModeId(nextModeId)
+    setOutcome(null)
+    setAppliedPolicy(null)
+  }
+
+  const decide = (status) => {
+    if (status === 'denied') {
+      setAppliedPolicy(null)
+      setOutcome({ status, message: `${sessionTime} · 已否决，任务退回队列` })
+      return
+    }
+
+    setAppliedPolicy(modeId === 'request' ? null : { modeId, presetId })
+    const approvalLabel = modeId === 'request'
+      ? '本次权限已批准'
+      : modeId === 'custom'
+        ? `${preset.label} 已应用`
+        : `${mode.label} 已启用`
+    setOutcome({ status, message: `${sessionTime} · ${approvalLabel}` })
+  }
+
+  return (
+    <section
+      className="v3-task-inspector v4-permission-review"
+      data-mode={modeId}
+      data-outcome={outcome?.status ?? 'pending'}
+      style={{ '--agent-color': agentColor }}
+      aria-labelledby="permission-review-title"
+    >
+      <div className="v4-permission-heading">
+        <span>PERMISSION REQUEST</span>
+        <em>{outcome?.status === 'approved' ? '已批准' : outcome?.status === 'denied' ? '已否决' : '待审核'}</em>
+      </div>
+
+      <div className="v4-permission-task">
+        <div>
+          <small>{agentNames} 请求执行</small>
+          <h3 id="permission-review-title">{task.title}</h3>
+        </div>
+        <span>仓位 ±{requestedPosition}%</span>
+      </div>
+
+      <div className="v4-permission-modes" role="radiogroup" aria-label="选择交易权限模式">
+        {PERMISSION_MODES.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            role="radio"
+            aria-checked={modeId === item.id}
+            className={modeId === item.id ? 'is-selected' : ''}
+            onClick={() => chooseMode(item.id)}
+            title={`${item.label}：${item.scope}`}
+          >
+            {item.tab}
+          </button>
+        ))}
+      </div>
+
+      <div className={`v4-permission-policy tone-${mode.tone}`} aria-live="polite">
+        {outcome ? (
+          <output className={`is-${outcome.status}`}>{outcome.message}</output>
+        ) : (
+          <>
+            <b>{mode.label}</b>
+            {modeId === 'custom' ? (
+              <label>
+                <select
+                  value={presetId}
+                  onChange={(event) => setPresetId(event.target.value)}
+                  aria-label="选择已保存的交易权限守则"
+                >
+                  {PERMISSION_PRESETS.map((item) => (
+                    <option key={item.id} value={item.id}>{item.label}</option>
+                  ))}
+                </select>
+                <span>{preset.summary}</span>
+              </label>
+            ) : (
+              <span>{mode.scope}</span>
+            )}
+          </>
+        )}
+      </div>
+
+      <div className="v4-permission-actions">
+        <button type="button" className="is-deny" onClick={() => decide('denied')}>
+          <X size={12} />否决
+        </button>
+        <button
+          type="button"
+          className={`is-approve tone-${mode.tone}`}
+          onClick={() => decide('approved')}
+        >
+          <Check size={12} />{mode.action}
+        </button>
+      </div>
+    </section>
+  )
+}
+
 export function RuntimePage() {
   const demo = useDemo()
   const prefersReducedMotion = useReducedMotion()
@@ -215,9 +413,10 @@ export function RuntimePage() {
   const paperAssets = getV4PaperAssets(runtime)
   const displayAssets = Math.round(paperAssets / 1_000) * 1_000
   const alpha = getV4Alpha(paperAssets)
+  const livePosition = getV4LivePosition(runtime)
   const equityHistory = useMemo(() => createV4EquityHistory(runtime), [runtime])
-  const cycleProgress = getV4CycleProgress(runtime.timeMs)
-  const phaseProgressIndex = Math.min(5, Math.floor(cycleProgress * 6))
+  const phaseProgressIndex = Math.floor(runtime.timeMs / TEAM_CORE_STAGE_MS) % TEAM_CORE_STAGE_COUNT
+  const phaseProgressPercent = Math.round(((phaseProgressIndex + 1) / TEAM_CORE_STAGE_COUNT) * 100)
   const alertActor = runtime.alert?.actorId ? seatByRoleId[runtime.alert.actorId] : null
   const alertIdentity = runtime.alert?.actorId ? identityForRole(runtime.alert.actorId) : null
 
@@ -513,7 +712,7 @@ export function RuntimePage() {
                                       >
                                         <MousePointer2
                                           className="v3-agent-presence-pointer"
-                                          size={16}
+                                          size={18}
                                           aria-hidden="true"
                                         />
                                         <span>
@@ -589,26 +788,16 @@ export function RuntimePage() {
               </AnimatePresence>
             </div>
 
-            <div
-              className="v3-task-inspector"
-              style={{ '--agent-color': selectedTaskAgents[0] ? identityForRole(selectedTaskAgents[0].agentId).color : identityForRole(selectedTask.ownerId).color }}
-            >
-              <span>ACTIVE TASK</span>
-              <div>
-                <b>
-                  {selectedTaskAgents.length
-                    ? selectedTaskAgents.map((item) => team[V3_TEAM_IDS.indexOf(item.agentId)]?.name).join(' × ')
-                    : '待分配'}
-                </b>
-                <em>{selectedTaskAgents[0]?.stateLabel ?? selectedTask.state}</em>
-              </div>
-              <h3>{selectedTask.title}</h3>
-              <dl>
-                <div><dt>Skill</dt><dd>{selectedTask.skill}</dd></div>
-                <div><dt>因子</dt><dd>{selectedTask.factor}</dd></div>
-                <div><dt>交付</dt><dd>{selectedTask.deliverable}</dd></div>
-              </dl>
-            </div>
+            <PermissionReviewCard
+              task={selectedTask}
+              taskAgents={selectedTaskAgents}
+              team={team}
+              agentColor={selectedTaskAgents[0]
+                ? identityForRole(selectedTaskAgents[0].agentId).color
+                : identityForRole(selectedTask.ownerId).color}
+              sessionTime={sessionTime}
+              runId={runId}
+            />
           </aside>
         </div>
 
@@ -628,18 +817,30 @@ export function RuntimePage() {
             <span>TEAM CORE · {sessionTime}</span>
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
+                className="v4-team-core-copy"
                 key={runtime.decision.updatedAt}
-                initial={reducedMotion ? false : { opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={reducedMotion ? undefined : { opacity: 0, y: -6 }}
-                transition={{ duration: reducedMotion ? 0 : .36 / speed, ease: [0.16, 1, 0.3, 1] }}
+                initial={reducedMotion ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={reducedMotion
+                  ? undefined
+                  : {
+                      opacity: 0,
+                      scaleY: .04,
+                      filter: 'brightness(2.4)',
+                    }}
+                transition={{ duration: reducedMotion ? 0 : .34 / speed, ease: [0.16, 1, 0.3, 1] }}
               >
-                <h2>{runtime.decision.label}</h2>
+                <h2
+                  aria-label={runtime.decision.label}
+                  data-text={runtime.decision.label}
+                >
+                  {runtime.decision.label}
+                </h2>
                 <p>{runtime.decision.note}</p>
               </motion.div>
             </AnimatePresence>
-            <div className="v3-phase-progress" aria-label={`运行周期进度 ${Math.round(cycleProgress * 100)}%`}>
-              {Array.from({ length: 6 }, (_, index) => (
+            <div className="v3-phase-progress" aria-label={`Team Core 时间节奏 ${phaseProgressPercent}%`}>
+              {Array.from({ length: TEAM_CORE_STAGE_COUNT }, (_, index) => (
                 <i key={index} className={index <= phaseProgressIndex ? 'is-active' : ''} />
               ))}
             </div>
@@ -647,8 +848,23 @@ export function RuntimePage() {
 
           <section className="v3-portfolio-state">
             <div><span>CURRENT POSITION</span><em>{runtime.decision.phaseLabel}</em></div>
-            <b>{runtime.metrics.position}<small>%</small></b>
-            <div className="v3-position-meter"><span style={{ transform: `scaleX(${runtime.metrics.position / 100})` }} /></div>
+            <b aria-label={`当前仓位 ${livePosition}%`}>
+              <span className="v4-position-number">
+                <AnimatePresence initial={false} mode="popLayout">
+                  <motion.span
+                    key={livePosition}
+                    initial={reducedMotion ? false : { opacity: 0, y: 7 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={reducedMotion ? undefined : { opacity: 0, y: -5 }}
+                    transition={{ duration: reducedMotion ? 0 : .14 / speed, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    {livePosition}
+                  </motion.span>
+                </AnimatePresence>
+              </span>
+              <small>%</small>
+            </b>
+            <div className="v3-position-meter"><span style={{ transform: `scaleX(${livePosition / 100})` }} /></div>
             <dl>
               <div><dt>风险预算</dt><dd>{runtime.metrics.risk}%</dd></div>
               <div><dt>团队协同</dt><dd>{runtime.metrics.sync}</dd></div>

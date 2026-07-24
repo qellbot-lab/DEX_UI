@@ -4,6 +4,7 @@ import {
   createV4Candles,
   createV4RuntimeState,
   getV4LaneTasks,
+  getV4LivePosition,
   getV4TaskAgents,
 } from '../src/runtimeV4Engine.js'
 
@@ -30,6 +31,14 @@ assert.notEqual(
   firstCycleHumor,
   nextCycleHumor,
   'Repeated runtime cycles should rotate Agent humor instead of replaying one line',
+)
+
+const openingPosition = getV4LivePosition(advanceTo(0))
+const livePositionPulse = getV4LivePosition(advanceTo(600))
+assert.notEqual(
+  openingPosition,
+  livePositionPulse,
+  'The displayed position should pulse between trade events instead of remaining static',
 )
 
 const alertOpened = advanceTo(9_300)

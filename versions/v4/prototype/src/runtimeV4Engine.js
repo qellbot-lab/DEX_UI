@@ -1059,6 +1059,12 @@ export function getV4ActiveTaskCount(state) {
   ).size
 }
 
+export function getV4LivePosition(state) {
+  const pulse = Math.floor(Math.max(0, state.timeMs) / 520)
+  const wave = Math.sin(pulse * 0.88) * 2.2 + Math.cos(pulse * 0.41) * 1.4
+  return Math.max(0, Math.min(100, Math.round(state.metrics.position + wave)))
+}
+
 export function getV4Alpha(assets) {
   return ((assets - INITIAL_ASSETS) / INITIAL_ASSETS) * 100
 }
