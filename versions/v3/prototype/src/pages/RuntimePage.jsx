@@ -5,6 +5,7 @@ import {
   CirclePause,
   CirclePlay,
   FastForward,
+  MousePointer2,
   RadioTower,
   RotateCcw,
 } from 'lucide-react'
@@ -367,7 +368,11 @@ export function RuntimePage() {
                                             scale: { duration: .24, ease: [0.16, 1, 0.3, 1] },
                                           }}
                                     >
-                                      <i />
+                                      <MousePointer2
+                                        className="v3-agent-presence-pointer"
+                                        size={16}
+                                        aria-hidden="true"
+                                      />
                                       <span>
                                         <b>{attention.agent?.name}</b>
                                         <em>{attention.state}</em>

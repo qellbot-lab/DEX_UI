@@ -184,6 +184,24 @@ Resolution:
   cards; card height remains `92px`, operations board remains `575px`, and the
   market strip stays at document position `795px`.
 
+### Iteration 8
+
+- P2: the Agent Presence marker used a hand-built, long-tailed retro arrow that
+  carried too much visual weight beside the Agent name.
+
+Resolution:
+
+- Replace the CSS polygon with Lucide `MousePointer2`, matching the compact
+  browser-control cursor silhouette while keeping the existing design system.
+- Fix every cursor at `16 × 16px` with a dark outline and the assigned Agent
+  identity color as its fill.
+- Preserve the staggered `1.8s` two-step retro signal blink. Only the cursor
+  pulses; card geometry and Agent labels remain stable.
+- Production build passed with `2,835` modules transformed. Automated local
+  browser capture was blocked by the browser URL security policy, so final
+  appearance remains available for direct review in the restored local
+  `/runtime` preview.
+
 ## Remaining P3 observations
 
 - Mobile users discover the workflow lanes through horizontal scrolling. A
@@ -194,4 +212,4 @@ Resolution:
 
 ## Result
 
-Passed.
+final result: passed

@@ -645,15 +645,16 @@ body:has(.v3-runtime-page) main {
   filter: drop-shadow(0 2px 5px rgba(0, 0, 0, .42));
 }
 
-.v3-agent-presence > i {
-  width: 13px;
+.v3-agent-presence-pointer {
+  width: 16px;
   height: 16px;
-  margin-top: -6px;
-  margin-right: -2px;
+  margin-top: -5px;
+  margin-right: -1px;
   flex: 0 0 auto;
-  background: var(--agent-color);
-  clip-path: polygon(0 0, 100% 52%, 57% 61%, 72% 100%, 54% 100%, 40% 65%, 9% 94%);
-  transform-origin: 20% 20%;
+  color: var(--agent-color);
+  fill: currentColor;
+  stroke: #050706;
+  stroke-width: 1.55;
   animation: v3-agent-pointer-signal 1.8s steps(2, end) infinite;
   animation-delay: calc(var(--presence-order, 0) * -320ms);
 }
