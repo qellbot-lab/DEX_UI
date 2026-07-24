@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-const v3Dependencies = [
+const v4Dependencies = [
   'react',
   'react-dom',
   'react-router-dom',
@@ -15,7 +15,7 @@ const v3Dependencies = [
 export default defineConfig({
   plugins: [react()],
   resolve: {
-    dedupe: v3Dependencies,
+    dedupe: v4Dependencies,
   },
   server: { port: 4173 },
   preview: { port: 4173 },
