@@ -6,11 +6,13 @@ import {
   Check,
   CirclePause,
   CirclePlay,
+  Download,
   FastForward,
   LoaderCircle,
   MousePointer2,
   RadioTower,
   RotateCcw,
+  UsersRound,
   X,
 } from 'lucide-react'
 import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from 'motion/react'
@@ -36,6 +38,18 @@ import {
   getV4TaskAgents,
   getV4TeamCoreState,
 } from '../runtimeV4Engine.js'
+import {
+  MEETING_END_MS,
+  MEETING_GATHER_MS,
+  MEETING_WANDER_MS,
+  createMeetingActivities,
+  createMeetingAlert,
+  createMeetingMinutes,
+  createMeetingState,
+  getMeetingAgentByRole,
+  getMeetingPhase,
+  getMeetingRoleTone,
+} from '../runtimeMeeting.js'
 import '../v3-runtime.css'
 import '../v4-runtime-motion.css'
 
@@ -337,6 +351,124 @@ function PermissionReviewCard({
   )
 }
 
+function AgentPresence({
+  agentId,
+  agent,
+  identity,
+  statusLabel,
+  travelling,
+  presenting,
+  slacking,
+  agentIndex,
+  reducedMotion,
+  speed,
+}) {
+  return (
+    <motion.div
+      layout
+      layoutId={`v4-agent-presence-${agentId}`}
+      className={`v3-agent-presence ${travelling ? 'is-travelling' : ''} ${presenting ? 'is-presenting' : ''} ${slacking ? 'is-slacking' : ''}`}
+      style={{
+        '--agent-color': identity.color,
+        '--presence-order': agentIndex,
+      }}
+      initial={reducedMotion ? false : { opacity: 0, scale: .92 }}
+      animate={{
+        opacity: 1,
+        scale: presenting && !reducedMotion
+          ? 1.08
+          : travelling && !reducedMotion
+            ? 1.025
+            : 1,
+      }}
+      exit={{ opacity: 0, scale: .94 }}
+      transition={reducedMotion
+        ? { duration: 0 }
+        : {
+            layout: { duration: .62, ease: [0.16, 1, 0.3, 1] },
+            opacity: { duration: .18 / speed },
+            scale: { duration: .24, ease: [0.16, 1, 0.3, 1] },
+          }}
+    >
+      <MousePointer2
+        className="v3-agent-presence-pointer"
+        size={18}
+        aria-hidden="true"
+      />
+      <span>
+        <b>{agent?.name}</b>
+        <em>{statusLabel}</em>
+      </span>
+    </motion.div>
+  )
+}
+
+function MeetingMinutesCard({ minutes, team, sessionTime }) {
+  const speakerIndex = V3_TEAM_IDS.indexOf(minutes.speakerId)
+  const recorderIndex = V3_TEAM_IDS.indexOf(minutes.recorderId)
+  const speaker = team[speakerIndex]?.name ?? '主汇报 Agent'
+  const recorder = team[recorderIndex]?.name ?? '记录 Agent'
+
+  const downloadMinutes = () => {
+    const roleLines = V3_TEAM_IDS
+      .map((agentId, index) => `- ${team[index]?.name ?? agentId}：${minutes.roles[agentId]}`)
+      .join('\n')
+    const report = [
+      '# QELL Alpha Team 会议纪要',
+      '',
+      `- 议题：${minutes.targetTitle}`,
+      `- 结束时间：${sessionTime}`,
+      `- 结束方式：${minutes.reason === 'timeout' ? '自动结束' : '用户结束'}`,
+      `- 主汇报：${speaker}`,
+      `- 记录人：${recorder}`,
+      '',
+      '## 角色状态',
+      roleLines,
+      '',
+      '## 结论',
+      minutes.conclusion,
+      '',
+      '## 后续行动',
+      minutes.action,
+      '',
+      `Skill：${minutes.skill}`,
+      `Factor：${minutes.factor}`,
+    ].join('\n')
+    const blob = new Blob([report], { type: 'text/markdown;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const anchor = document.createElement('a')
+    anchor.href = url
+    anchor.download = `QELL-会议纪要-${minutes.targetTaskId}.md`
+    anchor.click()
+    window.setTimeout(() => URL.revokeObjectURL(url), 0)
+  }
+
+  return (
+    <section
+      className="v3-task-inspector v4-meeting-minutes"
+      aria-labelledby="meeting-minutes-title"
+    >
+      <div className="v4-minutes-heading">
+        <span>ACTIVE TASK · MEETING NOTES</span>
+        <em>已归档</em>
+      </div>
+      <div className="v4-minutes-title">
+        <small>{minutes.targetTitle}</small>
+        <h3 id="meeting-minutes-title">{minutes.title}</h3>
+      </div>
+      <dl>
+        <div><dt>结论</dt><dd>{minutes.conclusion}</dd></div>
+        <div><dt>行动</dt><dd>{minutes.action}</dd></div>
+        <div><dt>记录</dt><dd>{speaker} 汇报 · {recorder} 归档</dd></div>
+      </dl>
+      <button type="button" className="v4-minutes-download" onClick={downloadMinutes}>
+        <Download size={12} />
+        下载报告
+      </button>
+    </section>
+  )
+}
+
 export function RuntimePage() {
   const demo = useDemo()
   const prefersReducedMotion = useReducedMotion()
@@ -347,13 +479,19 @@ export function RuntimePage() {
   const [paused, setPaused] = useState(false)
   const [speed, setSpeed] = useState(1)
   const [runtime, setRuntime] = useState(() => createV4RuntimeState())
+  const [marketTimeMs, setMarketTimeMs] = useState(0)
   const [runId, setRunId] = useState(1)
   const [focusedAgentId, setFocusedAgentId] = useState('')
-  const [selectedTaskId, setSelectedTaskId] = useState('tape-confirmation')
+  const [selectedTaskId, setSelectedTaskId] = useState('')
+  const [meeting, setMeeting] = useState(null)
+  const [meetingElapsedMs, setMeetingElapsedMs] = useState(0)
+  const [meetingMinutes, setMeetingMinutes] = useState(null)
   const frameRef = useRef(null)
   const lastFrameRef = useRef(null)
   const lastCommitRef = useRef(null)
   const elapsedRef = useRef(0)
+  const marketElapsedRef = useRef(0)
+  const meetingElapsedRef = useRef(0)
 
   const seatByRoleId = useMemo(
     () => Object.fromEntries(V3_TEAM_IDS.map((roleId, index) => [roleId, team[index]])),
@@ -391,16 +529,27 @@ export function RuntimePage() {
     [runtime, taskById],
   )
 
-  const selectedTask = taskById[selectedTaskId] ?? runtimeTasks[0]
+  const selectedTask = selectedTaskId ? taskById[selectedTaskId] ?? null : null
   const approvalTask = runtimeTasks
     .filter((task) => task.lane === 2)
-    .sort((a, b) => b.updatedAt - a.updatedAt)[0] ?? selectedTask
+    .sort((a, b) => b.updatedAt - a.updatedAt)[0] ?? runtimeTasks[0]
   const approvalTaskAgents = approvalTask ? getV4TaskAgents(runtime, approvalTask.id) : []
   const activeTaskCount = getV4ActiveTaskCount(runtime)
-  const sessionTime = formatV4Time(runtime.timeMs)
+  const meetingPhase = getMeetingPhase(meeting, meetingElapsedMs)
+  const marketOffsetMs = Math.max(0, marketTimeMs - runtime.timeMs)
+  const displayedTradeMarkers = useMemo(
+    () => meeting
+      ? []
+      : runtime.tradeMarkers.map((marker) => ({
+          ...marker,
+          at: marker.at + marketOffsetMs,
+        })),
+    [marketOffsetMs, meeting, runtime.tradeMarkers],
+  )
+  const sessionTime = formatV4Time(marketTimeMs)
   const candles = useMemo(
-    () => createV4Candles(runtime.timeMs, runtime.tradeMarkers, 28),
-    [runtime.timeMs, runtime.tradeMarkers],
+    () => createV4Candles(marketTimeMs, displayedTradeMarkers, 28),
+    [displayedTradeMarkers, marketTimeMs],
   )
   const latestCandle = candles.at(-1)
   const paperAssets = getV4PaperAssets(runtime)
@@ -409,8 +558,47 @@ export function RuntimePage() {
   const livePosition = getV4LivePosition(runtime)
   const teamCore = getV4TeamCoreState(runtime.timeMs)
   const equityHistory = useMemo(() => createV4EquityHistory(runtime), [runtime])
-  const alertActor = runtime.alert?.actorId ? seatByRoleId[runtime.alert.actorId] : null
-  const alertIdentity = runtime.alert?.actorId ? identityForRole(runtime.alert.actorId) : null
+  const meetingAlert = createMeetingAlert(meeting, meetingElapsedMs)
+  const effectiveAlert = meeting ? meetingAlert : runtime.alert
+  const alertActor = effectiveAlert?.actorId === 'TEAM CORE'
+    ? { name: 'TEAM CORE' }
+    : effectiveAlert?.actorId
+      ? seatByRoleId[effectiveAlert.actorId]
+      : null
+  const alertIdentity = effectiveAlert?.actorId && V3_TEAM_IDS.includes(effectiveAlert.actorId)
+    ? identityForRole(effectiveAlert.actorId)
+    : null
+  const meetingActivities = useMemo(
+    () => createMeetingActivities(meeting, meetingElapsedMs),
+    [meeting, meetingElapsedMs],
+  )
+  const activityEntries = meeting ? meetingActivities.slice(0, 5) : runtime.activities.slice(0, 5)
+  const allVisibleTaskIds = useMemo(
+    () => laneTaskGroups.flatMap(({ visibleTasks }) => visibleTasks.map((task) => task.id)),
+    [laneTaskGroups],
+  )
+  const nearbyMeetingTaskIds = useMemo(() => {
+    if (!meeting) return []
+    const targetIndex = allVisibleTaskIds.indexOf(meeting.targetTaskId)
+    if (targetIndex < 0) return []
+    return [-1, 1, -2, 2, -3, 3]
+      .map((offset) => allVisibleTaskIds[targetIndex + offset])
+      .filter((taskId) => taskId && taskId !== meeting.targetTaskId)
+  }, [allVisibleTaskIds, meeting])
+  const meetingWandererId = getMeetingAgentByRole(meeting, '摸鱼ing')
+  const isMeetingWanderWindow = Boolean(
+    meeting
+    && meetingElapsedMs >= MEETING_GATHER_MS
+    && meetingElapsedMs < MEETING_GATHER_MS + MEETING_WANDER_MS,
+  )
+  const meetingWanderTaskId = isMeetingWanderWindow && nearbyMeetingTaskIds.length
+    ? nearbyMeetingTaskIds[
+      Math.floor((meetingElapsedMs - MEETING_GATHER_MS) / 1_750) % nearbyMeetingTaskIds.length
+    ]
+    : null
+  const meetingWandererAtButton = Boolean(
+    meeting && meetingElapsedMs >= MEETING_GATHER_MS + MEETING_WANDER_MS,
+  )
 
   const resolveActor = (actor) => {
     if (actor === 'TEAM CORE') return { name: 'TEAM CORE', identity: null }
@@ -423,6 +611,67 @@ export function RuntimePage() {
     }
   }
 
+  const meetingAgentStatus = (roleId) => {
+    const runtimeStatus = runtime.agents[roleId]
+    if (!meeting) return runtimeStatus
+    if (meetingPhase === 'gathering') {
+      return {
+        ...runtimeStatus,
+        stateLabel: '集结中',
+        stateTone: 'cyan',
+        humor: '前往会议室中',
+        detail: `正在前往「${meeting.target.title}」`,
+        skill: 'Meeting Route',
+      }
+    }
+
+    const role = meeting.roles[roleId]
+    const detailByRole = {
+      正在汇报: `围绕「${meeting.target.title}」汇报 ${meeting.target.skill}`,
+      记录中: `整理 ${meeting.target.factor} 与行动项`,
+      有异议: `复核 ${meeting.target.factor} 的反向证据`,
+      '摸鱼ing': meetingWandererAtButton
+        ? '已晃到结束会议按钮附近'
+        : '在相邻任务卡附近假装旁听',
+      申请发言: `等待补充 ${meeting.target.deliverable}`,
+    }
+    return {
+      ...runtimeStatus,
+      stateLabel: role,
+      stateTone: getMeetingRoleTone(role),
+      humor: role,
+      detail: detailByRole[role],
+      skill: role === '正在汇报'
+        ? meeting.target.skill
+        : role === '记录中'
+          ? 'Meeting Notes'
+          : role === '有异议'
+            ? 'Counter Review'
+            : role === '申请发言'
+              ? 'Request Queue'
+              : 'Ambient Listening',
+    }
+  }
+
+  const startMeeting = () => {
+    if (!selectedTask || meeting) return
+    setMeeting(createMeetingState(selectedTask, runId, marketTimeMs))
+    setMeetingElapsedMs(0)
+    meetingElapsedRef.current = 0
+    setMeetingMinutes(null)
+    setFocusedAgentId('')
+  }
+
+  const finishMeeting = (reason = 'manual') => {
+    if (!meeting) return
+    setMeetingMinutes(createMeetingMinutes(meeting, marketTimeMs, reason))
+    setMeeting(null)
+    setMeetingElapsedMs(0)
+    meetingElapsedRef.current = 0
+    setSelectedTaskId('')
+    setFocusedAgentId('')
+  }
+
   useEffect(() => {
     const frame = (now) => {
       if (lastFrameRef.current == null) {
@@ -433,16 +682,34 @@ export function RuntimePage() {
       const rawDelta = Math.min(120, Math.max(0, now - lastFrameRef.current))
       lastFrameRef.current = now
 
-      if (!paused) {
+      if (meeting) {
+        marketElapsedRef.current += rawDelta * speed
+        meetingElapsedRef.current += rawDelta
+        if (now - lastCommitRef.current >= FRAME_COMMIT_MS) {
+          const marketElapsed = marketElapsedRef.current
+          const meetingElapsed = meetingElapsedRef.current
+          marketElapsedRef.current = 0
+          meetingElapsedRef.current = 0
+          lastCommitRef.current = now
+          setMarketTimeMs((current) => current + marketElapsed)
+          setMeetingElapsedMs((current) => current + meetingElapsed)
+        }
+      } else if (!paused) {
         elapsedRef.current += rawDelta * speed
+        marketElapsedRef.current += rawDelta * speed
         if (now - lastCommitRef.current >= FRAME_COMMIT_MS) {
           const elapsed = elapsedRef.current
+          const marketElapsed = marketElapsedRef.current
           elapsedRef.current = 0
+          marketElapsedRef.current = 0
           lastCommitRef.current = now
           setRuntime((current) => advanceV4Runtime(current, elapsed))
+          setMarketTimeMs((current) => current + marketElapsed)
         }
       } else {
         elapsedRef.current = 0
+        marketElapsedRef.current = 0
+        meetingElapsedRef.current = 0
         lastCommitRef.current = now
       }
 
@@ -456,10 +723,20 @@ export function RuntimePage() {
       lastFrameRef.current = null
       lastCommitRef.current = null
       elapsedRef.current = 0
+      marketElapsedRef.current = 0
+      meetingElapsedRef.current = 0
     }
-  }, [paused, speed])
+  }, [meeting, paused, speed])
 
-  const togglePaused = () => setPaused((current) => !current)
+  useEffect(() => {
+    if (!meeting || meetingElapsedMs < MEETING_END_MS) return
+    finishMeeting('timeout')
+  }, [meeting, meetingElapsedMs])
+
+  const togglePaused = () => {
+    if (meeting) return
+    setPaused((current) => !current)
+  }
 
   const cycleSpeed = () => {
     const currentIndex = speeds.indexOf(speed)
@@ -468,9 +745,13 @@ export function RuntimePage() {
 
   const restartRuntime = () => {
     setRuntime(createV4RuntimeState())
+    setMarketTimeMs(0)
     setRunId((current) => current + 1)
     setFocusedAgentId('')
-    setSelectedTaskId('tape-confirmation')
+    setSelectedTaskId('')
+    setMeeting(null)
+    setMeetingElapsedMs(0)
+    setMeetingMinutes(null)
     setPaused(false)
   }
 
@@ -480,9 +761,10 @@ export function RuntimePage() {
 
   return (
     <div
-      className={`page v3-runtime-page v4-runtime-page ${paused ? 'is-paused' : 'is-running'} ${reducedMotion ? 'is-reduced-motion' : ''}`}
+      className={`page v3-runtime-page v4-runtime-page ${paused ? 'is-paused' : 'is-running'} ${meeting ? 'is-meeting' : ''} ${reducedMotion ? 'is-reduced-motion' : ''}`}
       data-runtime-version="v4"
-      data-alert={runtime.alert?.status ?? 'none'}
+      data-alert={effectiveAlert?.status ?? 'none'}
+      data-meeting-phase={meetingPhase}
       style={{ '--runtime-speed': speed }}
     >
       <section className="v3-runtime-shell" aria-label="历史副本实时模拟控制台">
@@ -527,41 +809,89 @@ export function RuntimePage() {
           </div>
 
           <div className="v3-runtime-clock">
-            <span>{paused ? 'PAUSED' : `${speed}× RUNNING`}</span>
+            <span>{meeting ? 'MEETING' : paused ? 'PAUSED' : `${speed}× RUNNING`}</span>
             <b>{sessionTime}</b>
-            <small>SYNC {runtime.metrics.sync}</small>
+            <small>{meeting ? `${meetingPhase.toUpperCase()} · ` : ''}SYNC {runtime.metrics.sync}</small>
           </div>
         </header>
 
         <RuntimeAlert
-          alert={runtime.alert}
+          alert={effectiveAlert}
           actor={alertActor}
           identity={alertIdentity}
           reducedMotion={reducedMotion}
         />
 
+        <LayoutGroup id={`v4-runtime-board-${runId}`}>
         <div className="v3-operations-grid">
           <aside className="v3-agent-roster" aria-label="Alpha Team 成员状态">
             <div className="v3-panel-heading">
-              <div><span>ALPHA TEAM</span><b>五人编制</b></div>
-              <em>{Object.values(runtime.agents).filter((agent) => agent.taskId).length}/5 ACTIVE</em>
+              <div className="v4-roster-heading-main">
+                <span>ALPHA TEAM</span>
+                <div className="v4-roster-heading-row">
+                  <b>五人编制</b>
+                  <div className="v4-meeting-room-control">
+                    <button
+                      type="button"
+                      className={`v4-meeting-room-button ${meeting ? 'is-active' : ''}`}
+                      onClick={meeting ? () => finishMeeting('manual') : startMeeting}
+                      disabled={!meeting && !selectedTask}
+                      aria-pressed={Boolean(meeting)}
+                      title={!meeting && !selectedTask ? '请先选择一张任务卡片' : undefined}
+                    >
+                      <UsersRound size={11} />
+                      {meeting ? '结束会议' : '召集会议'}
+                    </button>
+                    <AnimatePresence initial={false}>
+                      {meetingWandererAtButton && meetingWandererId && (() => {
+                        const roleIndex = V3_TEAM_IDS.indexOf(meetingWandererId)
+                        return (
+                          <motion.div
+                            className="v4-meeting-button-agent"
+                            key={`meeting-button-${meetingWandererId}`}
+                            initial={reducedMotion ? false : { opacity: 0, x: 8 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -5 }}
+                          >
+                            <AgentPresence
+                              agentId={meetingWandererId}
+                              agent={team[roleIndex]}
+                              identity={identityForRole(meetingWandererId)}
+                              statusLabel="摸鱼ing"
+                              travelling={!reducedMotion}
+                              presenting={false}
+                              slacking
+                              agentIndex={roleIndex}
+                              reducedMotion={reducedMotion}
+                              speed={speed}
+                            />
+                          </motion.div>
+                        )
+                      })()}
+                    </AnimatePresence>
+                  </div>
+                </div>
+              </div>
+              <em>{meeting ? '5/5 MEETING' : `${Object.values(runtime.agents).filter((agent) => agent.taskId).length}/5 ACTIVE`}</em>
             </div>
 
             <div className="v3-agent-list">
               {V3_TEAM_IDS.map((roleId, index) => {
                 const agent = team[index]
                 const identity = identityForRole(roleId)
-                const status = runtime.agents[roleId]
+                const status = meetingAgentStatus(roleId)
                 const focused = focusedAgentId === roleId
                 return (
                   <button
                     type="button"
-                    className={`v3-agent-card ${focused ? 'is-focused' : ''}`}
+                    className={`v3-agent-card ${focused ? 'is-focused' : ''} ${meeting ? 'is-in-meeting' : ''}`}
                     style={{ '--agent-color': identity.color }}
                     key={roleId}
                     onClick={() => setFocusedAgentId((current) => current === roleId ? '' : roleId)}
                     aria-pressed={focused}
+                    disabled={Boolean(meeting)}
                     data-state-tone={status.stateTone}
+                    data-meeting-role={meeting?.roles[roleId] ?? undefined}
                   >
                     <div className="v3-agent-card-head">
                       <i aria-hidden="true" />
@@ -585,12 +915,11 @@ export function RuntimePage() {
               </div>
               <div className="v3-stream-indicator">
                 <RadioTower size={14} />
-                <span>{paused ? 'HOLD' : 'ASYNC FLOW'}</span>
+                <span>{meeting ? 'MEETING FLOW' : paused ? 'HOLD' : 'ASYNC FLOW'}</span>
               </div>
             </div>
 
-            <LayoutGroup id={`v4-runtime-board-${runId}`}>
-              <div className="v3-lanes">
+            <div className="v3-lanes">
                 {RUNTIME_LANES.map((lane, laneIndex) => {
                   const { tasks: laneTasks, hiddenTaskCount, visibleTasks } = laneTaskGroups[laneIndex]
                   return (
@@ -606,19 +935,58 @@ export function RuntimePage() {
                       <div className="v3-lane-stack" data-overflow-count={hiddenTaskCount}>
                         <AnimatePresence initial={false} mode="popLayout">
                           {visibleTasks.map((task, visibleIndex) => {
-                            const taskAgents = getV4TaskAgents(runtime, task.id)
-                            const visibleAgents = taskAgents.slice(0, 2)
-                            const overflowAgents = Math.max(0, taskAgents.length - visibleAgents.length)
+                            const runtimeTaskAgents = getV4TaskAgents(runtime, task.id)
+                            let displayedTaskAgents = runtimeTaskAgents
+                            if (meeting) {
+                              let meetingAgentIds = []
+                              if (task.id === meeting.targetTaskId) {
+                                meetingAgentIds = V3_TEAM_IDS.filter((agentId) => (
+                                  agentId !== meetingWandererId
+                                  || (!meetingWanderTaskId && !meetingWandererAtButton)
+                                ))
+                              } else if (task.id === meetingWanderTaskId && meetingWandererId) {
+                                meetingAgentIds = [meetingWandererId]
+                              }
+                              displayedTaskAgents = meetingAgentIds.map((agentId) => ({
+                                ...runtime.agents[agentId],
+                                agentId,
+                                stateLabel: meetingPhase === 'gathering'
+                                  ? '集结中'
+                                  : meeting.roles[agentId],
+                              }))
+                            }
+                            const visibleAgents = meeting
+                              ? displayedTaskAgents
+                              : displayedTaskAgents.slice(0, 2)
+                            const overflowAgents = Math.max(0, displayedTaskAgents.length - visibleAgents.length)
                             const ownerRoleIndex = V3_TEAM_IDS.indexOf(task.ownerId)
                             const domainIdentity = identityForRole(task.ownerId)
-                            const visualIdentity = taskAgents.length
-                              ? identityForRole(taskAgents[0].agentId)
+                            const visualIdentity = displayedTaskAgents.length
+                              ? identityForRole(displayedTaskAgents[0].agentId)
                               : domainIdentity
-                            const hasActiveAgent = taskAgents.length > 0
-                            const dimmed = focusedAgentId && !taskAgents.some((item) => item.agentId === focusedAgentId)
-                            const isMoving = task.movingUntil > runtime.timeMs
-                            const cardOpacity = dimmed ? .2 : hasActiveAgent ? 1 : .5
-                            const cardFilter = dimmed
+                            const hasActiveAgent = displayedTaskAgents.length > 0
+                            const isMeetingTarget = meeting?.targetTaskId === task.id
+                            const isWanderStop = meetingWanderTaskId === task.id
+                            const isSelected = selectedTaskId === task.id
+                            const dimmed = meeting
+                              ? !isMeetingTarget && !isWanderStop
+                              : focusedAgentId
+                                && !runtimeTaskAgents.some((item) => item.agentId === focusedAgentId)
+                            const isMoving = !meeting && task.movingUntil > runtime.timeMs
+                            const cardOpacity = meeting
+                              ? isMeetingTarget
+                                ? 1
+                                : isWanderStop
+                                  ? .78
+                                  : .32
+                              : dimmed
+                                ? .2
+                                : hasActiveAgent
+                                  ? 1
+                                  : .5
+                            const cardFilter = meeting && isMeetingTarget
+                              ? 'brightness(1.04) saturate(1)'
+                              : dimmed
                               ? 'brightness(.62) saturate(.18)'
                               : hasActiveAgent
                                 ? 'brightness(1) saturate(1)'
@@ -630,7 +998,8 @@ export function RuntimePage() {
                                 layoutId={`v4-task-${task.id}`}
                                 key={task.id}
                                 type="button"
-                                className={`v3-task-card ${visibleIndex === 0 ? 'is-lane-lead' : ''} ${hasActiveAgent ? 'has-active-agent' : 'is-unassigned'} ${selectedTaskId === task.id ? 'is-selected' : ''} ${dimmed ? 'is-dimmed' : ''} ${isMoving ? 'is-moving' : ''}`}
+                                data-task-id={task.id}
+                                className={`v3-task-card ${visibleIndex === 0 ? 'is-lane-lead' : ''} ${hasActiveAgent ? 'has-active-agent' : 'is-unassigned'} ${isSelected ? 'is-selected' : ''} ${isMeetingTarget ? 'is-meeting-target' : ''} ${isWanderStop ? 'is-wander-stop' : ''} ${dimmed ? 'is-dimmed' : ''} ${isMoving ? 'is-moving' : ''}`}
                                 style={{
                                   '--agent-color': visualIdentity.color,
                                   '--domain-color': domainIdentity.color,
@@ -650,10 +1019,14 @@ export function RuntimePage() {
                                         ease: [0.7, 0, 0.84, 0],
                                         times: [0, .72, 1],
                                       },
-                                    }}
+                                }}
+                                disabled={Boolean(meeting)}
+                                aria-pressed={isSelected}
                                 onClick={() => {
-                                  setSelectedTaskId(task.id)
-                                  setFocusedAgentId(taskAgents[0]?.agentId ?? '')
+                                  if (meeting) return
+                                  const nextTaskId = selectedTaskId === task.id ? '' : task.id
+                                  setSelectedTaskId(nextTaskId)
+                                  setFocusedAgentId(nextTaskId ? runtimeTaskAgents[0]?.agentId ?? '' : '')
                                 }}
                               >
                                 <div className="v3-task-owner">
@@ -668,50 +1041,44 @@ export function RuntimePage() {
                                     <span style={{ transform: `scaleX(${task.progress / 100})` }} />
                                   </div>
                                 )}
-                                <div className="v3-task-card-footer"><span>{task.deliverable}</span><ArrowRight size={13} /></div>
+                                <div className="v3-task-card-footer">
+                                  <span>{isSelected ? '已选为会议议题' : task.deliverable}</span>
+                                  {isSelected ? <Check size={12} /> : <ArrowRight size={13} />}
+                                </div>
 
                                 <div
-                                  className={`v4-agent-presence-dock has-${Math.min(3, taskAgents.length)}`}
-                                  aria-label={taskAgents.length
-                                    ? `${taskAgents.length} 位 Agent 正在处理此任务`
+                                  className={`v4-agent-presence-dock has-${Math.min(5, displayedTaskAgents.length)} ${isMeetingTarget ? 'is-meeting-target' : ''}`}
+                                  aria-label={displayedTaskAgents.length
+                                    ? `${displayedTaskAgents.length} 位 Agent 正在处理此任务`
                                     : '当前没有 Agent 处理此任务'}
                                 >
                                   {visibleAgents.map((runtimeAgent, agentIndex) => {
                                     const roleIndex = V3_TEAM_IDS.indexOf(runtimeAgent.agentId)
                                     const agent = team[roleIndex]
                                     const identity = identityForRole(runtimeAgent.agentId)
-                                    const agentMoving = runtimeAgent.movingUntil > runtime.timeMs
+                                    const meetingRole = meeting?.roles[runtimeAgent.agentId]
+                                    const agentMoving = meeting
+                                      ? meetingPhase === 'gathering'
+                                        || runtimeAgent.agentId === meetingWandererId
+                                      : runtimeAgent.movingUntil > runtime.timeMs
                                     return (
-                                      <motion.div
-                                        layout
-                                        layoutId={`v4-agent-presence-${runtimeAgent.agentId}`}
+                                      <AgentPresence
                                         key={runtimeAgent.agentId}
-                                        className={`v3-agent-presence ${agentMoving ? 'is-travelling' : ''}`}
-                                        style={{
-                                          '--agent-color': identity.color,
-                                          '--presence-order': agentIndex,
-                                        }}
-                                        initial={reducedMotion ? false : { opacity: 0, scale: .92 }}
-                                        animate={{ opacity: 1, scale: agentMoving && !reducedMotion ? 1.025 : 1 }}
-                                        exit={{ opacity: 0, scale: .94 }}
-                                        transition={reducedMotion
-                                          ? { duration: 0 }
-                                          : {
-                                              layout: { duration: .56 / speed, ease: [0.16, 1, 0.3, 1] },
-                                              opacity: { duration: .18 / speed },
-                                              scale: { duration: .24 / speed, ease: [0.16, 1, 0.3, 1] },
-                                            }}
-                                      >
-                                        <MousePointer2
-                                          className="v3-agent-presence-pointer"
-                                          size={18}
-                                          aria-hidden="true"
-                                        />
-                                        <span>
-                                          <b>{agent?.name}</b>
-                                          <em>{runtimeAgent.stateLabel}</em>
-                                        </span>
-                                      </motion.div>
+                                        agentId={runtimeAgent.agentId}
+                                        agent={agent}
+                                        identity={identity}
+                                        statusLabel={runtimeAgent.stateLabel}
+                                        travelling={agentMoving}
+                                        presenting={Boolean(
+                                          meeting
+                                          && meetingPhase !== 'gathering'
+                                          && meetingRole === '正在汇报',
+                                        )}
+                                        slacking={meetingRole === '摸鱼ing'}
+                                        agentIndex={agentIndex}
+                                        reducedMotion={reducedMotion}
+                                        speed={speed}
+                                      />
                                     )
                                   })}
 
@@ -739,19 +1106,21 @@ export function RuntimePage() {
                     </section>
                   )
                 })}
-              </div>
-            </LayoutGroup>
+            </div>
           </section>
 
           <aside className="v3-activity-rail" aria-label="团队实时活动">
             <div className="v3-panel-heading">
-              <div><span>ACTIVITY FEED</span><b>因果事件流</b></div>
-              <em>LIVE · {runtime.activities.length.toString().padStart(2, '0')}</em>
+              <div>
+                <span>ACTIVITY FEED</span>
+                <b>{meeting ? '会议协作流' : '因果事件流'}</b>
+              </div>
+              <em>LIVE · {(meeting ? meetingActivities.length : runtime.activities.length).toString().padStart(2, '0')}</em>
             </div>
 
             <div className="v3-activity-list v4-activity-list" aria-live="polite">
               <AnimatePresence initial={false} mode="popLayout">
-                {runtime.activities.slice(0, 5).map((entry) => {
+                {activityEntries.map((entry) => {
                   const from = resolveActor(entry.from)
                   const to = resolveActor(entry.to)
                   return (
@@ -764,7 +1133,7 @@ export function RuntimePage() {
                       exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: 8 }}
                       transition={{ duration: reducedMotion ? 0.08 : 0.24 / speed, ease: [0.16, 1, 0.3, 1] }}
                     >
-                      <time>{formatV4Time(entry.at)}</time>
+                      <time>{formatV4Time(entry.at + (meeting ? 0 : marketOffsetMs))}</time>
                       <div>
                         <div className="v3-activity-route">
                           <b style={{ '--actor-color': from.identity?.color }}>{from.name}</b>
@@ -780,19 +1149,28 @@ export function RuntimePage() {
               </AnimatePresence>
             </div>
 
-            <PermissionReviewCard
-              task={approvalTask}
-              taskAgents={approvalTaskAgents}
-              team={team}
-              agentColor={approvalTaskAgents[0]
-                ? identityForRole(approvalTaskAgents[0].agentId).color
-                : identityForRole(approvalTask.ownerId).color}
-              sessionTime={sessionTime}
-              runId={runId}
-              reducedMotion={reducedMotion}
-            />
+            {meetingMinutes ? (
+              <MeetingMinutesCard
+                minutes={meetingMinutes}
+                team={team}
+                sessionTime={sessionTime}
+              />
+            ) : (
+              <PermissionReviewCard
+                task={approvalTask}
+                taskAgents={approvalTaskAgents}
+                team={team}
+                agentColor={approvalTaskAgents[0]
+                  ? identityForRole(approvalTaskAgents[0].agentId).color
+                  : identityForRole(approvalTask.ownerId).color}
+                sessionTime={sessionTime}
+                runId={runId}
+                reducedMotion={reducedMotion}
+              />
+            )}
           </aside>
         </div>
+        </LayoutGroup>
 
         <div className="v3-market-strip">
           <section className="v3-market-panel">
@@ -803,7 +1181,7 @@ export function RuntimePage() {
                 <span>LIQ</span><b className="tone-ember">{teamCore.liquidity}</b>
               </div>
             </div>
-            <MarketChart candles={candles} paused={paused} />
+            <MarketChart candles={candles} paused={paused && !meeting} />
           </section>
 
           <section className="v3-team-core">
@@ -868,17 +1246,21 @@ export function RuntimePage() {
 
         <footer className="v3-runtime-controls">
           <div>
-            <button type="button" onClick={togglePaused}>
-              {paused ? <CirclePlay size={16} /> : <CirclePause size={16} />}
-              {paused ? '继续模拟' : '暂停模拟'}
+            <button type="button" onClick={togglePaused} disabled={Boolean(meeting)}>
+              {paused && !meeting ? <CirclePlay size={16} /> : <CirclePause size={16} />}
+              {meeting ? '会议进行中' : paused ? '继续模拟' : '暂停模拟'}
             </button>
             <button type="button" onClick={cycleSpeed}><FastForward size={16} />{speed}×</button>
-            <button type="button" onClick={restartRuntime}><RotateCcw size={15} />重新播放</button>
+            <button type="button" onClick={restartRuntime} disabled={Boolean(meeting)}>
+              <RotateCcw size={15} />重新播放
+            </button>
           </div>
           <div className="v3-runtime-live-state">
             <Activity size={15} />
             <span>
-              {paused
+              {meeting
+                ? `${sessionTime} · 交易任务与仓位冻结 · 行情持续运行`
+                : paused
                 ? '行情、事件队列、Agent 与仓位已冻结'
                 : `${sessionTime} · ${teamCore.phaseLabel} · 独立事件队列运行中`}
             </span>

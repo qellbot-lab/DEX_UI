@@ -8,6 +8,17 @@ import {
   getV4TaskAgents,
   getV4TeamCoreState,
 } from '../src/runtimeV4Engine.js'
+import {
+  MEETING_COUNTDOWN_AT_MS,
+  MEETING_END_MS,
+  MEETING_GATHER_MS,
+  MEETING_ROLE_LABELS,
+  createMeetingActivities,
+  createMeetingAlert,
+  createMeetingMinutes,
+  createMeetingState,
+  getMeetingPhase,
+} from '../src/runtimeMeeting.js'
 
 const advanceTo = (timeMs) => advanceV4Runtime(createV4RuntimeState(), timeMs)
 
@@ -102,6 +113,48 @@ assert.ok(
   candles.every((candle) => candle.high >= Math.max(candle.open, candle.close)
     && candle.low <= Math.min(candle.open, candle.close)),
   'Every generated candle must have valid OHLC geometry',
+)
+
+const meetingTask = candleState.tasks['tape-confirmation']
+const meeting = createMeetingState(meetingTask, 2, candleState.timeMs)
+assert.equal(
+  new Set(Object.values(meeting.roles)).size,
+  MEETING_ROLE_LABELS.length,
+  'Every meeting should assign five distinct roles',
+)
+assert.equal(getMeetingPhase(meeting, 0), 'gathering', 'A meeting should begin with Agent gathering')
+assert.equal(
+  getMeetingPhase(meeting, MEETING_GATHER_MS),
+  'active',
+  'A gathered meeting should enter its active discussion phase',
+)
+assert.equal(
+  getMeetingPhase(meeting, MEETING_COUNTDOWN_AT_MS),
+  'countdown',
+  'A long meeting should enter the five-second countdown phase',
+)
+const meetingActivities = createMeetingActivities(meeting, 17_500)
+assert.ok(
+  meetingActivities.every((entry) => entry.detail.includes(meetingTask.title)
+    || entry.detail.includes(meetingTask.skill)
+    || entry.detail.includes(meetingTask.factor)
+    || entry.detail.includes(meetingTask.deliverable)),
+  'Every meeting activity must remain tied to the selected task',
+)
+assert.equal(
+  createMeetingAlert(meeting, MEETING_COUNTDOWN_AT_MS)?.actorLabel,
+  'AUTO CLOSE · 5s',
+  'The meeting alert should start with a five-second auto-close countdown',
+)
+assert.equal(
+  createMeetingAlert(meeting, MEETING_END_MS - 500)?.actorLabel,
+  'AUTO CLOSE · 1s',
+  'The meeting alert should count down to the final second',
+)
+assert.equal(
+  createMeetingMinutes(meeting, MEETING_END_MS).title,
+  '本次会议纪要',
+  'Meeting completion should materialize a downloadable minutes task',
 )
 
 console.log('V4 runtime engine verification passed')
