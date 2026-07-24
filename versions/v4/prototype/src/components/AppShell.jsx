@@ -50,7 +50,7 @@ export function AppShell({ children }) {
       <footer className="site-footer">
         <div><img src="/assets/logos/qell-q-logo.svg" alt="" /><span>QELL PREPDEX</span></div>
         <p>公开信号的历史模拟界面。所有数据均为演示，不构成投资建议。</p>
-        <span>V3 / 2026</span>
+        <span>V4 / 2026</span>
       </footer>
     </div>
   )
