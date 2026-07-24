@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
 import {
+  AGENT_HUMOR_LIBRARY,
   advanceV4Runtime,
   createV4Candles,
   createV4RuntimeState,
@@ -21,6 +22,35 @@ import {
 } from '../src/runtimeMeeting.js'
 
 const advanceTo = (timeMs) => advanceV4Runtime(createV4RuntimeState(), timeMs)
+
+const expectedHumorMoods = {
+  buffett: ['working', 'collab', 'waiting', 'win'],
+  dalio: ['working', 'collab', 'incident', 'waiting'],
+  livermore: ['working', 'collab', 'waiting', 'loss'],
+  simons: ['working', 'collab', 'waiting', 'win'],
+  taleb: ['working', 'collab', 'incident', 'waiting'],
+}
+
+assert.deepEqual(
+  Object.keys(AGENT_HUMOR_LIBRARY),
+  Object.keys(expectedHumorMoods),
+  'The humor library should cover the full five-Agent team',
+)
+Object.entries(expectedHumorMoods).forEach(([agentId, moods]) => {
+  assert.deepEqual(
+    Object.keys(AGENT_HUMOR_LIBRARY[agentId]),
+    moods,
+    `${agentId} should retain every runtime humor category`,
+  )
+  moods.forEach((mood) => {
+    const entries = AGENT_HUMOR_LIBRARY[agentId][mood]
+    assert.equal(entries.length, 3, `${agentId}.${mood} should contain exactly three lines`)
+    assert.ok(
+      entries.every((entry) => typeof entry === 'string' && entry.trim().length > 0),
+      `${agentId}.${mood} should contain only non-empty display copy`,
+    )
+  })
+})
 
 const collaboration = advanceTo(4_000)
 assert.deepEqual(
