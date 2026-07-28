@@ -503,7 +503,7 @@ function GoalEventOverlay({
   )
 }
 
-function MeetingMinutesCard({ minutes, team, sessionTime }) {
+function MeetingMinutesCard({ minutes, team, sessionTime, onDownloaded }) {
   const speakerIndex = V3_TEAM_IDS.indexOf(minutes.speakerId)
   const recorderIndex = V3_TEAM_IDS.indexOf(minutes.recorderId)
   const speaker = team[speakerIndex]?.name ?? '主汇报 Agent'
@@ -540,6 +540,7 @@ function MeetingMinutesCard({ minutes, team, sessionTime }) {
     anchor.href = url
     anchor.download = `QELL-会议纪要-${minutes.targetTaskId}.md`
     anchor.click()
+    onDownloaded?.()
     window.setTimeout(() => URL.revokeObjectURL(url), 0)
   }
 
@@ -1234,7 +1235,9 @@ export function RuntimePage() {
                           : '启动 3 秒 GOAL 抽取演示'}
                     >
                       <Target size={9} aria-hidden="true" />
-                      {goalSpinning ? `GOAL ${goalArmSeconds}` : goalEngaged ? 'GOAL ×' : 'GOAL'}
+                      <span className={goalActive ? '' : 'sr-only'}>
+                        {goalSpinning ? `GOAL ${goalArmSeconds}` : goalEngaged ? 'GOAL ×' : 'GOAL'}
+                      </span>
                     </button>
                   </div>
                 </div>
@@ -1546,6 +1549,7 @@ export function RuntimePage() {
                 minutes={meetingMinutes}
                 team={team}
                 sessionTime={sessionTime}
+                onDownloaded={() => setMeetingMinutes(null)}
               />
             ) : (
               <PermissionReviewCard

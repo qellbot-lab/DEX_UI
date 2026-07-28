@@ -160,15 +160,44 @@
   min-width: 0;
 }
 
+.v4-runtime-page .v3-agent-roster > .v3-panel-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  align-content: center;
+  column-gap: 8px;
+  row-gap: 4px;
+  padding-block: 8px;
+}
+
+.v4-runtime-page .v3-agent-roster > .v3-panel-heading > .v4-roster-heading-main {
+  display: contents;
+}
+
+.v4-runtime-page .v4-roster-heading-main > span {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.v4-runtime-page .v3-agent-roster > .v3-panel-heading > em {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+}
+
 .v4-roster-heading-row {
   display: flex;
+  grid-column: 1 / -1;
+  grid-row: 2;
   min-width: 0;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
-  margin-top: 5px;
+  margin-top: 0;
 }
 
 .v4-runtime-page .v4-roster-heading-row > b {
+  min-width: 0;
   margin-top: 0;
 }
 
