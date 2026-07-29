@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview --host 127.0.0.1",
-    "verify:runtime": "node qa/verify-runtime-v4.mjs"
+    "verify:runtime": "node qa/verify-runtime-v4.mjs",
+    "verify:preview": "node qa/verify-preview-access.mjs && node --check public/preview-session.js && node --check functions/_middleware.js"
   },
   "dependencies": {
     "@radix-ui/react-tabs": "latest",
