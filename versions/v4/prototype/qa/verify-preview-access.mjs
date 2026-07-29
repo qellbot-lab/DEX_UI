@@ -172,7 +172,7 @@ assert.equal(sanitizeReturnPath('//example.com'), '/')
 assert.equal(sanitizeReturnPath('/__preview/status'), '/')
 assert.equal(parseGlobalExpiry('2026-07-29T16:00:00+08:00'), globalExpiresAt)
 assert.equal(parseGlobalExpiry('not-a-date'), null)
-assert.equal(getSessionSeconds(undefined), 180)
+assert.equal(getSessionSeconds(undefined), 40)
 assert.equal(getSessionSeconds('5'), 30)
 assert.equal(getSessionSeconds('1200'), 900)
 
@@ -251,7 +251,7 @@ const loginResponse = renderLoginPage({
 const loginHtml = await loginResponse.text()
 assert.equal(loginResponse.status, 401)
 assert.match(loginHtml, /输入预览凭证/)
-assert.match(loginHtml, /本次浏览窗口持续三分钟/)
+assert.match(loginHtml, /本次浏览窗口持续 40 秒/)
 assert.doesNotMatch(loginHtml, /name="code"[^>]+value=/)
 
 const expiredResponse = renderExpiredPage()
@@ -285,7 +285,7 @@ const integrationDatabase = new MockD1()
 const integrationEnv = {
   PREVIEW_ID: 'integration-preview',
   PREVIEW_EXPIRES_AT: new Date(Date.now() + 6 * 60 * 60 * 1000).toISOString(),
-  PREVIEW_SESSION_SECONDS: '180',
+  PREVIEW_SESSION_SECONDS: '40',
   PREVIEW_SESSION_SECRET: secret,
   PREVIEW_CODE_1: '1111',
   PREVIEW_CODE_2: '2222',
@@ -342,7 +342,7 @@ const activeStatusResponse = await onRequest(statusContext)
 const activeStatus = await activeStatusResponse.json()
 assert.equal(activeStatusResponse.status, 200)
 assert.equal(activeStatus.active, true)
-assert.ok(activeStatus.sessionExpiresAt - activeStatus.serverNow <= 180_000)
+assert.ok(activeStatus.sessionExpiresAt - activeStatus.serverNow <= 40_000)
 
 const protectedContext = createContext(
   new Request('https://preview.example/runtime', {

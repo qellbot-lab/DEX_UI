@@ -50,36 +50,62 @@ function createTimer() {
       .timer {
         display: inline-flex;
         align-items: center;
-        gap: 7px;
+        gap: 9px;
+        min-width: 112px;
+        padding: 7px 9px;
+        border: 1px solid rgba(183, 238, 91, .38);
+        background: rgba(5, 7, 6, .92);
         color: #b7ee5b;
-        opacity: .34;
-        font: 600 10px/1 ui-monospace, SFMono-Regular, Consolas, monospace;
-        letter-spacing: .11em;
+        opacity: .88;
+        font: 650 11px/1 ui-monospace, SFMono-Regular, Consolas, monospace;
+        letter-spacing: .1em;
         font-variant-numeric: tabular-nums;
         text-transform: uppercase;
-        transition: color .2s ease, opacity .2s ease;
+        box-shadow: 0 0 14px rgba(183, 238, 91, .08);
+        transition:
+          color .2s ease,
+          border-color .2s ease,
+          box-shadow .2s ease,
+          opacity .2s ease;
       }
       .timer::before {
         content: "";
-        width: 4px;
-        height: 4px;
+        width: 5px;
+        height: 5px;
+        flex: 0 0 5px;
         background: currentColor;
+      }
+      .timer strong {
+        margin-left: auto;
+        color: currentColor;
+        font-size: 14px;
+        font-weight: 750;
+        letter-spacing: .04em;
       }
       .timer.is-warning {
         color: #eab56c;
-        opacity: .52;
+        border-color: rgba(234, 181, 108, .52);
+        box-shadow: 0 0 16px rgba(234, 181, 108, .1);
+        opacity: .94;
       }
       .timer.is-urgent {
         color: #e6789e;
-        opacity: .7;
+        border-color: rgba(230, 120, 158, .64);
+        box-shadow: 0 0 18px rgba(230, 120, 158, .14);
+        opacity: 1;
         animation: preview-pulse 1s steps(2, end) infinite;
       }
       @keyframes preview-pulse {
-        50% { opacity: .34; }
+        50% { opacity: .58; }
       }
       @media (max-width: 720px) {
         :host { top: 59px; right: 14px; }
-        .timer { font-size: 9px; }
+        .timer {
+          min-width: 104px;
+          padding: 6px 8px;
+          font-size: 10px;
+        }
+        .timer strong { font-size: 13px; }
       }
       @media (prefers-reduced-motion: reduce) {
         .timer { transition: none; }
@@ -88,7 +114,7 @@ function createTimer() {
     </style>
     <span class="timer">
       <span>PREVIEW</span>
-      <strong>03:00</strong>
+      <strong>00:40</strong>
     </span>
   `
 
@@ -110,7 +136,7 @@ function tick() {
   const elapsed = performance.now() - syncedAt
   const remaining = sessionRemainingAtSync - elapsed
   timerValue.textContent = formatRemaining(remaining)
-  timerShell.classList.toggle('is-warning', remaining <= 30_000 && remaining > 10_000)
+  timerShell.classList.toggle('is-warning', remaining <= 20_000 && remaining > 10_000)
   timerShell.classList.toggle('is-urgent', remaining <= 10_000)
 
   if (remaining <= 0) {

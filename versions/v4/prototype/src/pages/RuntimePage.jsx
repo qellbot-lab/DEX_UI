@@ -578,7 +578,7 @@ export function RuntimePage() {
   const event = events.find((item) => item.id === demo.selectedEventId) ?? events[2]
   const team = useMemo(() => uniqueTeam(demo.selectedAgentIds), [demo.selectedAgentIds])
   const [paused, setPaused] = useState(false)
-  const [speed, setSpeed] = useState(1)
+  const [speed, setSpeed] = useState(2)
   const [runtime, setRuntime] = useState(() => createV4RuntimeState())
   const [marketTimeMs, setMarketTimeMs] = useState(0)
   const [runId, setRunId] = useState(1)

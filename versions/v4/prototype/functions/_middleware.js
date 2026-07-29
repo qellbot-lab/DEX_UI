@@ -155,7 +155,7 @@ async function handleLogin(context, config) {
 
     const reason = url.searchParams.get('reason')
     const message = reason === 'session_expired'
-      ? '本次三分钟预览已结束，请使用仍有效的访问凭证。'
+      ? '本次 40 秒预览已结束，请使用仍有效的访问凭证。'
       : ''
 
     return createLoginPage({

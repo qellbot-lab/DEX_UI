@@ -34,7 +34,7 @@ Plain variables:
 | --- | --- |
 | `PREVIEW_ID` | `qell-v45-private-20260729-01` |
 | `PREVIEW_EXPIRES_AT` | `2026-07-29T21:00:00+08:00` |
-| `PREVIEW_SESSION_SECONDS` | `180` |
+| `PREVIEW_SESSION_SECONDS` | `40` |
 
 Encrypted secrets:
 
@@ -64,7 +64,7 @@ or changing bindings and secrets.
 ## Runtime behavior
 
 - Every access code can create at most two sessions for a given `PREVIEW_ID`.
-- Every successful session lasts three minutes.
+- Every successful session lasts 40 seconds.
 - Refreshing, route changes, and tabs in the same browser share the session.
 - All successful logins land on `/runtime`.
 - Five failed attempts from one client within ten minutes temporarily block
@@ -79,7 +79,7 @@ After deployment:
 1. Open the Pages URL in a private browser window.
 2. Confirm that the credential gate appears before any application asset.
 3. Confirm that a successful login opens `/runtime`.
-4. Confirm that `PREVIEW · 03:00` appears at the upper-right of every route.
+4. Confirm that `PREVIEW · 00:40` appears at the upper-right of every route.
 5. Confirm that refresh does not reset the countdown.
 6. Confirm that the third successful redemption of one code is rejected.
 7. Confirm that an expired global window returns:

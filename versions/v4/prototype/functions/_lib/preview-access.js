@@ -2,7 +2,7 @@ const encoder = new TextEncoder()
 const decoder = new TextDecoder()
 
 export const SESSION_COOKIE = '__Host-qell_preview'
-export const DEFAULT_SESSION_SECONDS = 180
+export const DEFAULT_SESSION_SECONDS = 40
 export const MAX_CODE_USES = 2
 export const LOGIN_WINDOW_SECONDS = 600
 export const MAX_FAILED_ATTEMPTS = 5

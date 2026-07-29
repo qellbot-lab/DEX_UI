@@ -249,7 +249,7 @@ export function renderLoginPage({
   const body = frame(`<section class="gate__panel" aria-labelledby="gate-title">
     <p class="gate__index">01 / ACCESS CONTROL</p>
     <h1 id="gate-title">输入预览凭证</h1>
-    <p class="gate__lede">验证成功后，本次浏览窗口持续三分钟。刷新页面不会重置计时。</p>
+    <p class="gate__lede">验证成功后，本次浏览窗口持续 40 秒。刷新页面不会重置计时。</p>
     <div class="gate__rule">
       <span>链接总期限</span>
       <b>${escapeHtml(formatBeijingTime(globalExpiresAt))} CST</b>
